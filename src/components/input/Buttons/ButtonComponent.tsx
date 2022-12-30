@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react'
+import React from 'react';
 import {Button} from '@rneui/themed';
 import {ButtonComponentInterface} from './ButtonComponentInterface';
 
