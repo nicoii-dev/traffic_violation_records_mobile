@@ -13,4 +13,12 @@ module.exports = {
       },
     },
   ],
+
+  prettier: [
+    'error',
+    {
+      singleQuote: true,
+      parser: 'flow',
+    },
+  ],
 };

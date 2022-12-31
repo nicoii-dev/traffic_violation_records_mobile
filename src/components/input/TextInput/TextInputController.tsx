@@ -70,7 +70,7 @@ const TextInputController = ({
                     <TouchableOpacity onPress={() => setShow(!show)}>
                       <Icon
                         name={show ? rightIconShow : rightIconHide}
-                        size={40}
+                        size={30}
                       />
                     </TouchableOpacity>
                   ) : undefined
