@@ -7,8 +7,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 
 // stack components
-import AuthScreenStack from './stack/Auth';
-// import UserTab from '@nav/tab/user';
+import AuthScreenStack from './Auth';
+import UserTab from '../tab';
 
 // stack instance
 const EntryStack = createStackNavigator();
@@ -59,11 +59,11 @@ const Entry = ({navigation}: any) => {
           component={AuthScreenStack}
           options={{headerShown: false}}
         />
-        {/* <EntryStack.Screen
+        <EntryStack.Screen
           name="UserTab"
           component={UserTab}
           options={{headerShown: false}}
-        /> */}
+        />
       </EntryStack.Navigator>
     </>
   );

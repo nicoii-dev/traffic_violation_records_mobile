@@ -16,7 +16,7 @@ const ButtonComponent = ({
   return (
     <Button
       onPress={onPress}
-      style={[{borderRadius: 10}, styles]}
+      containerStyle={[{borderRadius: 10}, styles]}
       disabled={disabled}
       color={color}
       size={size}

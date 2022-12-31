@@ -7,19 +7,29 @@ import {
 const LoginScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'absolute',
-    alignSelf: 'center',
-    height: hp('95%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#0A2647'
+  },
+  formWrapper: {
+    height: hp('60%'),
+    width: wp('85%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    backgroundColor: 'white',
   },
   signinContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: hp(7)
   },
   logo: {
     height: wp(40),
     width: wp(40),
     borderRadius: 200,
-    marginTop: hp(5),
+    top: hp(8),
+    zIndex: 99,
   },
   signinText: {
     top: 10,
@@ -28,7 +38,7 @@ const LoginScreenStyles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    marginTop: -wp(30),
+    width: wp('70%'),
   },
   signupContainer: {
     alignItems: 'center',

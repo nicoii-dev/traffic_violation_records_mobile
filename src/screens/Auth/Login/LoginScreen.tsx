@@ -1,37 +1,30 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 // styles
 import LoginScreenStyles from './login-screen-style';
 
 // components
 import LoginComponent from '../../../components/auth/login/LoginComponent';
+import IMAGES from '../../../config/images';
 
 const LoginScreen = ({navigation}) => {
-
   return (
     <View style={LoginScreenStyles.container}>
-      <View style={LoginScreenStyles.signinContainer}>
-        {/* <FastImage
-          source={settings.logo ? {uri: settings.logo} : IMAGES.SPACE}
-          style={LoginScreenStyles.logo}
-        /> */}
-        <Text style={LoginScreenStyles.signinText}>Log in to Continue</Text>
+            <FastImage source={IMAGES.LOGO} style={LoginScreenStyles.logo} />
+      <View style={LoginScreenStyles.formWrapper}>
+        <View style={LoginScreenStyles.signinContainer}>
+          <Text style={LoginScreenStyles.signinText}>Welcome to</Text>
+          <Text style={LoginScreenStyles.signinText}>
+            Traffic Violation Records App
+          </Text>
+        </View>
+        <View style={LoginScreenStyles.formContainer}>
+          <LoginComponent />
+        </View>
       </View>
-      <View style={LoginScreenStyles.formContainer}>
-        <LoginComponent />
-      </View>
-      <View style={LoginScreenStyles.signupContainer}>
-        <Text style={LoginScreenStyles.dontHaveAccountText}>
-          {`Don't have account?`}
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('SignupScreen');
-          }}>
-          <Text style={LoginScreenStyles.signupText}> Sign up</Text>
-        </TouchableOpacity>
-      </View>
+      <View></View>
     </View>
   );
 };
