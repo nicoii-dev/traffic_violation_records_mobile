@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { COLORS } from '../../config/colors';
 
-import { UserTabs } from '../../config/images/tabs';
+import { UserTabs } from '../../config/tabs';
 
 // bottomTabNav instance
 const UserNavTab = createBottomTabNavigator();

@@ -12,7 +12,7 @@ import IMAGES from '../../../config/images';
 const LoginScreen = ({navigation}) => {
   return (
     <View style={LoginScreenStyles.container}>
-            <FastImage source={IMAGES.LOGO} style={LoginScreenStyles.logo} />
+      <FastImage source={IMAGES.LOGO} style={LoginScreenStyles.logo} />
       <View style={LoginScreenStyles.formWrapper}>
         <View style={LoginScreenStyles.signinContainer}>
           <Text style={LoginScreenStyles.signinText}>Welcome to</Text>

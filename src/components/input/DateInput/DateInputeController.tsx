@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {Controller} from 'react-hook-form';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {DateInputInterface} from './DateInputInterface';
 
@@ -37,32 +38,32 @@ const DateInputController = ({
           return (
             <View>
               {headerTitle ? (
-                <Text style={[{fontSize: 18}, headerStyles]}>
+                <Text style={[{fontSize: 18, width: '95%', fontFamily: 'Manrope-Regular', color:'black', alignSelf: 'center'}, headerStyles]}>
                   {headerTitle}
                 </Text>
               ) : null}
 
-              <View>
                 {show && (
-                  <DateTimePicker
+                  <RNDateTimePicker
                     testID="dateTimePicker"
                     value={value ? new Date(value) : new Date()}
                     mode={'date'}
                     display={display}
                     onChange={hanleOnDateChange}
-                    style={{...styles}}
+                    style={{}}
                   />
                 )}
                 {!show && (
                   <TouchableOpacity
+                  style={{marginLeft: 10}}
                     disabled={disabled}
                     onPress={() => {
                       setShow(true);
                     }}>
-                    <Text>{moment(value).format('MM/DD/YYYY')}</Text>
+                    <Text style={{fontSize: 18, marginBottom: 15}}>{moment(value).format('MM/DD/YYYY')}</Text>
                   </TouchableOpacity>
                 )}
-              </View>
+          
             </View>
           );
         }}

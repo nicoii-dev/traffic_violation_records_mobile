@@ -1,9 +1,9 @@
 // screens
-import AboutScreen from "../../screens/About/AboutScreen";
-import CitationScreen from "../../screens/Citation/CitationScreen";
-import ListOfDriversScreen from "../../screens/List of Drivers/ListOfDriversScreen";
-import ListOfViolationsScreen from "../../screens/List of Violations/ListOfViolationsScreen";
-import ProfileScreen from "../../screens/Profile/ProfileScreen";
+import AboutScreen from "../screens/About/AboutScreen";
+import CitationScreen from "../screens/Citation/CitationScreen";
+import ListOfDriversScreen from "../screens/List of Drivers/ListOfDriversScreen";
+import ListOfViolationsScreen from "../screens/List of Violations/ListOfViolationsScreen";
+import ProfileScreen from "../screens/Profile/ProfileScreen";
 
 export const UserTabs = [
     {

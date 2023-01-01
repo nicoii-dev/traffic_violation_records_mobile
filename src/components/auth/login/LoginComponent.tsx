@@ -42,7 +42,6 @@ const LoginComponent = () => {
         placeholder={'email'}
         errorMessage={errors.email?.message}
         errorStyle={{color: 'red'}}
-        setValue={setValue}
       />
       <TextInputController
         control={control}
