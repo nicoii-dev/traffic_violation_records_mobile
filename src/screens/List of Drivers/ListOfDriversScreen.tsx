@@ -3,7 +3,7 @@ import React from 'react'
 
 const ListOfDriversScreen = () => {
   return (
-    <View>
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Text>ListOfDriversScreen</Text>
     </View>
   )

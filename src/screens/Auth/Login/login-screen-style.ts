@@ -8,7 +8,7 @@ const LoginScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     backgroundColor: '#0A2647'
   },
   formWrapper: {

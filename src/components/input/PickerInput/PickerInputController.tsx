@@ -5,6 +5,7 @@ import {Picker} from '@react-native-picker/picker';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
 import {PickerInputInterface} from './PickerInputInterface';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const PickerInputController = ({
   name,
@@ -19,7 +20,7 @@ const PickerInputController = ({
   errorMessage,
   errorStyle,
 }: PickerInputInterface) => {
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(true);
 
   return (
     <>
@@ -28,46 +29,38 @@ const PickerInputController = ({
         control={control}
         // defaultValue={defaultValue}
         render={({field: {onChange, value}}) => {
-          const hanleOnDateChange = (itemValue: object) => {
+          const handleOnChange = (itemValue: object) => {
             onChange(itemValue);
             setShow(false);
           };
 
           return (
-            <View style={{width: '100%', alignItems: 'center'}}>
+            <View style={{alignItems: 'center'}}>
               {/* header title for personal info */}
               {headerTitle ? (
-                <Text style={[{fontSize: 18}, headerStyles]}>
+                <Text style={[{fontSize: 18, fontFamily: 'Manrope-Regular', width: '95%'}, headerStyles]}>
                   {headerTitle}
                 </Text>
               ) : null}
 
               <View>
-                {show && (
+         
                   <Picker
                     enabled={enabled}
                     selectedValue={value}
-                    onValueChange={hanleOnDateChange}
-                    style={{...styles}}>
+                    onValueChange={handleOnChange}
+                    style={{width: widthPercentageToDP('90%')}}>
                     {pickerOptions.map((option, index) => {
                       return (
                         <Picker.Item
-                          label={option.toString()}
+                          label={option}
                           value={option}
                           key={index}
+                          style={{fontFamily: 'Manrope-Regular'}}
                         />
                       );
                     })}
                   </Picker>
-                )}
-                {!show && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setShow(true);
-                    }}>
-                    <Text>{value}</Text>
-                  </TouchableOpacity>
-                )}
               </View>
             </View>
           );
