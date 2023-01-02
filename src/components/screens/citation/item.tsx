@@ -1,9 +1,9 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import TextInputController from '../input/TextInput/TextInputController';
-import PickerInputController from '../input/PickerInput/PickerInputController';
-import RadioButtonController from '../input/RadioButtons/RadioButtonController';
-import DateInputController from '../input/DateInput/DateInputeController';
+import TextInputController from '../../input/TextInput/TextInputController';
+import PickerInputController from '../../input/PickerInput/PickerInputController';
+import RadioButtonController from '../../input/RadioButtons/RadioButtonController';
+import DateInputController from '../../input/DateInput/DateInputeController';
 
 interface itemInterface {
   item: {

@@ -3,7 +3,7 @@ import React from 'react';
 
 // components
 import HeaderComponent from '../../components/header/HeaderComponent';
-import CitationComponent from '../../components/citation/CitationComponent';
+import CitationComponent from '../../components/screens/citation/CitationComponent';
 
 const CitationScreen = () => {
   return (

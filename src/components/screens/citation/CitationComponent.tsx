@@ -18,10 +18,9 @@ import {useNavigation} from '@react-navigation/native';
 // schema
 
 // components
-import TextInputController from '../input/TextInput/TextInputController';
-import ButtonComponent from '../input/Buttons/ButtonComponent';
+import ButtonComponent from '../../input/Buttons/ButtonComponent';
 
-import {CitationInputs} from '../../config/citationInputs';
+import {CitationInputs} from '../../../config/citationInputs';
 import CitationItem from './item';
 
 const CitationComponent = () => {
