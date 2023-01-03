@@ -19,11 +19,18 @@ import {useNavigation} from '@react-navigation/native';
 
 // components
 import ButtonComponent from '../../input/Buttons/ButtonComponent';
+import CitationViolations from './violations-list/CitationViolations';
 
 import {CitationInputs} from '../../../config/citationInputs';
 import CitationItem from './item';
+import CitedViolations from './cited-violations/CitedViolations';
 
-const CitationComponent = () => {
+interface CitationComponentInterface {
+  showModal: boolean;
+  setShowModal: Function;
+}
+
+const CitationComponent = ({showModal, setShowModal}: CitationComponentInterface) => {
   const navigation = useNavigation();
 
   const defaultValues = {
@@ -52,10 +59,18 @@ const CitationComponent = () => {
         justifyContent: 'center',
         width: widthPercentageToDP('90%'),
       }}>
+      <CitedViolations showModal={showModal} setShowModal={setShowModal} />
       <SectionList
         sections={CitationInputs}
         keyExtractor={(item, index) => String(item) + index}
-        renderItem={({item}) => <CitationItem item={item} control={control} errors={errors?.email?.message} setValue={setValue} />}
+        renderItem={({item}) => (
+          <CitationItem
+            item={item}
+            control={control}
+            errors={errors?.email?.message}
+            setValue={setValue}
+          />
+        )}
         renderSectionHeader={({section: {title}}) => (
           <Text style={styles.header}>{title}</Text>
         )}
@@ -69,11 +84,13 @@ const CitationComponent = () => {
           color="#2C74B3"
           size="lg"
           styles={{}}>
-          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>
-            Save
-          </Text>
+          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>Save</Text>
         </ButtonComponent>
       </View>
+
+      {showModal ? (
+        <CitationViolations showModal={showModal} setShowModal={setShowModal} />
+      ) : null}
     </SafeAreaView>
   );
 };
@@ -81,8 +98,10 @@ const CitationComponent = () => {
 const styles = StyleSheet.create({
   header: {
     fontSize: 25,
-    marginBottom: 20,
-    fontFamily: 'Manrope-Bold'
+    marginBottom: 15,
+    marginTop: 10,
+    fontFamily: 'Manrope-Bold',
+    color: 'black',
   },
 });
 

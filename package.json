@@ -17,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^6.5.2",
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/stack": "^6.3.10",
+    "@reduxjs/toolkit": "^1.9.1",
     "@rneui/base": "github:react-native-elements/react-native-elements#base",
     "@rneui/themed": "github:react-native-elements/react-native-elements#themed",
     "moment": "^2.29.4",
@@ -35,6 +36,8 @@
     "react-native-simple-toast": "^2.0.0",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

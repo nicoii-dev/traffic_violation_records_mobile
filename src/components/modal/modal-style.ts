@@ -17,7 +17,7 @@ const ModalStyles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 15,
-    // alignItems: 'center',
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -40,18 +40,6 @@ const ModalStyles = StyleSheet.create({
   },
   buttonYes: {
     marginLeft: 15,
-  },
-  textStyle: {
-    color: COLORS.BLACK,
-    fontFamily: 'Manrope-Bold',
-    textAlign: 'center',
-    fontSize: 18,
-  },
-  modalText: {
-    fontFamily: 'Manrope-Regular',
-    textAlign: 'center',
-    fontSize: 18,
-    color: 'black'
   },
 });
 
