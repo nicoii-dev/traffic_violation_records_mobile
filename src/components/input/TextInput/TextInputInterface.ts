@@ -19,7 +19,7 @@ export interface TextInputInterface {
   defaultValue?: string;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   errorStyle?: object;
-  errorMessage: string | undefined;
+  errorMessage: any;
   placeholder?: any;
   editable?: boolean;
   headerStyles?: object;

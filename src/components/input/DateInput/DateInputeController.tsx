@@ -50,6 +50,7 @@ const DateInputController = ({
                     mode={'date'}
                     display={display}
                     onChange={hanleOnDateChange}
+                    maximumDate={new Date()}
                     style={{}}
                   />
                 )}

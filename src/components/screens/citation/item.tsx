@@ -4,6 +4,7 @@ import TextInputController from '../../input/TextInput/TextInputController';
 import PickerInputController from '../../input/PickerInput/PickerInputController';
 import RadioButtonController from '../../input/RadioButtons/RadioButtonController';
 import DateInputController from '../../input/DateInput/DateInputeController';
+import LicenseTextInput from '../../input/TextInput/LicenseTextInput';
 
 interface itemInterface {
   item: {
@@ -12,17 +13,15 @@ interface itemInterface {
     inputType: string;
     pickerOptions: Array<string>;
     radioOptions: Array<object>;
+    keyboardType: string;
   };
   control: object;
-  errors: {
-    email: {
-      message: string;
-    };
-  };
+  errors: any;
   setValue: Function;
 }
 
 const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
+
   if (item?.inputType && item.inputType === 'picker') {
     return (
       <PickerInputController
@@ -43,7 +42,7 @@ const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
         name={item.name}
         control={control}
         options={item.radioOptions}
-        errorMessage={errors?.item.name?.message}
+        errorMessage={errors[item.name]?.message}
       />
     );
   }
@@ -54,8 +53,22 @@ const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
         headerTitle={item.placeholder}
         name={item.name}
         control={control}
-        errorMessage={errors?.item.name?.message}
+        errorMessage={errors[item.name]?.message}
         display={'default'}
+      />
+    );
+  }
+
+  if (item?.inputType && item.inputType === 'license') {
+    return (
+      <LicenseTextInput
+        headerTitle={item.placeholder}
+        control={control}
+        name={item.name}
+        placeholder={item.placeholder}
+        errorMessage={errors[item.name]?.message}
+        errorStyle={{color: 'red'}}
+        keyboardType={item.keyboardType}
       />
     );
   }
@@ -66,8 +79,9 @@ const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
       control={control}
       name={item.name}
       placeholder={item.placeholder}
-      errorMessage={errors?.item.name?.messagee}
+      errorMessage={errors[item.name]?.message}
       errorStyle={{color: 'red'}}
+      keyboardType={item.keyboardType}
     />
   );
 };

@@ -8,7 +8,6 @@ import CitationComponent from '../../components/screens/citation/CitationCompone
 import CitationViolations from '../../components/screens/citation/violations-list/CitationViolations';
 
 const CitationScreen = () => {
-  const [showModal, setShowModal] = useState<boolean>(true);
 
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
@@ -27,19 +26,9 @@ const CitationScreen = () => {
             }}>
             Traffic Citation
           </Text>
-          <Pressable
-            style={{
-              position: 'absolute',
-              right: 30,
-            }}
-            onPress={() => {
-              setShowModal(!showModal);
-            }}>
-            {/* <Icon name={'control-point'} size={30} color={'white'} /> */}
-          </Pressable>
         </View>
       </HeaderComponent>
-      <CitationComponent showModal={showModal} setShowModal={setShowModal} />
+      <CitationComponent />
     </SafeAreaView>
   );
 };

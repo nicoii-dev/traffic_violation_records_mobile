@@ -86,7 +86,7 @@ const RadioButtonController = ({
                     >
                     <Text
                       style={[
-                        {fontSize: 18, marginLeft: 5},
+                        {fontSize: 18, marginLeft: 5, color: 'black'},
                         radioButtonTextStyle,
                       ]}>
                       {item.name}
