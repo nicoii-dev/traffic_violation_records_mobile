@@ -36,7 +36,7 @@ const HomeScreen = () => {
       </View>
       <View>
         <FlatList
-          keyExtractor={item => item.id}
+          keyExtractor={(item, index) => item.id + index.toString()}
           showsVerticalScrollIndicator={false}
           data={driversData}
           renderItem={({item}) => <ListOfDrivers item={item} />}

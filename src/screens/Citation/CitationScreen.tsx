@@ -8,7 +8,6 @@ import CitationComponent from '../../components/screens/citation/CitationCompone
 import CitationViolations from '../../components/screens/citation/violations-list/CitationViolations';
 
 const CitationScreen = () => {
-
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent>
@@ -24,7 +23,7 @@ const CitationScreen = () => {
               color: 'white',
               textAlign: 'center',
             }}>
-            Traffic Citation
+            Driver's Information
           </Text>
         </View>
       </HeaderComponent>

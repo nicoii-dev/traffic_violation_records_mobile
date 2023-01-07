@@ -31,6 +31,7 @@ const CitationViolationItem = ({item, SelectedViolations, citedViolations}: item
           iconType="material-community"
           checkedIcon="checkbox-outline"
           uncheckedIcon={'checkbox-blank-outline'}
+          containerStyle={{backgroundColor: '#efefef'}}
         />
         <Text
           style={{

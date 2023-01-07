@@ -5,7 +5,7 @@ import {Picker} from '@react-native-picker/picker';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
 import {PickerInputInterface} from './PickerInputInterface';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 const PickerInputController = ({
   name,
@@ -49,7 +49,8 @@ const PickerInputController = ({
                     enabled={enabled}
                     selectedValue={value}
                     onValueChange={handleOnChange}
-                    style={{width: widthPercentageToDP('90%')}}>
+                    style={{width: widthPercentageToDP('90%')}}
+                    itemStyle={{height: 88}}>
                     {pickerOptions.map((option, index) => {
                       return (
                         <Picker.Item

@@ -1,3 +1,4 @@
+import nationalyList from '../assets/example-data/nationalityList.json';
 export const CitationInputs = [
   {
     title: 'Drivers Personal Info',
@@ -12,7 +13,7 @@ export const CitationInputs = [
         pickerOptions: ['Male', 'Female'],
       },
       {name: 'address', placeholder: 'Address'},
-      {name: 'nationality', placeholder: 'Nationality'},
+      {name: 'nationality', placeholder: 'Nationality', inputType: 'picker', pickerOptions: nationalyList},
       {name: 'phoneNumber', placeholder: 'Phone Number', keyboardType: 'numeric'},
       {name: 'dob', placeholder: 'Date of birth', inputType: 'date'},
     ],
@@ -20,15 +21,15 @@ export const CitationInputs = [
   {
     title: 'Drivers License Info',
     data: [
-      {
-        name: 'hasLicense',
-        placeholder: 'Has License',
-        inputType: 'radio',
-        radioOptions: [
-          {id: 1, value: 'yes', name: 'Yes', selected: false},
-          {id: 2, value: 'no', name: 'No', selected: false},
-        ],
-      },
+      // {
+      //   name: 'hasLicense',
+      //   placeholder: 'Has License',
+      //   inputType: 'radio',
+      //   radioOptions: [
+      //     {id: 1, value: 'yes', name: 'Yes', selected: false},
+      //     {id: 2, value: 'no', name: 'No', selected: false},
+      //   ],
+      // },
       {name: 'licenseNumber', placeholder: 'License number', keyboardType: 'numeric', inputType: 'license'},
       {
         name: 'licenseType',
@@ -36,6 +37,7 @@ export const CitationInputs = [
         inputType: 'picker',
         pickerOptions: ['Professional', 'Non-professional', 'Student Permit'],
       },
+      {name: 'licenseStatus', placeholder: 'Status', inputType: 'picker', pickerOptions: ['Unexpired', 'Expired']},
     ],
   },
   {
@@ -48,8 +50,8 @@ export const CitationInputs = [
       {name: 'class', placeholder: 'Class'},
       {name: 'bodyMarkings', placeholder: 'Body markings'},
       {name: 'registeredOwner', placeholder: 'Registered owner'},
-      {name: 'address', placeholder: 'Address'},
-      {name: 'status', placeholder: 'Status', inputType: 'picker', pickerOptions: ['Unexpired', 'Expired']},
+      {name: 'registeredOwnerAddress', placeholder: 'Address'},
+      {name: 'vehicleStatus', placeholder: 'Status', inputType: 'picker', pickerOptions: ['Unexpired', 'Expired']},
     ],
   },
 ];
