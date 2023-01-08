@@ -2,6 +2,7 @@ import {View, Text, Pressable, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 // components
 import ButtonComponent from '../../../input/Buttons/ButtonComponent';
@@ -16,7 +17,6 @@ import {
   removeViolation,
 } from '../../../../store/citation/reducers';
 import CitationViolationStyles from './citation-violation-style';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 
 const CitationViolations = ({}) => {
   const navigation = useNavigation();
@@ -35,7 +35,11 @@ const CitationViolations = ({}) => {
   };
 
   const CitedViolationsHandler = () => {
-    navigation.navigate('CitationScreen')
+    if(citedViolations.length > 0) {
+      navigation.navigate('CitationScreen')
+      return;
+    }
+    Toast.show('Please select atleast 1 violation', Toast.LONG, Toast.CENTER);
   }
 
   return (

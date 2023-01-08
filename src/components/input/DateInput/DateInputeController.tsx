@@ -75,7 +75,7 @@ const DateInputController = ({
                     <View style={{flexDirection: 'row'}}>
                   {mode === 'date' ? (
                     <Text style={{fontSize: 18}}>
-                      {moment(value).format('MM/DD/YYYY')}
+                      {value ? moment(value).format('MM/DD/YYYY') : 'MM/DD/YYYY'}
                     </Text>
                   ) : (
                     <Text style={{fontSize: 18}}>
@@ -94,7 +94,7 @@ const DateInputController = ({
       />
       {errorMessage ? (
         <Text
-          style={[{color: 'red', fontSize: 12, alignSelf: 'flex-start'}, errorStyle]}>
+          style={[{color: 'red', fontSize: 12, alignSelf: 'flex-start', marginLeft: 10}, errorStyle]}>
           {errorMessage}
         </Text>
       ) : null}

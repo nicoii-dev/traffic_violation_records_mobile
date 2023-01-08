@@ -3,10 +3,10 @@ import {SET_CITED_VIOLATIONS, SET_TRAFFIC_CITATION} from './constants';
 
 const initialState = {
   citedViolations: [],
-  citationDetails: {
-    firstname: '',
-    middlename: '',
-    lastname: '',
+  driversInfo: {
+    firstName: '',
+    middleName: '',
+    lastName: '',
     gender: '',
     address: '',
     nationality: '',
@@ -24,6 +24,14 @@ const initialState = {
     ownerAddress: '',
     vehicleStatus: '',
   },
+  citationDetails: {
+    violationDate: '',
+    violationTime: '',
+    municipality: '',
+    zipCode: '',
+    barangay: '',
+    street: '',
+  }
 };
 
 const citationSlice = createSlice({
@@ -41,7 +49,16 @@ const citationSlice = createSlice({
         return;
       }
     },
+    setDriversInfo: (state, action) => {
+      return {
+        ...state,
+        driversInfo: action.payload,
+      }
+    },
+    setCitationDetails: (state, action) => {
+      state.citedViolations.push(action.payload);
+    },
   },
 });
-export const {addViolation, removeViolation} = citationSlice.actions;
+export const {addViolation, removeViolation, setDriversInfo, setCitationDetails} = citationSlice.actions;
 export default citationSlice.reducer;

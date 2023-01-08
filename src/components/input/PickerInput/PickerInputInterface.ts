@@ -9,7 +9,7 @@ export interface PickerInputInterface {
   styles?: object;
   headerStyles?: object;
   headerTitle?: string;
-  setValue: Function;
+  setValue?: Function;
   getValues?: Function;
   pickerOptions: Array<string>;
 }

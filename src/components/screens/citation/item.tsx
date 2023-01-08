@@ -10,10 +10,12 @@ interface itemInterface {
   item: {
     name: string;
     placeholder: string;
+    header: string;
     inputType: string;
     pickerOptions: Array<string>;
     radioOptions: Array<object>;
     keyboardType: string;
+    maxLength: number;
   };
   control: object;
   errors: any;
@@ -21,16 +23,16 @@ interface itemInterface {
 }
 
 const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
-
   if (item?.inputType && item.inputType === 'picker') {
     return (
       <PickerInputController
-        headerTitle={item.placeholder}
+        headerTitle={item.header}
         name={item.name}
         control={control}
         setValue={setValue}
         defaultValue={item.pickerOptions[0]}
         pickerOptions={item.pickerOptions}
+        headerStyles={{width: '95%'}}
       />
     );
   }
@@ -38,7 +40,7 @@ const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
   if (item?.inputType && item.inputType === 'radio') {
     return (
       <RadioButtonController
-        headerTitle={item.placeholder}
+        headerTitle={item.header}
         name={item.name}
         control={control}
         options={item.radioOptions}
@@ -50,38 +52,40 @@ const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
   if (item?.inputType && item.inputType === 'date') {
     return (
       <DateInputController
-        headerTitle={item.placeholder}
+        headerTitle={item.header}
         name={item.name}
         control={control}
         errorMessage={errors[item.name]?.message}
         display={'default'}
+        mode={'date'}
       />
     );
   }
 
-  if (item?.inputType && item.inputType === 'license') {
-    return (
-      <LicenseTextInput
-        headerTitle={item.placeholder}
-        control={control}
-        name={item.name}
-        placeholder={item.placeholder}
-        errorMessage={errors[item.name]?.message}
-        errorStyle={{color: 'red'}}
-        keyboardType={item.keyboardType}
-      />
-    );
-  }
+  // if (item?.inputType && item.inputType === 'license') {
+  //   return (
+  //     <LicenseTextInput
+  //       headerTitle={item.placeholder}
+  //       control={control}
+  //       name={item.name}
+  //       placeholder={item.placeholder}
+  //       errorMessage={errors[item.name]?.message}
+  //       errorStyle={{color: 'red'}}
+  //       keyboardType={item.keyboardType}
+  //     />
+  //   );
+  // }
 
   return (
     <TextInputController
-      headerTitle={item.placeholder}
+      headerTitle={item.header}
       control={control}
       name={item.name}
       placeholder={item.placeholder}
       errorMessage={errors[item.name]?.message}
       errorStyle={{color: 'red'}}
       keyboardType={item.keyboardType}
+      maxLength={item.maxLength}
     />
   );
 };

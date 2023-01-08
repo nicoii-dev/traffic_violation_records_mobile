@@ -39,11 +39,6 @@ export default () => {
           options={{headerShown: false}}
         />
         <CitationStack.Screen
-          name="CitationMap"
-          component={CitationMap}
-          options={{headerShown: false}}
-        />
-        <CitationStack.Screen
           name="ConfirmationScreen"
           component={ConfirmationScreen}
           options={{headerShown: false}}

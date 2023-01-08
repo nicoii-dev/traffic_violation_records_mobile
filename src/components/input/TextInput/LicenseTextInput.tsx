@@ -36,22 +36,29 @@ const LicenseTextInput = ({
 
   const normalizeInput = (value: any, previousValue: any) => {
     // return nothing if no value
-    if (!value) return value; 
-  
+    if (!value) return value;
+
     // only allows 0-9 inputs
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length; 
-  
+    const currentValue = value;
+    const cvLength = currentValue.length;
+
     if (!previousValue || value.length > previousValue.length) {
-  
+      console.log(cvLength);
+      console.log(currentValue);
       // returns: "x", "xx", "xxx"
-      if (cvLength < 4) return currentValue; 
-  
+      if (cvLength < 4) return currentValue;
+
       // returns: "(xxx)", "(xxx) x", "(xxx) xx", "(xxx) xxx",
-      if (cvLength < 7) return `${currentValue.slice(0, 3)}-${currentValue.slice(3)}`; 
-  
+      if (cvLength < 7) {
+        currentValue.replaceAll('-', '');
+        return `${currentValue.slice(0, 3)}-${currentValue.slice(3)}`;
+      }
       // returns: "(xxx) xxx-", (xxx) xxx-x", "(xxx) xxx-xx", "(xxx) xxx-xxx", "(xxx) xxx-xxxx"
-      return `${currentValue.slice(0, 3)}-${currentValue.slice(3, 5)}-${currentValue.slice(5, 11)}`; 
+      currentValue.replace('-', '');
+      return `${currentValue.slice(0, 3)}-${currentValue.slice(
+        3,
+        5,
+      )}-${currentValue.slice(5, 11)}`;
     }
   };
 
@@ -62,8 +69,8 @@ const LicenseTextInput = ({
       render={({field: {onChange, value}}) => {
         const handleOnChange = (itemValue: string) => {
           // making first letter of the word capital
-            console.log(itemValue)
-            setLicense(normalizeInput(itemValue, value))
+          console.log(itemValue);
+          setLicense(normalizeInput(itemValue, value));
         };
 
         return (
@@ -78,7 +85,10 @@ const LicenseTextInput = ({
               autoCapitalize={autoCapitalize}
               autoComplete="off"
               allowFontScaling={false}
-              onChangeText={(e) => {handleOnChange(e); onChange(e)}}
+              onChangeText={e => {
+                handleOnChange(e);
+                onChange(e);
+              }}
               secureTextEntry={show}
               defaultValue={defaultValue}
               value={license}

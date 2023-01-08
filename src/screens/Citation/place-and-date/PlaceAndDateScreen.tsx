@@ -18,6 +18,8 @@ const PlaceAndDateScreen = () => {
 
   const defaultValues = {
     violationDate: new Date(),
+    municipality: 'Opol',
+    zipCode: '9016'
   };
 
   const {
@@ -35,7 +37,7 @@ const PlaceAndDateScreen = () => {
     console.log((moment(data.time).format('h:mm:ss A')))
     console.log(data);
 
-    navigation.navigate('CitationMap');
+    navigation.navigate('ConfirmationScreen');
   };
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);

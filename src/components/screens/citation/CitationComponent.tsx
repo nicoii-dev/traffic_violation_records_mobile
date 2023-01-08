@@ -14,28 +14,33 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
+import {COLORS} from '../../../config/colors';
 
 // schema
+import {citationSchema} from '../../../library/yup-schema/citationSchema';
 
 // components
 import ButtonComponent from '../../input/Buttons/ButtonComponent';
-import CitationViolations from './violations-list/CitationViolations';
-
 import {CitationInputs} from '../../../config/citationInputs';
 import CitationItem from './item';
-import {citationSchema} from '../../../library/yup-schema/citationSchema';
-import {COLORS} from '../../../config/colors';
+
+// redux
+import { setDriversInfo } from '../../../store/citation/reducers';
+
+
 
 const CitationComponent = () => {
   const navigation = useNavigation();
-  const {citedViolations} = useSelector((store: any) => store.citation);
+  const dispatch = useDispatch();
+  const {driversInfo} = useSelector((store: any) => store.citation);
 
   const defaultValues = {
     firstName: '',
     middleName: '',
     lastName: '',
+    dob: '',
     gender: 'Male',
     nationality: 'Filipino',
     licenseType: 'Professional',
@@ -49,21 +54,24 @@ const CitationComponent = () => {
     handleSubmit,
     formState: {errors},
   } = useForm({
-    // resolver: yupResolver(citationSchema),
+    resolver: yupResolver(citationSchema),
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data: object) => {
+  const onSubmit = async (data: object) => {
     // getting the age
+    console.log(data);
     const birthDate = new Date(data.dob);
     const difference = Date.now() - birthDate.getTime();
     const age = new Date(difference);
-    console.log(Math.abs(age.getUTCFullYear() - 1970));
+    console.log('age', Math.abs(age.getUTCFullYear() - 1970));
 
-    console.log(data);
+    await dispatch(setDriversInfo(data))
 
-    navigation.navigate('PlaceAndDateScreen');
+    // navigation.navigate('PlaceAndDateScreen');
   };
+
+  console.log('drivers', driversInfo)
 
   return (
     <SafeAreaView

@@ -38,7 +38,7 @@ const PickerInputController = ({
             <View style={{alignItems: 'center'}}>
               {/* header title for personal info */}
               {headerTitle ? (
-                <Text style={[{fontSize: 18, fontFamily: 'Manrope-Regular', width: '95%'}, headerStyles]}>
+                <Text style={[{fontSize: 18, fontFamily: 'Manrope-Regular', width: '100%'}, headerStyles]}>
                   {headerTitle}
                 </Text>
               ) : null}

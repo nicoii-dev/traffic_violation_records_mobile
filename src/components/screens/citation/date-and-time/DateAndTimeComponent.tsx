@@ -14,7 +14,7 @@ const DateAndTimeComponent = ({
   errors,
 }: DateAndTimeComponentInterface) => {
   return (
-    <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10}}>
+    <View style={{flexDirection: 'row', marginTop: 30, marginBottom: 20}}>
       <View style={{width: '45%'}}>
         <DateInputController
           headerTitle={'Date of Violation'}

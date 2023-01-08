@@ -8,7 +8,7 @@ export const citationSchema = yup
     gender: yup.string().required('Gender is required'),
     address: yup.string().required('Address is required'),
     phoneNumber: yup.string().required('Phone number is required').min(11, 'Phone number must be 11 digits').matches(/^[0-9]+$/, 'Numbers only'),
-    dob: yup.string(),
+    dob: yup.string().required('Date of birth is required'),
     licenseNumber: yup.string().required('License number is required').min(13, 'License number is too short'),
     licenseType: yup.string().required('License type is required'),
     plateNumber: yup.string().required('Plate number is required'),
