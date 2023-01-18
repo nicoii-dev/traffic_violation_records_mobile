@@ -1,7 +1,8 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 import IMAGES from '../../config/images';
 import {COLORS} from '../../config/colors';
 
@@ -12,6 +13,7 @@ import ButtonComponent from '../../components/input/Buttons/ButtonComponent';
 import ProfileScreenStyle from './profile-screen-styles';
 
 const ProfileScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent height={300}>
@@ -50,35 +52,41 @@ const ProfileScreen = () => {
           </Text>
         </View>
         <View style={{width: '70%', alignSelf: 'center', marginTop: 20}}>
-          <View style={ProfileScreenStyle.personalContainer}>
-            <Text style={ProfileScreenStyle.personalText}>
-              Personal Information
-            </Text>
-            <Icon
-              name={'arrow-forward-ios'}
-              size={20}
-              color={'black'}
-              style={ProfileScreenStyle.icon}
-            />
-          </View>
-          <View style={ProfileScreenStyle.securityContainer}>
-            <Text style={ProfileScreenStyle.securityText}>Security</Text>
-            <Icon
-              name={'arrow-forward-ios'}
-              size={20}
-              color={'black'}
-              style={ProfileScreenStyle.icon}
-            />
-          </View>
-          <View style={ProfileScreenStyle.securityContainer}>
-            <Text style={ProfileScreenStyle.securityText}>About</Text>
-            <Icon
-              name={'arrow-forward-ios'}
-              size={20}
-              color={'black'}
-              style={ProfileScreenStyle.icon}
-            />
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('PersonalInfoScreen')}>
+            <View style={ProfileScreenStyle.personalContainer}>
+              <Text style={ProfileScreenStyle.personalText}>
+                Personal Information
+              </Text>
+              <Icon
+                name={'arrow-forward-ios'}
+                size={20}
+                color={'black'}
+                style={ProfileScreenStyle.icon}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('SecurityScreen')}>
+            <View style={ProfileScreenStyle.securityContainer}>
+              <Text style={ProfileScreenStyle.securityText}>Security</Text>
+              <Icon
+                name={'arrow-forward-ios'}
+                size={20}
+                color={'black'}
+                style={ProfileScreenStyle.icon}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('AboutScreen')}>
+            <View style={ProfileScreenStyle.securityContainer}>
+              <Text style={ProfileScreenStyle.securityText}>About</Text>
+              <Icon
+                name={'arrow-forward-ios'}
+                size={20}
+                color={'black'}
+                style={ProfileScreenStyle.icon}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={{position: 'absolute', bottom: 20, width: '50%'}}>

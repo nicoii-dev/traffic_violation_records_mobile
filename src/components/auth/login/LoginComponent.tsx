@@ -3,7 +3,11 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import Toast from 'react-native-simple-toast';
+import { useStorage } from '../../../library/storage/Storage';
+import { USER } from '../../../library/contants';
 
 // schema
 import {loginSchema} from '../../../library/yup-schema/loginSchema';
@@ -12,12 +16,11 @@ import TextInputController from '../../input/TextInput/TextInputController';
 import ButtonComponent from '../../input/Buttons/ButtonComponent';
 
 const LoginComponent = () => {
-
   const navigation = useNavigation();
 
   const defaultValues = {
-    email: 'example@gmail.com',
-    password: '111111',
+    email: 'admin@admin.com',
+    password: 'Default123',
   };
 
   const {
@@ -30,10 +33,24 @@ const LoginComponent = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data: object) => {
-    console.log(data);
-    navigation.navigate('UserTab')
+  const onSubmit = async (data: object) => {
+    await axios.post('http://127.0.0.1:8000/api/login', {
+      email: data.email,
+      password: data.password
+    })
+    .then(async response =>{
+      console.log(response.data);
+      await useStorage.setItem(USER.ACCESS_TOKEN, response.data.token);
+      await useStorage.setItem('USER_DATA', response.data.user);
+      navigation.navigate('UserTab')
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      Toast.showWithGravity(error.response.data.message, Toast.LONG, Toast.CENTER);
+    });
+
   };
+  // navigation.navigate('UserTab')
   return (
     <View style={{flex: 1, justifyContent: 'center'}}>
       <TextInputController

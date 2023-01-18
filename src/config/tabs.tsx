@@ -1,9 +1,8 @@
 // screens
 import HomeScreen from '../screens/Home/HomeScreen';
 import CitationStack from '../navigations/stack/Citation';
-import ListOfDriversScreen from '../screens/List of Drivers/ListOfDriversScreen';
+import ProfileStack from '../navigations/stack/Profile';
 import ListOfViolationsScreen from '../screens/List of Violations/ListOfViolationsScreen';
-import ProfileScreen from '../screens/Profile/ProfileScreen';
 
 export const UserTabs = [
   {
@@ -23,7 +22,7 @@ export const UserTabs = [
   },
   {
     name: 'Profile',
-    component: ProfileScreen,
+    component: ProfileStack,
     iconName: 'person',
   },
 ];

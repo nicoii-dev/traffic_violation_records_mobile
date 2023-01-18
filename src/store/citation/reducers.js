@@ -56,7 +56,10 @@ const citationSlice = createSlice({
       }
     },
     setCitationDetails: (state, action) => {
-      state.citedViolations.push(action.payload);
+      return {
+        ...state,
+        citationDetails: action.payload,
+      }
     },
   },
 });

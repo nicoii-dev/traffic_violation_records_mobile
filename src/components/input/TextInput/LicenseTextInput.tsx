@@ -32,45 +32,13 @@ const LicenseTextInput = ({
 }: TextInputInterface) => {
   const [show, setShow] = useState<boolean>(secureTextEntry);
 
-  const [license, setLicense] = useState('');
-
-  const normalizeInput = (value: any, previousValue: any) => {
-    // return nothing if no value
-    if (!value) return value;
-
-    // only allows 0-9 inputs
-    const currentValue = value;
-    const cvLength = currentValue.length;
-
-    if (!previousValue || value.length > previousValue.length) {
-      console.log(cvLength);
-      console.log(currentValue);
-      // returns: "x", "xx", "xxx"
-      if (cvLength < 4) return currentValue;
-
-      // returns: "(xxx)", "(xxx) x", "(xxx) xx", "(xxx) xxx",
-      if (cvLength < 7) {
-        currentValue.replaceAll('-', '');
-        return `${currentValue.slice(0, 3)}-${currentValue.slice(3)}`;
-      }
-      // returns: "(xxx) xxx-", (xxx) xxx-x", "(xxx) xxx-xx", "(xxx) xxx-xxx", "(xxx) xxx-xxxx"
-      currentValue.replace('-', '');
-      return `${currentValue.slice(0, 3)}-${currentValue.slice(
-        3,
-        5,
-      )}-${currentValue.slice(5, 11)}`;
-    }
-  };
-
   return (
     <Controller
       name={name}
       control={control}
       render={({field: {onChange, value}}) => {
         const handleOnChange = (itemValue: string) => {
-          // making first letter of the word capital
-          console.log(itemValue);
-          setLicense(normalizeInput(itemValue, value));
+          onChange(itemValue.replace(/(\d{3})(\d{2})(\d{3})/, '$1-$2-$3'));
         };
 
         return (
@@ -85,13 +53,10 @@ const LicenseTextInput = ({
               autoCapitalize={autoCapitalize}
               autoComplete="off"
               allowFontScaling={false}
-              onChangeText={e => {
-                handleOnChange(e);
-                onChange(e);
-              }}
+              onChangeText={handleOnChange}
               secureTextEntry={show}
               defaultValue={defaultValue}
-              value={license}
+              value={value}
               placeholder={placeholder ?? null}
               editable={editable}
               keyboardType={keyboardType}

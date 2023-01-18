@@ -63,12 +63,17 @@ const CitationComponent = () => {
     console.log(data);
     const birthDate = new Date(data.dob);
     const difference = Date.now() - birthDate.getTime();
-    const age = new Date(difference);
-    console.log('age', Math.abs(age.getUTCFullYear() - 1970));
+    const ageInTime = new Date(difference);
+    const ageInYear = Math.abs(ageInTime.getUTCFullYear() - 1970)
+    console.log('age', Math.abs(ageInTime.getUTCFullYear() - 1970));
+    // if(ageInYear < 16) {
+    //   return Toast.showWithGravity('Driver is below 16 years old, please double check inputted date of birth.' , Toast.LONG, Toast.TOP)
+    // }
+    
 
     await dispatch(setDriversInfo(data))
 
-    // navigation.navigate('PlaceAndDateScreen');
+     navigation.navigate('PlaceAndDateScreen');
   };
 
   console.log('drivers', driversInfo)

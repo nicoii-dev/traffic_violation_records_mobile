@@ -62,19 +62,19 @@ const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
     );
   }
 
-  // if (item?.inputType && item.inputType === 'license') {
-  //   return (
-  //     <LicenseTextInput
-  //       headerTitle={item.placeholder}
-  //       control={control}
-  //       name={item.name}
-  //       placeholder={item.placeholder}
-  //       errorMessage={errors[item.name]?.message}
-  //       errorStyle={{color: 'red'}}
-  //       keyboardType={item.keyboardType}
-  //     />
-  //   );
-  // }
+  if (item?.inputType && item.inputType === 'license') {
+    return (
+      <LicenseTextInput
+        headerTitle={item.header}
+        control={control}
+        name={item.name}
+        placeholder={item.placeholder}
+        errorMessage={errors[item.name]?.message}
+        errorStyle={{color: 'red'}}
+        keyboardType={item.keyboardType}
+      />
+    );
+  }
 
   return (
     <TextInputController
