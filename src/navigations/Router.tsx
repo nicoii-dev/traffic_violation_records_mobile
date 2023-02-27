@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import Loader from '../components/loader';
 
 // stack components
 import EntryStack from './stack/Entry';
@@ -18,7 +19,7 @@ const Router = () => {
           options={{headerShown: false}}
         />
       </MainRouterStack.Navigator>
-      {/* <Loader /> */}
+      <Loader />
     </NavigationContainer>
   );
 };

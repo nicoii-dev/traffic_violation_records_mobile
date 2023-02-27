@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {SET_CITED_VIOLATIONS, SET_TRAFFIC_CITATION} from './constants';
 
 const initialState = {
   citedViolations: [],

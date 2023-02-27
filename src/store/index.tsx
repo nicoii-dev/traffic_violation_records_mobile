@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import citationSlice from './citation/reducers'
-import authSlice from './auth';
+import loaderSlice from './loader/reducers'
 
 const store = configureStore({
   reducer: {
     citation: citationSlice,
-    auth: authSlice,
+    loader: loaderSlice
   }
 })
 
