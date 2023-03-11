@@ -40,7 +40,7 @@ const ListOfViolationItem = ({item}: itemInterface) => {
               fontSize: 16,
               color: 'black',
             }}>
-            {item.title}
+            {item?.violation_name}
           </Text>
           <Text
             style={{
@@ -49,7 +49,7 @@ const ListOfViolationItem = ({item}: itemInterface) => {
               fontSize: 16,
               color: 'black',
             }}>
-            {`P${item.penalty.toFixed(2)}`}
+            {`P${parseInt(item?.penalty)?.toFixed(2)}`}
           </Text>
           <Icon
             name={'arrow-drop-down'}
@@ -67,7 +67,7 @@ const ListOfViolationItem = ({item}: itemInterface) => {
             fontSize: 18,
             color: 'black',
           }}>
-          {selectedData.title}
+          {selectedData?.violation_name}
         </Text>
         <Text
           style={{
@@ -87,9 +87,7 @@ const ListOfViolationItem = ({item}: itemInterface) => {
             marginTop: 5,
             paddingLeft: 10,
           }}>
-          REPUBLIC ACT NO. 10054 AN ACT MANDATING ALL MOTORCYCLE RIDERS TO WEAR
-          STANDARD PROTECTIVE MOTORCYCLE HELMETS WHILE DRIVING AND PROVIDING
-          PENALTIES THEREFOR
+          {selectedData?.description}
         </Text>
         <View style={{flexDirection: 'row'}}>
           <Text
@@ -110,7 +108,7 @@ const ListOfViolationItem = ({item}: itemInterface) => {
               marginTop: 20,
               paddingLeft: 10,
             }}>
-            {`P${selectedData?.penalty?.toFixed(2)}`}
+            {`P${parseInt(selectedData?.penalty)?.toFixed(2)}`}
           </Text>
         </View>
 

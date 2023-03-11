@@ -2,7 +2,7 @@
 import HomeScreen from '../screens/Home/HomeScreen';
 import CitationStack from '../navigations/stack/Citation';
 import ProfileStack from '../navigations/stack/Profile';
-import ListOfViolationsScreen from '../screens/List of Violations/ListOfViolationsScreen';
+import ViolationStack from '../navigations/stack/Violation';
 
 export const UserTabs = [
   {
@@ -17,7 +17,7 @@ export const UserTabs = [
   },
   {
     name: 'Types Violations',
-    component: ListOfViolationsScreen,
+    component: ViolationStack,
     iconName: 'list-alt',
   },
   {

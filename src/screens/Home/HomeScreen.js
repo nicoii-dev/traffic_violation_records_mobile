@@ -2,8 +2,9 @@ import {View, Text, FlatList} from 'react-native';
 import React, {useEffect} from 'react';
 import MapView from 'react-native-maps';
 import ListOfDrivers from '../../components/screens/home/item';
-// import { useDispatch } from 'react-redux';
-// import { locationPermission } from '../../library/permission/location';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
 
 const driversData = [
   {driversName: 'John Doe', violation: 'Not Wearing Helmet'},
@@ -12,11 +13,24 @@ const driversData = [
 ]
 
 const HomeScreen = () => {
-  // const dispatch = useDispatch();
-  // // requesting permission
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  // const fetchHandler = useCallback(async () => {
+  //   dispatch(loadingStart());
+  //   const response = await FetchViolationsByCategory(route?.params?.id);
+  //   setViolations(response)
+  //   console.log(response)
+  // }, []);
+
   // useEffect(() => {
-  //   dispatch(locationPermission());
-  // }, [dispatch]);
+  //   navigation.addListener('focus', () => {
+  //     fetchHandler();
+  //     setTimeout(() => {
+  //       dispatch(loadingFinish());
+  //     }, 2000);
+  //   })
+  // }, [navigation])
 
   return (
     <View style={{flex: 1}}>

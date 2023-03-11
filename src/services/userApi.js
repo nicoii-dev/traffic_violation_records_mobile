@@ -2,7 +2,6 @@ import axios from 'axios';
 import {useStorage} from '../library/storage/Storage';
 import {USER} from '../library/contants';
 import Toast from 'react-native-simple-toast';
-import {loadingStart, loadingFinish} from '../store/loader/reducers';
 
 export const UserLogin = async (payload) => {
 
@@ -17,7 +16,7 @@ export const UserLogin = async (payload) => {
       JSON.stringify(response.data.user),
     );
     return response.data;
-  } catch (error: any) {
+  } catch (error) {
     return Toast.showWithGravity(
       error.response.data.message,
       Toast.LONG,

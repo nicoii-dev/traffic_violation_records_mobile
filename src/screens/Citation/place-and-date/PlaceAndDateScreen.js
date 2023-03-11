@@ -32,7 +32,7 @@ const PlaceAndDateScreen = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data: object) => {
+  const onSubmit = (data) => {
     // getting the age
     console.log((moment(data.time).format('h:mm:ss A')))
     console.log(data);
