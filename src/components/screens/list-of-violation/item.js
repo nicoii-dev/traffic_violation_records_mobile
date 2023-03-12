@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, TouchableOpacity, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';

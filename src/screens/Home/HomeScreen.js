@@ -25,7 +25,6 @@ const HomeScreen = () => {
   const [citation, setCitation] = useState([]);
 
   const fetchHandler = useCallback(async () => {
-    dispatch(loadingStart());
     const userData = await useStorage.getItem(USER.USER_DATA);
     await FetchCitationByEnforcer(JSON.parse(userData)?.id)
       .then(async response => {
@@ -33,17 +32,15 @@ const HomeScreen = () => {
       })
       .finally(() => {
         setTimeout(() => {
-          dispatch(loadingFinish());
         }, 2000);
       });
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       fetchHandler();
     });
   }, [fetchHandler, navigation]);
-  console.log(citation);
 
   return (
     <View style={{flex: 1}}>

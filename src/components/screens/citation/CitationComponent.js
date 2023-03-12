@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Text,
   View,
@@ -34,15 +35,35 @@ const CitationComponent = () => {
   const dispatch = useDispatch();
   const {driversInfo} = useSelector(store => store.citation);
 
+  // const defaultValues = {
+  //   firstName: '',
+  //   middleName: '',
+  //   lastName: '',
+  //   dob: '',
+  //   gender: 'Male',
+  //   nationality: 'Filipino',
+  //   licenseType: 'Professional',
+  //   licenseStatus: 'Unexpired',
+  //   vehicleStatus: 'Unexpired',
+  // };
+
   const defaultValues = {
-    firstName: '',
-    middleName: '',
-    lastName: '',
+    firstName: 'Arjohn',
+    middleName: 'Bagalihog',
+    lastName: 'Ely',
+    address: 'Zone 5A Iponan',
+    phoneNumber: '09354135541',
     dob: '',
     gender: 'Male',
     nationality: 'Filipino',
+    licenseNumber: '123456789012',
     licenseType: 'Professional',
     licenseStatus: 'Unexpired',
+    plateNumber: '123-567',
+    make: 'Honda',
+    model: 'Click 125',
+    color: 'Black',
+    registeredOwner: 'Arjohn Ely',
     vehicleStatus: 'Unexpired',
   };
 
@@ -56,7 +77,7 @@ const CitationComponent = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     // getting the age
     console.log(data);
     const birthDate = new Date(data.dob);

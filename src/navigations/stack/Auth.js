@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useState, useEffect, useCallback} from 'react';
 import {BackHandler} from 'react-native';
 import Toast from 'react-native-simple-toast';
@@ -12,7 +13,7 @@ import ForgotPassScreen from '../../screens/Auth/Forgot-pass/ForgotPassScreen';
 // stack instance
 const AuthStack = createStackNavigator();
 
-const Auth = ({navigation}: any) => {
+const Auth = ({navigation}) => {
   const [exitApp, setExitApp] = useState(0);
 
   const backAction = useCallback(() => {
@@ -30,8 +31,8 @@ const Auth = ({navigation}: any) => {
   // * prevent going back to the otp screen
   useEffect(() => {
     // *prevent from returning to loading screen
-    const unsubscribeRemove = navigation.addListener('beforeRemove', (e: any) => {
-      if (e && e.data.action.type == 'GO_BACK') {
+    const unsubscribeRemove = navigation.addListener('beforeRemove', (e) => {
+      if (e && e.data.action.type === 'GO_BACK') {
         e.preventDefault();
         // *
         backAction();

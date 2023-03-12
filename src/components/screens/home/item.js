@@ -1,19 +1,26 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ListOfDrivers = ({item}) => {
-  const [showModal, setShowModal] = useState(false);
-  const [selectedData, setSelectedData] = useState({});
+// reducer
+import { setViolatorDetails } from '../../../store/violator/reducers';
 
-  const ViolationInfo = (item) => {
-    setShowModal(!showModal);
-    setSelectedData(item);
+const ListOfDrivers = ({item}) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const ViolatorInfo = async (item) => {
+    await dispatch(setViolatorDetails(item));
+    navigation.navigate('ViolatorDetails')
   };
 
   return (
     <>
+      <TouchableOpacity onPress={() => ViolatorInfo(item)}>
       <View
         style={{
           alignSelf: 'flex-start',
@@ -39,7 +46,7 @@ const ListOfDrivers = ({item}) => {
             fontSize: 16,
             color: 'black',
           }}>
-          {JSON.parse(item.violations)[0].violation_name}
+          {JSON.parse(item?.violations)[0]?.violation_name}
         </Text>
         <Icon
           name={'arrow-drop-down'}
@@ -48,6 +55,7 @@ const ListOfDrivers = ({item}) => {
           style={{flex: 1, textAlign: 'right'}}
         />
       </View>
+      </TouchableOpacity>
     </>
   );
 };

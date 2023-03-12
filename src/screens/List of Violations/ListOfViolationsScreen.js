@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, FlatList} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
@@ -11,29 +12,32 @@ import HeaderComponent from '../../components/header/HeaderComponent';
 import {loadingStart, loadingFinish} from '../../store/loader/reducers';
 
 // api calls
-import {FetchAllViolations, FetchViolationsByCategory} from '../../services/violationApi';
+import {
+  FetchAllViolations,
+  FetchViolationsByCategory,
+} from '../../services/violationApi';
 
-const ListOfViolationsScreen = (_props) => {
+const ListOfViolationsScreen = _props => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {route} = _props
+  const {route} = _props;
   const [violations, setViolations] = useState([]);
 
   const fetchHandler = useCallback(async () => {
-    dispatch(loadingStart());
+    // dispatch(loadingStart());
     const response = await FetchViolationsByCategory(route?.params?.id);
-    setViolations(response)
-    console.log(response)
-  }, []);
+    setViolations(response);
+    console.log(response);
+  }, [route?.params?.id]);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       fetchHandler();
       setTimeout(() => {
-        dispatch(loadingFinish());
+        // dispatch(loadingFinish());
       }, 2000);
-    })
-  }, [navigation])
+    });
+  }, [fetchHandler, navigation]);
 
   return (
     <View>

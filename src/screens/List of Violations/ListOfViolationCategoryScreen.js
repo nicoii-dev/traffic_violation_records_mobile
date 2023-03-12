@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, FlatList} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
@@ -23,7 +24,7 @@ const ListOfViolationCategoryScreen = () => {
     const response = await FetchAllCategory();
     setCategories(response)
     console.log(response)
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -32,7 +33,8 @@ const ListOfViolationCategoryScreen = () => {
         dispatch(loadingFinish());
       }, 2000);
     })
-  }, [navigation])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchHandler]);
 
   return (
     <View>

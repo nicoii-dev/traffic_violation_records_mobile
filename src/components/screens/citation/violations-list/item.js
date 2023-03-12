@@ -1,41 +1,56 @@
-import {View, Text, TouchableOpacity, Pressable} from 'react-native';
-import React, {useState} from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+import {View, Text} from 'react-native';
+import React from 'react';
 import {CheckBox} from '@rneui/themed';
 
 const CitationViolationItem = ({item, SelectedViolations, citedViolations}) => {
-
   return (
     <>
       <View
         style={{
-          alignSelf: 'flex-start',
           flexDirection: 'row',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           alignItems: 'center',
-          marginTop: 20,
+          marginTop: 0,
           width: '100%',
         }}>
-        <CheckBox
-          checked={citedViolations?.some(
-            (violation: any) => violation === item.id,
-          )}
-          onPress={() => {
-            SelectedViolations(item.id);
-          }}
-          iconType="material-community"
-          checkedIcon="checkbox-outline"
-          uncheckedIcon={'checkbox-blank-outline'}
-          containerStyle={{backgroundColor: '#efefef'}}
-        />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginLeft: 20,
+          }}>
+          <CheckBox
+            checked={citedViolations?.some(violation => violation === item.id)}
+            onPress={() => {
+              SelectedViolations(item.id);
+            }}
+            iconType="material-community"
+            checkedIcon="checkbox-outline"
+            uncheckedIcon={'checkbox-blank-outline'}
+            containerStyle={{backgroundColor: '#efefef'}}
+          />
+          <Text
+            style={{
+              fontFamily: 'Manrope-Bold',
+              fontSize: 16,
+              color: 'black',
+              textAlign: 'left',
+            }}>
+            {item.violation_name}
+          </Text>
+        </View>
+
         <Text
           style={{
-            width: '80%',
             fontFamily: 'Manrope-Bold',
             fontSize: 16,
             color: 'black',
             textAlign: 'left',
+            marginLeft: 30,
           }}>
-          {item.title}
+          {`₱${parseInt(item.penalty, 10).toFixed(2)}`}
         </Text>
       </View>
     </>

@@ -23,11 +23,34 @@ export const FetchAllCitation = async () => {
 };
 
 export const FetchCitationByEnforcer = async id => {
-  console.log(id)
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(
       `http://127.0.0.1:8000/api/user-citationlist/${id}`,
+      {},
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return Toast.showWithGravity(
+      error.response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+  }
+};
+
+export const FetchCitationByViolator = async id => {
+  try {
+    const token = await useStorage.getItem(USER.ACCESS_TOKEN);
+    const response = await axios.post(
+      `http://127.0.0.1:8000/api/violator-citationlist/${id}`,
       {},
       {
         headers: {

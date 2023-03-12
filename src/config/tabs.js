@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 // screens
-import HomeScreen from '../screens/Home/HomeScreen';
+import HomeScreenStack from '../navigations/stack/Home';
 import CitationStack from '../navigations/stack/Citation';
 import ProfileStack from '../navigations/stack/Profile';
 import ViolationStack from '../navigations/stack/Violation';
@@ -7,7 +8,7 @@ import ViolationStack from '../navigations/stack/Violation';
 export const UserTabs = [
   {
     name: 'Home',
-    component: HomeScreen,
+    component: HomeScreenStack,
     iconName: 'home',
   },
   {
