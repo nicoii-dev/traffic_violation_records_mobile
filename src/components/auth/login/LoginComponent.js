@@ -1,20 +1,21 @@
+/* eslint-disable prettier/prettier */
 import {Text, View} from 'react-native';
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import _ from 'lodash';
 // api
-import { UserLogin } from '../../../services/userApi';
+import {UserLogin} from '../../../services/userApi';
 // schema
 import {loginSchema} from '../../../library/yup-schema/loginSchema';
 // components
 import TextInputController from '../../input/TextInput/TextInputController';
 import ButtonComponent from '../../input/Buttons/ButtonComponent';
 // store
-import { loadingStart, loadingFinish } from '../../../store/loader/reducers';
+import {loadingStart, loadingFinish} from '../../../store/loader/reducers';
 
 const LoginComponent = () => {
   const navigation = useNavigation();
@@ -34,12 +35,12 @@ const LoginComponent = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = async (data:{email: string, password: string}) => {
+  const onSubmit = async data => {
     dispatch(loadingStart());
-    const response = await UserLogin(data)
+    const response = await UserLogin(data);
     dispatch(loadingFinish());
-    if(!_.isUndefined(response)) {
-      return navigation.navigate('UserTab')
+    if (!_.isUndefined(response)) {
+      return navigation.navigate('UserTab');
     }
   };
 

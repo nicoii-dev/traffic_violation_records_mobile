@@ -4,7 +4,6 @@ import {View, TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
-import {PickerInputInterface} from './PickerInputInterface';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 const PickerInputController = ({
@@ -19,8 +18,8 @@ const PickerInputController = ({
   enabled,
   errorMessage,
   errorStyle,
-}: PickerInputInterface) => {
-  const [show, setShow] = useState<boolean>(true);
+}) => {
+  const [show, setShow] = useState(true);
 
   return (
     <>
@@ -29,7 +28,7 @@ const PickerInputController = ({
         control={control}
         // defaultValue={defaultValue}
         render={({field: {onChange, value}}) => {
-          const handleOnChange = (itemValue: object) => {
+          const handleOnChange = (itemValue) => {
             onChange(itemValue);
             setShow(false);
           };

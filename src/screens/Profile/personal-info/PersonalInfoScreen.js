@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HeaderComponent from '../../../components/header/HeaderComponent';
 import PersonalInfoComponent from '../../../components/screens/profile/personal-info/PersonalInfoComponent';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
-import { profileSchema } from '../../../library/yup-schema/profileSchema';
+import {profileSchema} from '../../../library/yup-schema/profileSchema';
 
 const PersonalInfoScreen = () => {
   const navigation = useNavigation();
@@ -31,8 +31,8 @@ const PersonalInfoScreen = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data: object) => {
-    console.log(data)
+  const onSubmit = data => {
+    console.log(data);
   };
 
   return (

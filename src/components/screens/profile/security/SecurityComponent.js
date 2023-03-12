@@ -7,15 +7,7 @@ import TextInputController from '../../../input/TextInput/TextInputController';
 import PickerInputController from '../../../input/PickerInput/PickerInputController';
 import DateInputController from '../../../input/DateInput/DateInputeController';
 
-interface SecurityComponentInterface {
-  control: any;
-  errors: object;
-}
-
-const SecurityComponent = ({
-  control,
-  errors,
-}: SecurityComponentInterface) => {
+const SecurityComponent = ({control, errors}) => {
   const navigation = useNavigation();
 
   return (
@@ -44,7 +36,6 @@ const SecurityComponent = ({
         errorMessage={errors?.confirmPassword?.message}
         errorStyle={{color: 'red'}}
       />
-     
     </>
   );
 };

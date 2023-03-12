@@ -4,15 +4,7 @@ import React from 'react';
 // components
 import DateInputController from '../../../input/DateInput/DateInputeController';
 
-interface DateAndTimeComponentInterface {
-  control: any;
-  errors: object;
-}
-
-const DateAndTimeComponent = ({
-  control,
-  errors,
-}: DateAndTimeComponentInterface) => {
+const DateAndTimeComponent = ({control, errors}) => {
   return (
     <View style={{flexDirection: 'row', marginTop: 30, marginBottom: 20}}>
       <View style={{width: '45%'}}>
@@ -26,7 +18,7 @@ const DateAndTimeComponent = ({
           iconData={{
             iconName: 'date-range',
             iconSize: 25,
-            iconColor: 'gray'
+            iconColor: 'gray',
           }}
         />
       </View>
@@ -41,7 +33,7 @@ const DateAndTimeComponent = ({
           iconData={{
             iconName: 'access-time',
             iconSize: 25,
-            iconColor: 'gray'
+            iconColor: 'gray',
           }}
         />
       </View>

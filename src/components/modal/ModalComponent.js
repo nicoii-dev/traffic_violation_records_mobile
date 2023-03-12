@@ -10,7 +10,7 @@ const ModalComponent = ({
   showModal,
   style,
   children,
-}: ModalInterface) => {
+}) => {
   return (
     <View style={ModalStyles.centeredView}>
       <Modal animationType="fade" transparent={true} visible={showModal}>

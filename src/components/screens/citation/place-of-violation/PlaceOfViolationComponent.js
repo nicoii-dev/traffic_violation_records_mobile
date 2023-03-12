@@ -4,15 +4,7 @@ import TextInputController from '../../../input/TextInput/TextInputController';
 import PickerInputController from '../../../input/PickerInput/PickerInputController';
 import listOfbarangay from '../../../../assets/example-data/listOfBarangay.json';
 
-interface PlaceOfViolationComponentInterface {
-  control: any;
-  errors: object;
-}
-
-const PlaceOfViolationComponent = ({
-  control,
-  errors,
-}: PlaceOfViolationComponentInterface) => {
+const PlaceOfViolationComponent = ({control, errors}) => {
   return (
     <>
       <TextInputController

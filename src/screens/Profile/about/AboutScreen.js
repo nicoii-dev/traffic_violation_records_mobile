@@ -32,7 +32,7 @@ const AboutScreen = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data: object) => {
+  const onSubmit = (data) => {
     console.log(data);
   };
 

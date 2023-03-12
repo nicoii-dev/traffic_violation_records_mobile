@@ -27,14 +27,12 @@ import {CitationInputs} from '../../../config/citationInputs';
 import CitationItem from './item';
 
 // redux
-import { setDriversInfo } from '../../../store/citation/reducers';
-
-
+import {setDriversInfo} from '../../../store/citation/reducers';
 
 const CitationComponent = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {driversInfo} = useSelector((store: any) => store.citation);
+  const {driversInfo} = useSelector(store => store.citation);
 
   const defaultValues = {
     firstName: '',
@@ -58,25 +56,24 @@ const CitationComponent = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = async (data: object) => {
+  const onSubmit = async (data) => {
     // getting the age
     console.log(data);
     const birthDate = new Date(data.dob);
     const difference = Date.now() - birthDate.getTime();
     const ageInTime = new Date(difference);
-    const ageInYear = Math.abs(ageInTime.getUTCFullYear() - 1970)
+    const ageInYear = Math.abs(ageInTime.getUTCFullYear() - 1970);
     console.log('age', Math.abs(ageInTime.getUTCFullYear() - 1970));
     // if(ageInYear < 16) {
     //   return Toast.showWithGravity('Driver is below 16 years old, please double check inputted date of birth.' , Toast.LONG, Toast.TOP)
     // }
-    
 
-    await dispatch(setDriversInfo(data))
+    await dispatch(setDriversInfo(data));
 
-     navigation.navigate('PlaceAndDateScreen');
+    navigation.navigate('PlaceAndDateScreen');
   };
 
-  console.log('drivers', driversInfo)
+  console.log('drivers', driversInfo);
 
   return (
     <SafeAreaView

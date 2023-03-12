@@ -7,7 +7,7 @@ import {TextInputInterface} from './TextInputInterface';
 
 import TextInputStyles from './TextInputStyles';
 
-const TextInputController = ({
+const LicenseTextInput = ({
   name,
   control,
   keyboardType = 'default',
@@ -29,21 +29,16 @@ const TextInputController = ({
   rightIconShow = 'visibility',
   rightIconHide = 'visibility-off',
   inputStyle,
-}: TextInputInterface) => {
-  const [show, setShow] = useState<boolean>(secureTextEntry);
+}) => {
+  const [show, setShow] = useState(secureTextEntry);
 
   return (
     <Controller
       name={name}
       control={control}
       render={({field: {onChange, value}}) => {
-        const handleOnChange = (itemValue: string) => {
-          // making first letter of the word capital
-          const arr = itemValue.split(' ');
-          for (var i = 0; i < arr.length; i++) {
-            arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-          }
-          onChange(arr.join(' '));
+        const handleOnChange = (itemValue) => {
+          onChange(itemValue.replace(/(\d{3})(\d{2})(\d{3})/, '$1-$2-$3'));
         };
 
         return (
@@ -65,10 +60,10 @@ const TextInputController = ({
               placeholder={placeholder ?? null}
               editable={editable}
               keyboardType={keyboardType}
-              maxLength={maxLength}
+              maxLength={13}
               multiline={multiline}
               numberOfLines={numberOfLines}
-              errorStyle={[{fontFamily: 'Manrope-Regular'},errorStyle]}
+              errorStyle={[{fontFamily: 'Manrope-Regular'}, errorStyle]}
               errorMessage={errorMessage}
               leftIcon={
                 leftIcon ? <Icon name={leftIcon} size={30} /> : undefined
@@ -92,4 +87,4 @@ const TextInputController = ({
   );
 };
 
-export default TextInputController;
+export default LicenseTextInput;

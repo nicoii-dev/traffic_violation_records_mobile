@@ -3,11 +3,10 @@ import {View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
 import {Icon} from '@rneui/themed';
-import {TextInputInterface} from './TextInputInterface';
 
 import TextInputStyles from './TextInputStyles';
 
-const LicenseTextInput = ({
+const TextInputController = ({
   name,
   control,
   keyboardType = 'default',
@@ -29,16 +28,21 @@ const LicenseTextInput = ({
   rightIconShow = 'visibility',
   rightIconHide = 'visibility-off',
   inputStyle,
-}: TextInputInterface) => {
-  const [show, setShow] = useState<boolean>(secureTextEntry);
+}) => {
+  const [show, setShow] = useState(secureTextEntry);
 
   return (
     <Controller
       name={name}
       control={control}
       render={({field: {onChange, value}}) => {
-        const handleOnChange = (itemValue: string) => {
-          onChange(itemValue.replace(/(\d{3})(\d{2})(\d{3})/, '$1-$2-$3'));
+        const handleOnChange = (itemValue) => {
+          // making first letter of the word capital
+          const arr = itemValue.split(' ');
+          for (var i = 0; i < arr.length; i++) {
+            arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+          }
+          onChange(arr.join(' '));
         };
 
         return (
@@ -60,10 +64,10 @@ const LicenseTextInput = ({
               placeholder={placeholder ?? null}
               editable={editable}
               keyboardType={keyboardType}
-              maxLength={13}
+              maxLength={maxLength}
               multiline={multiline}
               numberOfLines={numberOfLines}
-              errorStyle={[{fontFamily: 'Manrope-Regular'}, errorStyle]}
+              errorStyle={[{fontFamily: 'Manrope-Regular'},errorStyle]}
               errorMessage={errorMessage}
               leftIcon={
                 leftIcon ? <Icon name={leftIcon} size={30} /> : undefined
@@ -87,4 +91,4 @@ const LicenseTextInput = ({
   );
 };
 
-export default LicenseTextInput;
+export default TextInputController;

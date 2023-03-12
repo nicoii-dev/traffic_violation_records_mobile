@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import axios from 'axios';
 import {useStorage} from '../library/storage/Storage';
 import {USER} from '../library/contants';
@@ -22,6 +23,7 @@ export const FetchAllCitation = async () => {
 };
 
 export const FetchCitationByEnforcer = async id => {
+  console.log(id)
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(

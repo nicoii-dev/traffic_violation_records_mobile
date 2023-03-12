@@ -2,7 +2,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
-import {RadioButtonInterface} from './RadioButtonInterface';
 import { COLORS } from '../../../config/colors';
 
 const RadioButtonController = ({
@@ -16,7 +15,7 @@ const RadioButtonController = ({
   errorStyle,
   headerTitle,
   headerStyles,
-}: RadioButtonInterface) => {
+}) => {
   const [isSelected, setIsSelected] = useState(options);
 
   return (
@@ -26,8 +25,8 @@ const RadioButtonController = ({
         control={control}
         rules={rules}
         render={({field: {onChange, value}}) => {
-          const onRadioBtnClick = (item: object) => {
-            let updatedState = options.map((isLikedItem: object) =>
+          const onRadioBtnClick = (item) => {
+            let updatedState = options.map((isLikedItem) =>
               isLikedItem.id === item.id
                 ? {...isLikedItem, selected: true}
                 : {...isLikedItem, selected: false},
@@ -45,7 +44,7 @@ const RadioButtonController = ({
                   {headerTitle}
                 </Text>
               ) : null}
-              {isSelected.map((item: object, index: number) => (
+              {isSelected.map((item, index) => (
                 <React.Fragment key={index}>
                   <TouchableOpacity
                     disabled={disabled}

@@ -5,7 +5,6 @@ import {Controller} from 'react-hook-form';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {DateInputInterface} from './DateInputInterface';
 
 const DateInputController = ({
   mode = 'date',
@@ -20,7 +19,7 @@ const DateInputController = ({
   errorMessage,
   errorStyle,
   iconData,
-}: DateInputInterface) => {
+}) => {
   const [show, setShow] = useState(false);
   return (
     <>
@@ -30,8 +29,8 @@ const DateInputController = ({
         rules={rules}
         render={({field: {onChange, value}}) => {
           const hanleOnDateChange = (
-            event: any,
-            selectedDate: Date | undefined,
+            event,
+            selectedDate
           ) => {
             onChange(selectedDate);
             setShow(!show);

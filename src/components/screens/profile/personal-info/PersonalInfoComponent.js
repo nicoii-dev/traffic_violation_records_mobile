@@ -7,15 +7,7 @@ import TextInputController from '../../../input/TextInput/TextInputController';
 import PickerInputController from '../../../input/PickerInput/PickerInputController';
 import DateInputController from '../../../input/DateInput/DateInputeController';
 
-interface PersonalInfoComponentInterface {
-  control: any;
-  errors: object;
-}
-
-const PersonalInfoComponent = ({
-  control,
-  errors,
-}: PersonalInfoComponentInterface) => {
+const PersonalInfoComponent = ({control, errors}) => {
   const navigation = useNavigation();
 
   return (
@@ -50,7 +42,7 @@ const PersonalInfoComponent = ({
           name={'gender'}
           control={control}
           errorMessage={errors?.gender?.message}
-          errorStyle={{color: 'red', width: '95%', alignSelf:'center'}}
+          errorStyle={{color: 'red', width: '95%', alignSelf: 'center'}}
           pickerOptions={['Male', 'Female']}
           headerStyles={{width: '95%'}}
         />
@@ -65,14 +57,14 @@ const PersonalInfoComponent = ({
         keyboardType={'numeric'}
       />
       <View>
-      <DateInputController
-        headerTitle={'Date of birth'}
-        name={'dob'}
-        control={control}
-        errorMessage={errors?.dob?.message}
-        display={'default'}
-        mode={'date'}
-      />
+        <DateInputController
+          headerTitle={'Date of birth'}
+          name={'dob'}
+          control={control}
+          errorMessage={errors?.dob?.message}
+          display={'default'}
+          mode={'date'}
+        />
       </View>
     </>
   );

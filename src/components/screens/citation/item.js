@@ -6,23 +6,7 @@ import RadioButtonController from '../../input/RadioButtons/RadioButtonControlle
 import DateInputController from '../../input/DateInput/DateInputeController';
 import LicenseTextInput from '../../input/TextInput/LicenseTextInput';
 
-interface itemInterface {
-  item: {
-    name: string;
-    placeholder: string;
-    header: string;
-    inputType: string;
-    pickerOptions: Array<string>;
-    radioOptions: Array<object>;
-    keyboardType: string;
-    maxLength: number;
-  };
-  control: object;
-  errors: any;
-  setValue: Function;
-}
-
-const CitationItem = ({item, control, errors, setValue}: itemInterface) => {
+const CitationItem = ({item, control, errors, setValue}) => {
   if (item?.inputType && item.inputType === 'picker') {
     return (
       <PickerInputController

@@ -1,17 +1,15 @@
-/* eslint-disable react/no-children-prop */
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { COLORS } from '../../config/colors';
+import {COLORS} from '../../config/colors';
 
-import { UserTabs } from '../../config/tabs';
+import {UserTabs} from '../../config/tabs';
 
 // bottomTabNav instance
 const UserNavTab = createBottomTabNavigator();
 
 const UserTab = () => {
-
   return (
     <>
       <UserNavTab.Navigator
@@ -30,30 +28,30 @@ const UserTab = () => {
           tabBarHideOnKeyboard: true,
         })}>
         {UserTabs.map(({name, component}, index) => {
-        //   if (name !== 'Explore') {
-        //     if (!user) {
-        //       return (
-        //         <UserNavTab.Screen
-        //           key={index}
-        //           name={name}
-        //           children={() => <Unauthorized tabTitle={name} />}
-        //         />
-        //       );
-        //     }
-        //   }
+          //   if (name !== 'Explore') {
+          //     if (!user) {
+          //       return (
+          //         <UserNavTab.Screen
+          //           key={index}
+          //           name={name}
+          //           children={() => <Unauthorized tabTitle={name} />}
+          //         />
+          //       );
+          //     }
+          //   }
 
           return (
             <UserNavTab.Screen
               key={index}
               name={name}
               component={component}
-            //   options={({route}) => ({
-            //     tabBarStyle: getTabBarStyle(route),
-            //     ...(name === 'Inbox' &&
-            //       notifications?.unReadCount && {
-            //         tabBarBadge: notifications.unReadCount,
-            //       }),
-            //   })}
+              //   options={({route}) => ({
+              //     tabBarStyle: getTabBarStyle(route),
+              //     ...(name === 'Inbox' &&
+              //       notifications?.unReadCount && {
+              //         tabBarBadge: notifications.unReadCount,
+              //       }),
+              //   })}
             />
           );
         })}

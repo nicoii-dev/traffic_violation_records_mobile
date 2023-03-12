@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import axios from 'axios';
 import {useStorage} from '../library/storage/Storage';
 import {USER} from '../library/contants';

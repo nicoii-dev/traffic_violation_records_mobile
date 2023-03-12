@@ -4,20 +4,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import TextInputController from '../../input/TextInput/TextInputController';
 import ModalComponent from '../../modal/ModalComponent';
 
-interface itemInterface {
-  item: any;
-}
-
-interface selectedDataInterface {
-  title: string;
-  penalty: number | string;
-}
-
-const ListOfViolationItem = ({item}: itemInterface) => {
+const ListOfViolationItem = ({item}) => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedData, setSelectedData] = useState<selectedDataInterface[]>([{title: '', penalty: ''}]);
+  const [selectedData, setSelectedData] = useState([{title: '', penalty: ''}]);
 
-  const ViolationInfo = (item: object) => {
+  const ViolationInfo = item => {
     setShowModal(!showModal);
     setSelectedData(item);
   };

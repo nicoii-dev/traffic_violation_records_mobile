@@ -21,12 +21,10 @@ import CitationViolationStyles from './citation-violation-style';
 const CitationViolations = ({}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {citedViolations} = useSelector((store: any) => store.citation);
+  const {citedViolations} = useSelector(store => store.citation);
 
-  const SelectedViolations = (item: string | number) => {
-    const inList = citedViolations.some(
-      (violation: string | number) => violation === item,
-    );
+  const SelectedViolations = item => {
+    const inList = citedViolations.some(violation => violation === item);
     if (inList) {
       dispatch(removeViolation(item));
       return;
@@ -35,12 +33,12 @@ const CitationViolations = ({}) => {
   };
 
   const CitedViolationsHandler = () => {
-    if(citedViolations.length > 0) {
-      navigation.navigate('CitationScreen')
+    if (citedViolations.length > 0) {
+      navigation.navigate('CitationScreen');
       return;
     }
     Toast.show('Please select atleast 1 violation', Toast.LONG, Toast.CENTER);
-  }
+  };
 
   return (
     <>
@@ -63,7 +61,13 @@ const CitationViolations = ({}) => {
           }}
         />
       </View>
-      <View style={{alignItems: 'flex-end', justifyContent: 'center', height: 70, borderTopWidth: 1}}>
+      <View
+        style={{
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          height: 70,
+          borderTopWidth: 1,
+        }}>
         <ButtonComponent
           onPress={CitedViolationsHandler}
           color="#2C74B3"

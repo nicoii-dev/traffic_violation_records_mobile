@@ -2,13 +2,7 @@ import {View, Text, TouchableOpacity, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import {CheckBox} from '@rneui/themed';
 
-interface itemInterface {
-  item: any;
-  SelectedViolations: Function;
-  citedViolations: String[];
-}
-
-const CitationViolationItem = ({item, SelectedViolations, citedViolations}: itemInterface) => {
+const CitationViolationItem = ({item, SelectedViolations, citedViolations}) => {
 
   return (
     <>

@@ -6,7 +6,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { HeaderInterface } from './HeaderInterface';
 
-const HeaderComponent = ({height, children}: HeaderInterface) => {
+const HeaderComponent = ({height, children}) => {
   return (
     <View
       style={{

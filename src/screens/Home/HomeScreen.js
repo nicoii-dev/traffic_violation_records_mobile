@@ -1,40 +1,53 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, FlatList} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import MapView from 'react-native-maps';
 import ListOfDrivers from '../../components/screens/home/item';
-import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {USER} from '../../library/contants';
+import {useStorage} from '../../library/storage/Storage';
 
+// api
+import {FetchCitationByEnforcer} from '../../services/citation';
+// redux
+import {loadingStart, loadingFinish} from '../../store/loader/reducers';
 
 const driversData = [
   {driversName: 'John Doe', violation: 'Not Wearing Helmet'},
   {driversName: 'James Stone', violation: 'Not Wearing Helmet'},
   {driversName: 'Patrick Garcia', violation: 'Not Wearing Helmet'},
-]
+];
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [citation, setCitation] = useState([]);
 
-  // const fetchHandler = useCallback(async () => {
-  //   dispatch(loadingStart());
-  //   const response = await FetchViolationsByCategory(route?.params?.id);
-  //   setViolations(response)
-  //   console.log(response)
-  // }, []);
+  const fetchHandler = useCallback(async () => {
+    dispatch(loadingStart());
+    const userData = await useStorage.getItem(USER.USER_DATA);
+    await FetchCitationByEnforcer(JSON.parse(userData)?.id)
+      .then(async response => {
+        setCitation(response);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          dispatch(loadingFinish());
+        }, 2000);
+      });
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   navigation.addListener('focus', () => {
-  //     fetchHandler();
-  //     setTimeout(() => {
-  //       dispatch(loadingFinish());
-  //     }, 2000);
-  //   })
-  // }, [navigation])
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      fetchHandler();
+    });
+  }, [fetchHandler, navigation]);
+  console.log(citation);
 
   return (
     <View style={{flex: 1}}>
-      <View style={{height:'50%'}}>
+      <View style={{height: '50%'}}>
         <MapView
           style={{height: '100%', width: '100%'}}
           initialRegion={{
@@ -46,13 +59,22 @@ const HomeScreen = () => {
         />
       </View>
       <View>
-        <Text style={{fontFamily: 'Manrope-Regular', color: 'black', padding: 10, paddingBottom: 0, marginTop: 20}}>List of ticketed drivers:</Text>
+        <Text
+          style={{
+            fontFamily: 'Manrope-Regular',
+            color: 'black',
+            padding: 10,
+            paddingBottom: 0,
+            marginTop: 20,
+          }}>
+          List of ticketed drivers:
+        </Text>
       </View>
       <View>
         <FlatList
           keyExtractor={(item, index) => item.id + index.toString()}
           showsVerticalScrollIndicator={false}
-          data={driversData}
+          data={citation}
           renderItem={({item}) => <ListOfDrivers item={item} />}
           contentContainerStyle={{
             alignSelf: 'center',
