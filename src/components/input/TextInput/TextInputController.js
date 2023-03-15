@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {Input, Text} from '@rneui/themed';
 import {View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';

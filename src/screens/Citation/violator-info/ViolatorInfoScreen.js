@@ -1,18 +1,13 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-import {View, Text, SafeAreaView} from 'react-native';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import {View, Text, Pressable, SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {Icon} from '@rneui/themed';
 
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
-import ConfirmationComponent from '../../../components/screens/citation/confirmation/ConfirmationComponent';
+import CitationComponent from '../../../components/screens/citation/CitationComponent';
 
-const ConfirmationScreen = () => {
-  const {citedViolations, driversInfo, citationDetails} = useSelector(store => store.citation);
-  console.log(citedViolations)
-  console.log(driversInfo)
-  console.log(citationDetails)
+const ViolatorInfoScreen = () => {
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent>
@@ -28,14 +23,13 @@ const ConfirmationScreen = () => {
               color: 'white',
               textAlign: 'center',
             }}>
-            Confirmation
+            Driver's Information
           </Text>
         </View>
       </HeaderComponent>
-
-      {/* <ConfirmationComponent /> */}
+      <CitationComponent />
     </SafeAreaView>
   );
 };
 
-export default ConfirmationScreen;
+export default ViolatorInfoScreen;

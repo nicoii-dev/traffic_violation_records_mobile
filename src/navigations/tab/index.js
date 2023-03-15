@@ -2,6 +2,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import {COLORS} from '../../config/colors';
 
@@ -11,10 +12,28 @@ import {UserTabs} from '../../config/tabs';
 const UserNavTab = createBottomTabNavigator();
 
 const UserTab = () => {
+
+  const screenToHide = [
+    'CitedViolationScreen',
+    'ViolatorInfoScreen',
+    'LicenseInfoScreen',
+    'VehiclesInfoScreen',
+    'PlaceAndDateScreen',
+    'ConfirmationScreen',
+  ];
+    // for hiding tabBarNav in specific screen
+    const getTabBarStyle = route => {
+      const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
+      let display = screenToHide.find(screen => screen === routeName)
+        ? 'none'
+        : 'flex';
+      return {display};
+    };
+
   return (
     <>
       <UserNavTab.Navigator
-        initialRouteName="citation"
+        initialRouteName="Home"
         screenOptions={({route}) => ({
           tabBarItemStyle: {borderTopWidth: 1, borderBottomWidth: 1},
           tabBarIcon: ({color, size}) => {
@@ -29,30 +48,14 @@ const UserTab = () => {
           tabBarHideOnKeyboard: true,
         })}>
         {UserTabs.map(({name, component}, index) => {
-          //   if (name !== 'Explore') {
-          //     if (!user) {
-          //       return (
-          //         <UserNavTab.Screen
-          //           key={index}
-          //           name={name}
-          //           children={() => <Unauthorized tabTitle={name} />}
-          //         />
-          //       );
-          //     }
-          //   }
-
           return (
             <UserNavTab.Screen
               key={index}
               name={name}
               component={component}
-              //   options={({route}) => ({
-              //     tabBarStyle: getTabBarStyle(route),
-              //     ...(name === 'Inbox' &&
-              //       notifications?.unReadCount && {
-              //         tabBarBadge: notifications.unReadCount,
-              //       }),
-              //   })}
+                options={({route}) => ({
+                  tabBarStyle: getTabBarStyle(route),
+                })}
             />
           );
         })}

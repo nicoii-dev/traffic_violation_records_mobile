@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, Pressable, Keyboard, Platform} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useNavigation} from '@react-navigation/native';
@@ -17,9 +18,12 @@ const PlaceAndDateScreen = () => {
   const navigation = useNavigation();
 
   const defaultValues = {
+    barangay: 'Awang',
     violationDate: new Date(),
+    violationTime: new Date(),
     municipality: 'Opol',
-    zipCode: '9016'
+    zipCode: '9016',
+    street: 'Igpit opol',
   };
 
   const {
@@ -28,39 +32,42 @@ const PlaceAndDateScreen = () => {
     handleSubmit,
     formState: {errors},
   } = useForm({
-    // resolver: yupResolver(citationPlaceAndDateSchema),
+    resolver: yupResolver(citationPlaceAndDateSchema),
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
+    console.log(moment(new Date()))
+    console.log('test', moment(new Date()).format('DD-MM-YYYY hh:mm A'))
+    
     // getting the age
-    console.log((moment(data.time).format('h:mm:ss A')))
+    console.log(moment(data.time).format('h:mm:ss A'));
     console.log(data);
 
-    navigation.navigate('ConfirmationScreen');
+    // navigation.navigate('ConfirmationScreen');
   };
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
-     const keyboardDidShowListener = Keyboard.addListener(
-       'keyboardDidShow',
-       () => {
-         setKeyboardVisible(true); // or some other action
-       }
-     );
-     const keyboardDidHideListener = Keyboard.addListener(
-       'keyboardDidHide',
-       () => {
-         setKeyboardVisible(false); // or some other action
-       }
-     );
- 
-     return () => {
-       keyboardDidHideListener.remove();
-       keyboardDidShowListener.remove();
-     };
-   }, []);
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   return (
     <>
       <View
@@ -100,7 +107,7 @@ const PlaceAndDateScreen = () => {
           alignItems: 'center',
           position: 'absolute',
           bottom: 0,
-          display: isKeyboardVisible ? 'none' : 'flex'
+          display: isKeyboardVisible ? 'none' : 'flex',
         }}>
         <Pressable onPress={() => navigation.goBack()}>
           <View style={{marginRight: 30, width: 100, marginLeft: 50}}>

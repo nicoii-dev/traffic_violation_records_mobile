@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text} from 'react-native';
 import React from 'react';
 import TextInputController from '../../../input/TextInput/TextInputController';

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as yup from 'yup';
 
 export const citationPlaceAndDateSchema = yup
