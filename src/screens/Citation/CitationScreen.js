@@ -40,7 +40,7 @@ const CitationScreen = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchHandler]);
-  console.log(citation)
+
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent>

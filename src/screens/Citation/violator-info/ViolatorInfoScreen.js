@@ -44,6 +44,8 @@ const ViolatorInfoScreen = () => {
     nationality: 'Filipino',
   };
 
+  const {violatorInfo} = useSelector(store => store.citation);
+
   const {
     control,
     setValue,
@@ -53,6 +55,12 @@ const ViolatorInfoScreen = () => {
     resolver: yupResolver(violatorSchema),
     defaultValues: defaultValues,
   });
+
+  useEffect(() => {
+    if (violatorInfo.dob) {
+      setValue('dob', violatorInfo.dob);
+    }
+  }, [setValue, violatorInfo.dob]);
 
   const onSubmit = async data => {
     console.log(data);
@@ -97,7 +105,7 @@ const ViolatorInfoScreen = () => {
               color: 'white',
               textAlign: 'center',
             }}>
-            License Information
+            Violator Information
           </Text>
         </View>
       </HeaderComponent>

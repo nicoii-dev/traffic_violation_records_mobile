@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // components
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
@@ -21,6 +22,7 @@ import { setLicenseInfo } from '../../../store/citation/reducers';
 const LicenseInfoScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const {licenseInfo} = useSelector(store => store.citation);
 
   const defaultValues = {
     licenseNumber: '',
@@ -38,8 +40,13 @@ const LicenseInfoScreen = () => {
     defaultValues: defaultValues,
   });
 
+  useEffect(() => {
+    if (licenseInfo.licenseNumber) {
+      setValue('licenseNumber', licenseInfo.licenseNumber);
+    }
+  }, [licenseInfo.licenseNumber, setValue]);
+
   const onSubmit = async data => {
-    console.log(data);
     await dispatch(setLicenseInfo(data));
     navigation.navigate('VehiclesInfoScreen');
   };

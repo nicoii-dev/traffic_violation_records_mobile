@@ -38,7 +38,7 @@ const PlaceAndDateScreen = () => {
     resolver: yupResolver(citationPlaceAndDateSchema),
     defaultValues: defaultValues,
   });
-  console.log(citationDetails)
+
   useEffect(() => {
     if (citationDetails.violationDate) {
       setValue('violationDate', citationDetails.violationDate);

@@ -4,6 +4,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   citedViolations: [],
   violatorInfo: {
+    violatorId: '',
     firstName: '',
     middleName: '',
     lastName: '',
@@ -14,11 +15,13 @@ const initialState = {
     dob: '',
   },
   licenseInfo: {
+    licenseId: '',
     licenseNumber: '',
     licenseType: '',
     licenseStatus: '',
   },
   vehiclesInfo: {
+    vehiclesId: '',
     make: '',
     model: '',
     plateNumber: '',
@@ -30,6 +33,7 @@ const initialState = {
     vehicleStatus: '',
   },
   citationDetails: {
+    citationId: '',
     violationDate: '',
     violationTime: '',
     municipality: '',
@@ -53,6 +57,12 @@ const citationSlice = createSlice({
         state.citedViolations.splice(index, 1); // 2nd parameter means remove one item only
         return;
       }
+    },
+    setViolations: (state, action) => {
+      return {
+        ...state,
+        citedViolations: action.payload,
+      };
     },
     setViolatorsInfo: (state, action) => {
       return {
@@ -83,6 +93,7 @@ const citationSlice = createSlice({
 export const {
   addViolation,
   removeViolation,
+  setViolations,
   setViolatorsInfo,
   setLicenseInfo,
   setVehiclesInfo,

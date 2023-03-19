@@ -5,6 +5,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
+import Toast from 'react-native-simple-toast';
 
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
@@ -12,11 +13,12 @@ import DetailsItemStyles from './style';
 
 // api
 import {FetchAllViolations} from '../../../services/violationApi';
-import { CreateCitation } from '../../../services/citation';
+import {CreateCitation} from '../../../services/citation';
 
 // redux
 import {loadingStart, loadingFinish} from '../../../store/loader/reducers';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
+import _ from 'lodash';
 
 const ConfirmationScreen = () => {
   const navigation = useNavigation();
@@ -45,45 +47,51 @@ const ConfirmationScreen = () => {
   }, [dispatch, fetchHandler, navigation]);
 
   const createCitation = async () => {
-    console.log(1)
     dispatch(loadingStart());
     const payload = {
-      'first_name': violatorInfo.firstName ,
-      'middle_name': violatorInfo.middleName ,
-      'last_name': violatorInfo.lastName ,
-      'gender': violatorInfo.gender ,
-      'address': violatorInfo.address ,
-      'nationality': violatorInfo.nationality ,
-      'phone_number': violatorInfo.phoneNumber ,
-      'dob': violatorInfo.dob ,
-      'license_number': licenseInfo.licenseNumber,
-      'license_type': licenseInfo.licenseType ,
-      'license_status': licenseInfo.licenseStatus ,
-      'plate_number': vehiclesInfo.plateNumber,
-      'make': vehiclesInfo.make,
-      'model': vehiclesInfo.model,
-      'color': vehiclesInfo.color,
-      'class': vehiclesInfo.class || 'N/A',
-      'body_markings': vehiclesInfo.bodyMarkings || 'N/A',
-      'registered_owner': vehiclesInfo.registeredOwner ,
-      'owner_address': vehiclesInfo.ownerAddress || 'N/A',
-      'vehicle_status': vehiclesInfo.vehicleStatus,
-      'violations': `${citedViolations}`,
-      'date_of_violation': moment(citationDetails?.violationDate).format('YYYY-MM-DD'),
-      'time_of_violation': citationDetails.violationTime,
-      'municipality': citationDetails.municipality,
-      'zipcode': citationDetails.zipCode,
-      'barangay': citationDetails.barangay,
-      'street': citationDetails.street,
+      first_name: violatorInfo.firstName,
+      middle_name: violatorInfo.middleName,
+      last_name: violatorInfo.lastName,
+      gender: violatorInfo.gender,
+      address: violatorInfo.address,
+      nationality: violatorInfo.nationality,
+      phone_number: violatorInfo.phoneNumber,
+      dob: violatorInfo.dob,
+      license_number: licenseInfo.licenseNumber,
+      license_type: licenseInfo.licenseType,
+      license_status: licenseInfo.licenseStatus,
+      plate_number: vehiclesInfo.plateNumber,
+      make: vehiclesInfo.make,
+      model: vehiclesInfo.model,
+      color: vehiclesInfo.color,
+      class: vehiclesInfo.class || 'N/A',
+      body_markings: vehiclesInfo.bodyMarkings || 'N/A',
+      registered_owner: vehiclesInfo.registeredOwner,
+      owner_address: vehiclesInfo.ownerAddress || 'N/A',
+      vehicle_status: vehiclesInfo.vehicleStatus,
+      violations: `[${citedViolations}]`,
+      date_of_violation: moment(citationDetails?.violationDate).format(
+        'YYYY-MM-DD',
+      ),
+      time_of_violation: citationDetails.violationTime,
+      municipality: citationDetails.municipality,
+      zipcode: citationDetails.zipCode,
+      barangay: citationDetails.barangay,
+      street: citationDetails.street,
+      total_amount: totalAmount,
     };
-    await CreateCitation(payload);
-    dispatch(loadingFinish());
+    await CreateCitation(payload).then(async response => {
+      if (!_.isUndefined(response)) {
+        Toast.showWithGravity('Successfully Created', Toast.LONG, Toast.CENTER);
+        setTimeout(() => {
+          dispatch(loadingFinish());
+          navigation.navigate('CitationInfo');
+        }, 1500);
+      } else {
+        dispatch(loadingFinish());
+      }
+    });
   };
-
-  // useEffect(() => {
-  //   const total = citedViolations.some(user => user === data.id)
-  // }, [totalAmount])
-  console.log(totalAmount)
   return (
     <SafeAreaView style={{flex: 1}}>
       <HeaderComponent>
@@ -114,7 +122,11 @@ const ConfirmationScreen = () => {
               Time & Date:
             </Text>
             <Text style={DetailsItemStyles.itemData}>
-              {`${moment(citationDetails?.violationDate).format('MM-DD-YYYY')} - ${moment(citationDetails?.violationTime).format('h:mm:ss A')}`}
+              {`${moment(citationDetails?.violationDate).format(
+                'MM-DD-YYYY',
+              )} - ${moment(citationDetails?.violationTime).format(
+                'h:mm:ss A',
+              )}`}
             </Text>
           </View>
           <View style={DetailsItemStyles.viewContainer}>
@@ -134,7 +146,9 @@ const ConfirmationScreen = () => {
               {`Address: ${violatorInfo?.address}\n`}
               {`Nationality: ${violatorInfo?.nationality}\n`}
               {`Phone number: ${violatorInfo?.phone_number}\n`}
-              {`Date of Birth: ${moment(violatorInfo?.dob).format('MM-DD-YYYY')}`}
+              {`Date of Birth: ${moment(violatorInfo?.dob).format(
+                'MM-DD-YYYY',
+              )}`}
             </Text>
           </View>
           <View style={DetailsItemStyles.viewContainer}>
@@ -173,10 +187,17 @@ const ConfirmationScreen = () => {
             <Text style={DetailsItemStyles.itemData}>
               {violations.map((data, index) => {
                 if (citedViolations.some(user => user === data.id)) {
-                  totalAmount = totalAmount + 0
+                  totalAmount = parseInt(totalAmount) + parseInt(data?.penalty);
                   return `${data?.violation_name} - ₱${data?.penalty}\n`;
                 }
               })}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text
+              numberOfLines={1}
+              style={[DetailsItemStyles.itemName, {width: '100%'}]}>
+              Total Amount: {`₱${totalAmount}`}
             </Text>
           </View>
         </View>
@@ -208,7 +229,7 @@ const ConfirmationScreen = () => {
             position: 'absolute',
             right: 0,
           }}>
-          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>Next</Text>
+          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>Save</Text>
         </ButtonComponent>
       </View>
     </SafeAreaView>

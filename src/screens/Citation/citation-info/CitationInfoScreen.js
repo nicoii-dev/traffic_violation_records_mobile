@@ -1,127 +1,155 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text} from 'react-native';
-import React from 'react';
+import {View, Text, ScrollView, SafeAreaView} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import moment from 'moment';
+import {useNavigation} from '@react-navigation/native';
 import DetailsItemStyles from './style';
 
+// api
+import {FetchAllViolations} from '../../../services/violationApi';
+
+// components
+import HeaderComponent from '../../../components/header/HeaderComponent';
+
 const CitationInfoScreen = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {
+    citedViolations,
+    violatorInfo,
+    licenseInfo,
+    vehiclesInfo,
+    citationDetails,
+  } = useSelector(store => store.citation);
+  const [violations, setViolations] = useState([]);
+  let totalAmount = 0;
+
+  const fetchHandler = useCallback(async () => {
+    const response = await FetchAllViolations();
+    setViolations(response);
+    console.log(response);
+  }, []);
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      fetchHandler();
+      setTimeout(() => {}, 2000);
+    });
+  }, [dispatch, fetchHandler, navigation]);
+  console.log(citedViolations)
   return (
-    <>
-      <View
-        style={{
-          borderRadius: 10,
-          borderWidth: 1,
-          paddingLeft: 5,
-          paddingRight: 5,
-          paddingBottom: 5,
-          marginTop: 10,
-        }}>
+    <SafeAreaView style={{flex: 1}}>
+      <HeaderComponent>
         <View
           style={{
-            alignSelf: 'flex-start',
+            justifyContent: 'center',
             flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginTop: 5,
-            width: '100%',
           }}>
           <Text
-            numberOfLines={1}
             style={{
-              width: '30%',
-              fontFamily: 'Manrope-Regular',
-              fontSize: 16,
-              color: 'black',
+              fontFamily: 'Manrope-Bold',
+              fontSize: 25,
+              color: 'white',
+              textAlign: 'center',
             }}>
-            Citation ID:
-          </Text>
-          <Text
-            style={{
-              paddingLeft: 20,
-              fontFamily: 'Manrope-Regular',
-              fontSize: 16,
-              color: 'black',
-            }}>
-            {`#${item?.id}`}
+            Citation Info
           </Text>
         </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Time & Date:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {`${item?.date_of_violation} - ${item?.time_of_violation}`}
-          </Text>
+      </HeaderComponent>
+      <ScrollView>
+        <View
+          style={{
+            padding: 10,
+            paddingLeft: 20,
+          }}>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Time & Date:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`${moment(citationDetails?.violationDate).format(
+                'MM-DD-YYYY',
+              )} - ${moment(citationDetails?.violationTime).format(
+                'h:mm:ss A',
+              )}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Location:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Street: ${citationDetails?.street}\nBarangay: ${citationDetails?.barangay}, \nMunicipality/City: ${citationDetails?.municipality}\nZipcode: ${citationDetails?.zipCode}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Violator:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Name: ${violatorInfo?.lastName}, ${violatorInfo?.firstName} ${violatorInfo?.middleName}\n`}
+              {`Address: ${violatorInfo?.address}\n`}
+              {`Nationality: ${violatorInfo?.nationality}\n`}
+              {`Phone number: ${violatorInfo?.phoneNumber}\n`}
+              {`Date of Birth: ${moment(violatorInfo?.dob).format(
+                'MM-DD-YYYY',
+              )}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              License Info:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Number: ${
+                licenseInfo?.licenseNumber
+              }\nType: ${licenseInfo?.licenseType.toUpperCase()}\nStatus: ${licenseInfo?.licenseStatus.toUpperCase()}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Vehicle Info:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Make: ${vehiclesInfo?.make?.toUpperCase()}\nModel: ${vehiclesInfo?.model?.toUpperCase()}\nPlate: ${
+                vehiclesInfo?.plateNumber
+              }`}
+              {`\nColor: ${vehiclesInfo?.color?.toUpperCase()}\nClass: ${
+                vehiclesInfo?.class ? vehiclesInfo?.class?.toUpperCase() : 'N/A'
+              }`}
+              {`\nBody Markings: ${
+                vehiclesInfo?.bodyMarkings ? vehiclesInfo?.bodyMarkings : 'N/A'
+              }\nOwner: ${vehiclesInfo?.registeredOwner?.toUpperCase()}`}
+              {`\nAddress: ${
+                vehiclesInfo?.ownerAddress ? vehiclesInfo?.ownerAddress : 'N/A'
+              }\nStatus: ${vehiclesInfo?.vehicleStatus}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Violations:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {violations.map((data, index) => {
+                if (citedViolations.some(user => user === data.id)) {
+                  totalAmount = parseInt(totalAmount) + parseInt(data?.penalty);
+                  return `${data?.violation_name} - ₱${data?.penalty}\n`;
+                }
+              })}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text
+              numberOfLines={1}
+              style={[DetailsItemStyles.itemName, {width: '100%'}]}>
+              Total Amount: {`₱${totalAmount}`}
+            </Text>
+          </View>
         </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Location:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {`${item?.street}\n${item?.barangay}, ${item?.municipality}\n${item?.zipcode}`}
-          </Text>
-        </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Name:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {`${item?.violator?.last_name}, ${item?.violator?.first_name} ${item?.violator?.middle_name}`}
-          </Text>
-        </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            License Info:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {`Number: ${
-              item?.license?.license_number
-            }\nType: ${item?.license?.license_type.toUpperCase()}\nStatus: ${item?.license?.license_status.toUpperCase()}`}
-          </Text>
-        </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Vehicle Info:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {`Make: ${item?.vehicle?.make.toUpperCase()}\nModel: ${item?.vehicle?.model.toUpperCase()}\nPlate: ${
-              item?.vehicle?.plate_number
-            }`}
-            {`\nColor: ${item?.vehicle?.color.toUpperCase()}\nStatus: ${item?.vehicle?.vehicle_status.toUpperCase()}`}
-            {`\nOwner: ${item?.vehicle?.registered_owner}\nAddress: ${item?.vehicle?.owner_address}`}
-          </Text>
-        </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Violations:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {JSON.parse(item?.violations).map((data, index) => {
-              return `${data?.violation_name}\n`;
-            })}
-          </Text>
-        </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Amount:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {`₱${item?.invoice?.total_amount}`}
-          </Text>
-        </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Status:
-          </Text>
-          <Text
-            style={[
-              DetailsItemStyles.itemData,
-              {color: item?.invoice?.status == 1 ? 'red' : 'green'},
-            ]}>
-            {item?.invoice?.status == 1 ? 'UNPAID' : 'PAID'}
-          </Text>
-        </View>
-      </View>
-    </>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

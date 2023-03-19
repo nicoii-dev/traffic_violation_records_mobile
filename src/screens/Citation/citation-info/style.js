@@ -8,21 +8,21 @@ import {
 const DetailsItemStyles = StyleSheet.create({
   viewContainer: {
     alignSelf: 'flex-start',
-    flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginTop: 5,
+    marginTop: 10,
     width: '100%',
   },
   itemName: {
     width: '30%',
     fontFamily: 'Manrope-Regular',
-    fontSize: 16,
+    fontSize: 14,
     color: 'black',
+    fontWeight: 'bold',
   },
   itemData: {
     paddingLeft: 20,
     fontFamily: 'Manrope-Regular',
-    fontSize: 16,
+    fontSize: 14,
     color: 'black',
   }
 });
