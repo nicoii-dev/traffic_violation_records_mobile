@@ -9,9 +9,13 @@ import {USER} from '../../library/contants';
 import {useStorage} from '../../library/storage/Storage';
 
 // api
-import {FetchCitationByEnforcer} from '../../services/citation';
+import {
+  FetchCitationByEnforcer,
+  FetchCitationByEnforcerGroupBy,
+} from '../../services/citation';
 // redux
 import {loadingStart, loadingFinish} from '../../store/loader/reducers';
+import NoData from '../../components/no-data/NoData';
 
 const driversData = [
   {driversName: 'John Doe', violation: 'Not Wearing Helmet'},
@@ -26,14 +30,8 @@ const HomeScreen = () => {
 
   const fetchHandler = useCallback(async () => {
     const userData = await useStorage.getItem(USER.USER_DATA);
-    await FetchCitationByEnforcer(JSON.parse(userData)?.id)
-      .then(async response => {
-        setCitation(response);
-      })
-      .finally(() => {
-        setTimeout(() => {
-        }, 2000);
-      });
+    const response = await FetchCitationByEnforcerGroupBy(JSON.parse(userData)?.id)
+    if (response) {setCitation(response);}
   }, []);
 
   useEffect(() => {
@@ -67,18 +65,22 @@ const HomeScreen = () => {
           List of ticketed drivers:
         </Text>
       </View>
-      <View>
-        <FlatList
-          keyExtractor={(item, index) => item.id + index.toString()}
-          showsVerticalScrollIndicator={false}
-          data={citation}
-          renderItem={({item}) => <ListOfDrivers item={item} />}
-          contentContainerStyle={{
-            alignSelf: 'center',
-            width: '90%',
-          }}
-        />
-      </View>
+      {citation?.length < 1 ? (
+        <NoData />
+      ) : (
+        <View>
+          <FlatList
+            keyExtractor={(item, index) => item.id + index.toString()}
+            showsVerticalScrollIndicator={false}
+            data={citation}
+            renderItem={({item}) => <ListOfDrivers item={item} />}
+            contentContainerStyle={{
+              alignSelf: 'center',
+              width: '90%',
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };

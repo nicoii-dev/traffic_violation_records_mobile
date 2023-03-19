@@ -5,16 +5,42 @@ import {
   Pressable,
   SafeAreaView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Icon} from '@rneui/themed';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 // components
 import HeaderComponent from '../../components/header/HeaderComponent';
+import {useStorage} from '../../library/storage/Storage';
+import {USER} from '../../library/contants';
+import CitationItem from '../../components/screens/citation/item';
+
+// api
+import {FetchCitationByEnforcer} from '../../services/citation';
+import NoData from '../../components/no-data/NoData';
 
 const CitationScreen = () => {
   const navigation = useNavigation();
+  const [citation, setCitation] = useState([]);
+
+  const fetchHandler = useCallback(async () => {
+    const userData = await useStorage.getItem(USER.USER_DATA);
+    const response = await FetchCitationByEnforcer(JSON.parse(userData)?.id);
+    if (response) {setCitation(response);}
+  }, []);
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      fetchHandler();
+      setTimeout(() => {
+        // dispatch(loadingFinish());
+      }, 2000);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchHandler]);
+  console.log(citation)
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent>
@@ -33,12 +59,34 @@ const CitationScreen = () => {
             Citation List
           </Text>
           <View style={{position: 'absolute', right: 30, top: 1}}>
-            <TouchableOpacity onPress={() => {navigation.navigate('CitedViolationScreen')}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('CitedViolationScreen');
+              }}>
               <Icon name={'add-circle'} size={30} color={'white'} />
             </TouchableOpacity>
           </View>
         </View>
       </HeaderComponent>
+      {citation?.length < 1 ? (
+        <NoData />
+      ) : (
+        <View style={{flex: 1}}>
+          <FlatList
+            bounces={false}
+            keyExtractor={(item, index) => item.id + index.toString()}
+            showsVerticalScrollIndicator={false}
+            data={citation}
+            renderItem={({item}) => <CitationItem item={item} />}
+            contentContainerStyle={{
+              alignSelf: 'center',
+              width: '100%',
+            }}
+            // refreshing={isRefreshing} // Added pull to refesh state
+            // onRefresh={onRefresh} // Added pull to refresh control
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

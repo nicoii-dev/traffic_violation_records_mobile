@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   citedViolations: [],
-  driversInfo: {
+  violatorInfo: {
     firstName: '',
     middleName: '',
     lastName: '',
@@ -12,10 +12,15 @@ const initialState = {
     nationality: '',
     phoneNumber: '',
     dob: '',
+  },
+  licenseInfo: {
     licenseNumber: '',
     licenseType: '',
     licenseStatus: '',
-    vehicleType: '',
+  },
+  vehiclesInfo: {
+    make: '',
+    model: '',
     plateNumber: '',
     color: '',
     class: '',
@@ -31,7 +36,7 @@ const initialState = {
     zipCode: '',
     barangay: '',
     street: '',
-  }
+  },
 };
 
 const citationSlice = createSlice({
@@ -49,19 +54,38 @@ const citationSlice = createSlice({
         return;
       }
     },
-    setDriversInfo: (state, action) => {
+    setViolatorsInfo: (state, action) => {
       return {
         ...state,
-        driversInfo: action.payload,
-      }
+        violatorInfo: action.payload,
+      };
+    },
+    setLicenseInfo: (state, action) => {
+      return {
+        ...state,
+        licenseInfo: action.payload,
+      };
+    },
+    setVehiclesInfo: (state, action) => {
+      return {
+        ...state,
+        vehiclesInfo: action.payload,
+      };
     },
     setCitationDetails: (state, action) => {
       return {
         ...state,
         citationDetails: action.payload,
-      }
+      };
     },
   },
 });
-export const {addViolation, removeViolation, setDriversInfo, setCitationDetails} = citationSlice.actions;
+export const {
+  addViolation,
+  removeViolation,
+  setViolatorsInfo,
+  setLicenseInfo,
+  setVehiclesInfo,
+  setCitationDetails,
+} = citationSlice.actions;
 export default citationSlice.reducer;

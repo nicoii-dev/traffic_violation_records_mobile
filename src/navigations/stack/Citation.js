@@ -7,7 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 // screens
 
 // stack components
-import CitationScreen from '../../screens/Citation/CitationScreen';
+import CitationInfo from './CitationInfo';
 import CitedViolationScreen from '../../screens/Citation/violation/CitedViolationScreen';
 import ViolatorInfoScreen from '../../screens/Citation/violator-info/ViolatorInfoScreen';
 import LicenseInfoScreen from '../../screens/Citation/license-info/LicenseInfoScreen';
@@ -23,10 +23,10 @@ export default () => {
     <>
       <CitationStack.Navigator
         screenOptions={{gestureEnabled: false}}
-        initialRouteName="CitationScreen">
+        initialRouteName="CitationInfo">
         <CitationStack.Screen
-          name="CitationScreen"
-          component={CitationScreen}
+          name="CitationInfo"
+          component={CitationInfo}
           options={{headerShown: false}}
         />
         <CitationStack.Screen

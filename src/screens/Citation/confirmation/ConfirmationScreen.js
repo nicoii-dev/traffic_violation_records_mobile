@@ -1,20 +1,91 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, SafeAreaView} from 'react-native';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import {View, Text, SafeAreaView, ScrollView, Pressable} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
-import ConfirmationComponent from '../../../components/screens/citation/confirmation/ConfirmationComponent';
+import DetailsItemStyles from './style';
+
+// api
+import {FetchAllViolations} from '../../../services/violationApi';
+import { CreateCitation } from '../../../services/citation';
+
+// redux
+import {loadingStart, loadingFinish} from '../../../store/loader/reducers';
+import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
 
 const ConfirmationScreen = () => {
-  const {citedViolations, driversInfo, citationDetails} = useSelector(store => store.citation);
-  console.log(citedViolations)
-  console.log(driversInfo)
-  console.log(citationDetails)
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [violations, setViolations] = useState([]);
+  let totalAmount = 0;
+  const {
+    citedViolations,
+    violatorInfo,
+    licenseInfo,
+    vehiclesInfo,
+    citationDetails,
+  } = useSelector(store => store.citation);
+
+  const fetchHandler = useCallback(async () => {
+    const response = await FetchAllViolations();
+    setViolations(response);
+    console.log(response);
+  }, []);
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      fetchHandler();
+      setTimeout(() => {}, 2000);
+    });
+  }, [dispatch, fetchHandler, navigation]);
+
+  const createCitation = async () => {
+    console.log(1)
+    dispatch(loadingStart());
+    const payload = {
+      'first_name': violatorInfo.firstName ,
+      'middle_name': violatorInfo.middleName ,
+      'last_name': violatorInfo.lastName ,
+      'gender': violatorInfo.gender ,
+      'address': violatorInfo.address ,
+      'nationality': violatorInfo.nationality ,
+      'phone_number': violatorInfo.phoneNumber ,
+      'dob': violatorInfo.dob ,
+      'license_number': licenseInfo.licenseNumber,
+      'license_type': licenseInfo.licenseType ,
+      'license_status': licenseInfo.licenseStatus ,
+      'plate_number': vehiclesInfo.plateNumber,
+      'make': vehiclesInfo.make,
+      'model': vehiclesInfo.model,
+      'color': vehiclesInfo.color,
+      'class': vehiclesInfo.class || 'N/A',
+      'body_markings': vehiclesInfo.bodyMarkings || 'N/A',
+      'registered_owner': vehiclesInfo.registeredOwner ,
+      'owner_address': vehiclesInfo.ownerAddress || 'N/A',
+      'vehicle_status': vehiclesInfo.vehicleStatus,
+      'violations': `${citedViolations}`,
+      'date_of_violation': moment(citationDetails?.violationDate).format('YYYY-MM-DD'),
+      'time_of_violation': citationDetails.violationTime,
+      'municipality': citationDetails.municipality,
+      'zipcode': citationDetails.zipCode,
+      'barangay': citationDetails.barangay,
+      'street': citationDetails.street,
+    };
+    await CreateCitation(payload);
+    dispatch(loadingFinish());
+  };
+
+  // useEffect(() => {
+  //   const total = citedViolations.some(user => user === data.id)
+  // }, [totalAmount])
+  console.log(totalAmount)
   return (
-    <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
+    <SafeAreaView style={{flex: 1}}>
       <HeaderComponent>
         <View
           style={{
@@ -32,8 +103,114 @@ const ConfirmationScreen = () => {
           </Text>
         </View>
       </HeaderComponent>
-
-      {/* <ConfirmationComponent /> */}
+      <ScrollView>
+        <View
+          style={{
+            padding: 10,
+            paddingLeft: 20,
+          }}>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Time & Date:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`${moment(citationDetails?.violationDate).format('MM-DD-YYYY')} - ${moment(citationDetails?.violationTime).format('h:mm:ss A')}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Location:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Street: ${citationDetails?.street}\nBarangay: ${citationDetails?.barangay}, \nMunicipality/City: ${citationDetails?.municipality}\nZipcode: ${citationDetails?.zipCode}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Violator:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Name: ${violatorInfo?.lastName}, ${violatorInfo?.firstName} ${violatorInfo?.middleName}\n`}
+              {`Address: ${violatorInfo?.address}\n`}
+              {`Nationality: ${violatorInfo?.nationality}\n`}
+              {`Phone number: ${violatorInfo?.phone_number}\n`}
+              {`Date of Birth: ${moment(violatorInfo?.dob).format('MM-DD-YYYY')}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              License Info:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Number: ${
+                licenseInfo?.licenseNumber
+              }\nType: ${licenseInfo?.licenseType.toUpperCase()}\nStatus: ${licenseInfo?.licenseStatus.toUpperCase()}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Vehicle Info:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`Make: ${vehiclesInfo?.make?.toUpperCase()}\nModel: ${vehiclesInfo?.model?.toUpperCase()}\nPlate: ${
+                vehiclesInfo?.plateNumber
+              }`}
+              {`\nColor: ${vehiclesInfo?.color?.toUpperCase()}\nClass: ${
+                vehiclesInfo?.class ? vehiclesInfo?.class?.toUpperCase() : 'N/A'
+              }`}
+              {`\nBody Markings: ${
+                vehiclesInfo?.bodyMarkings ? vehiclesInfo?.bodyMarkings : 'N/A'
+              }\nOwner: ${vehiclesInfo?.registeredOwner?.toUpperCase()}`}
+              {`\nAddress: ${
+                vehiclesInfo?.ownerAddress ? vehiclesInfo?.ownerAddress : 'N/A'
+              }\nStatus: ${vehiclesInfo?.vehicleStatus}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              Violations:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {violations.map((data, index) => {
+                if (citedViolations.some(user => user === data.id)) {
+                  totalAmount = totalAmount + 0
+                  return `${data?.violation_name} - ₱${data?.penalty}\n`;
+                }
+              })}
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          borderTopWidth: 1,
+          height: 70,
+          alignItems: 'center',
+        }}>
+        <Pressable onPress={() => navigation.goBack()}>
+          <View style={{marginRight: 30, width: 100, marginLeft: 50}}>
+            <Text style={{color: 'black', fontFamily: 'Manrope-Bold'}}>
+              Back
+            </Text>
+          </View>
+        </Pressable>
+        <ButtonComponent
+          onPress={() => {
+            createCitation();
+          }}
+          color="#2C74B3"
+          size="lg"
+          styles={{
+            marginRight: 30,
+            width: 100,
+            position: 'absolute',
+            right: 0,
+          }}>
+          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>Next</Text>
+        </ButtonComponent>
+      </View>
     </SafeAreaView>
   );
 };

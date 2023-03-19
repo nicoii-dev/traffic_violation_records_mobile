@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
-
+import {useDispatch, useSelector} from 'react-redux';
 // components
 import PlaceOfViolationComponent from '../../../components/screens/citation/place-of-violation/PlaceOfViolationComponent';
 import DateAndTimeComponent from '../../../components/screens/citation/date-and-time/DateAndTimeComponent';
@@ -13,14 +13,17 @@ import HeaderComponent from '../../../components/header/HeaderComponent';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
 // schema
 import {citationPlaceAndDateSchema} from '../../../library/yup-schema/citationPlaceAndDateSchema';
-
+// redux
+import {setCitationDetails} from '../../../store/citation/reducers';
 const PlaceAndDateScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {citationDetails} = useSelector(store => store.citation);
 
   const defaultValues = {
     barangay: 'Awang',
-    violationDate: new Date(),
-    violationTime: new Date(),
+    violationDate: '',
+    violationTime: '',
     municipality: 'Opol',
     zipCode: '9016',
     street: 'Igpit opol',
@@ -35,16 +38,25 @@ const PlaceAndDateScreen = () => {
     resolver: yupResolver(citationPlaceAndDateSchema),
     defaultValues: defaultValues,
   });
+  console.log(citationDetails)
+  useEffect(() => {
+    if (citationDetails.violationDate) {
+      setValue('violationDate', citationDetails.violationDate);
+      setValue('violationTime', citationDetails.violationTime);
+    }
+  }, [citationDetails.violationDate, citationDetails.violationTime, setValue]);
 
-  const onSubmit = data => {
-    console.log(moment(new Date()))
-    console.log('test', moment(new Date()).format('DD-MM-YYYY hh:mm A'))
-    
-    // getting the age
-    console.log(moment(data.time).format('h:mm:ss A'));
-    console.log(data);
-
-    // navigation.navigate('ConfirmationScreen');
+  const onSubmit = async data => {
+    const payload = {
+      violationDate: data.violationDate,
+      violationTime: data.violationTime,
+      municipality: data.municipality,
+      zipCode: data.zipCode,
+      barangay: data.barangay,
+      street: data.street,
+    };
+    await dispatch(setCitationDetails(payload));
+    navigation.navigate('ConfirmationScreen');
   };
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);

@@ -1,76 +1,76 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import TextInputController from '../../input/TextInput/TextInputController';
-import PickerInputController from '../../input/PickerInput/PickerInputController';
-import RadioButtonController from '../../input/RadioButtons/RadioButtonController';
-import DateInputController from '../../input/DateInput/DateInputeController';
-import LicenseTextInput from '../../input/TextInput/LicenseTextInput';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const CitationItem = ({item, control, errors, setValue}) => {
-  if (item?.inputType && item.inputType === 'picker') {
-    return (
-      <PickerInputController
-        headerTitle={item.header}
-        name={item.name}
-        control={control}
-        setValue={setValue}
-        defaultValue={item.pickerOptions[0]}
-        pickerOptions={item.pickerOptions}
-        headerStyles={{width: '95%'}}
-      />
-    );
-  }
+// reducer
+import {setViolatorDetails} from '../../../store/violator/reducers';
 
-  if (item?.inputType && item.inputType === 'radio') {
-    return (
-      <RadioButtonController
-        headerTitle={item.header}
-        name={item.name}
-        control={control}
-        options={item.radioOptions}
-        errorMessage={errors[item.name]?.message}
-      />
-    );
-  }
+const CitationItem = ({item}) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  if (item?.inputType && item.inputType === 'date') {
-    return (
-      <DateInputController
-        headerTitle={item.header}
-        name={item.name}
-        control={control}
-        errorMessage={errors[item.name]?.message}
-        display={'default'}
-        mode={'date'}
-      />
-    );
-  }
-
-  if (item?.inputType && item.inputType === 'license') {
-    return (
-      <LicenseTextInput
-        headerTitle={item.header}
-        control={control}
-        name={item.name}
-        placeholder={item.placeholder}
-        errorMessage={errors[item.name]?.message}
-        errorStyle={{color: 'red'}}
-        keyboardType={item.keyboardType}
-      />
-    );
-  }
+  const ViolatorInfo = async item => {
+    await dispatch(setViolatorDetails(item));
+    navigation.navigate('CitationInfoScreen');
+  };
 
   return (
-    <TextInputController
-      headerTitle={item.header}
-      control={control}
-      name={item.name}
-      placeholder={item.placeholder}
-      errorMessage={errors[item.name]?.message}
-      errorStyle={{color: 'red'}}
-      keyboardType={item.keyboardType}
-      maxLength={item.maxLength}
-    />
+    <>
+      <TouchableOpacity onPress={() => ViolatorInfo(item)}>
+        <View
+          style={{
+            alignSelf: 'flex-start',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            marginTop: 20,
+            width: '100%',
+            borderWidth: 1,
+            padding: 20,
+            borderRadius: 5,
+          }}>
+          <Text
+            numberOfLines={1}
+            style={{
+              // width: '20%',
+              fontFamily: 'Manrope-Regular',
+              fontSize: 16,
+              color: 'black',
+              paddingRight: 20
+            }}>
+            {`#${item?.id}`}
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{
+              // width: '30%',
+              fontFamily: 'Manrope-Regular',
+              fontSize: 16,
+              color: 'black',
+            }}>
+            {`${item?.date_of_violation} - ${item?.time_of_violation}`}
+          </Text>
+          <Text
+            style={{
+              paddingLeft: 20,
+              fontFamily: 'Manrope-Regular',
+              fontSize: 16,
+              color: 'black',
+            }}>
+            {JSON.parse(item?.violations)[0]?.violation_name}
+          </Text>
+          {/* <Icon
+          name={'arrow-drop-down'}
+          size={20}
+          color={'black'}
+          style={{flex: 1, textAlign: 'right'}}
+        /> */}
+        </View>
+      </TouchableOpacity>
+    </>
   );
 };
 

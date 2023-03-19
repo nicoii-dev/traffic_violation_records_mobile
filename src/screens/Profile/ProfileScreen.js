@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FastImage from 'react-native-fast-image';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import IMAGES from '../../config/images';
 import {COLORS} from '../../config/colors';
 
@@ -11,9 +13,12 @@ import HeaderComponent from '../../components/header/HeaderComponent';
 import ButtonComponent from '../../components/input/Buttons/ButtonComponent';
 // styles
 import ProfileScreenStyle from './profile-screen-styles';
+import LogoutOverlay from '../../components/overlay';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent height={300}>
@@ -52,7 +57,8 @@ const ProfileScreen = () => {
           </Text>
         </View>
         <View style={{width: '70%', alignSelf: 'center', marginTop: 20}}>
-          <TouchableOpacity onPress={() => navigation.navigate('PersonalInfoScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PersonalInfoScreen')}>
             <View style={ProfileScreenStyle.personalContainer}>
               <Text style={ProfileScreenStyle.personalText}>
                 Personal Information
@@ -65,7 +71,8 @@ const ProfileScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('SecurityScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SecurityScreen')}>
             <View style={ProfileScreenStyle.securityContainer}>
               <Text style={ProfileScreenStyle.securityText}>Security</Text>
               <Icon
@@ -91,7 +98,7 @@ const ProfileScreen = () => {
       </View>
       <View style={{position: 'absolute', bottom: 20, width: '50%'}}>
         <ButtonComponent
-          onPress={() => {}}
+          onPress={() => {setIsVisible(true)}}
           color={COLORS.DARK_BLUE}
           size="lg"
           styles={{}}>
@@ -100,6 +107,8 @@ const ProfileScreen = () => {
           </Text>
         </ButtonComponent>
       </View>
+
+      <LogoutOverlay isVisible={isVisible} setIsVisible={setIsVisible} />
     </View>
   );
 };

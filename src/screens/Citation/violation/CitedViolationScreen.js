@@ -17,6 +17,7 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 
 // redux
 import {addViolation, removeViolation} from '../../../store/citation/reducers';
+import NoData from '../../../components/no-data/NoData';
 
 const CitedViolationScreen = () => {
   const navigation = useNavigation();
@@ -76,25 +77,29 @@ const CitedViolationScreen = () => {
           </Text>
         </View>
       </HeaderComponent>
-      <View style={{height: heightPercentageToDP('70%')}}>
-        <FlatList
-          keyExtractor={(item, index) => item.id.toString() + index}
-          showsVerticalScrollIndicator={false}
-          data={violations}
-          renderItem={({item}) => (
-            <CitationViolationItem
-              item={item}
-              SelectedViolations={SelectedViolations}
-              citedViolations={citedViolations}
-            />
-          )}
-          contentContainerStyle={{
-            alignSelf: 'center',
-            width: '100%',
-            paddingBottom: 0,
-          }}
-        />
-      </View>
+      {violations < 1 ? (
+        <NoData />
+      ) : (
+        <View style={{height: heightPercentageToDP('70%')}}>
+          <FlatList
+            keyExtractor={(item, index) => item.id.toString() + index}
+            showsVerticalScrollIndicator={false}
+            data={violations}
+            renderItem={({item}) => (
+              <CitationViolationItem
+                item={item}
+                SelectedViolations={SelectedViolations}
+                citedViolations={citedViolations}
+              />
+            )}
+            contentContainerStyle={{
+              alignSelf: 'center',
+              width: '100%',
+              paddingBottom: 0,
+            }}
+          />
+        </View>
+      )}
       <View
         style={{
           flexDirection: 'row',

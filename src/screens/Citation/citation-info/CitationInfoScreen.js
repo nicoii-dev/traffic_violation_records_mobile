@@ -1,14 +1,10 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import DetailsItemStyles from './style';
 
-// reducer
-
-const ViolatorDetailsList = ({item}) => {
-  console.log(item);
+const CitationInfoScreen = () => {
   return (
     <>
       <View
@@ -129,4 +125,4 @@ const ViolatorDetailsList = ({item}) => {
   );
 };
 
-export default ViolatorDetailsList;
+export default CitationInfoScreen;

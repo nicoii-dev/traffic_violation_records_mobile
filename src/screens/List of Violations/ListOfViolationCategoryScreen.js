@@ -13,6 +13,7 @@ import {loadingStart, loadingFinish} from '../../store/loader/reducers';
 
 // api calls
 import {FetchAllCategory} from '../../services/violationApi';
+import NoData from '../../components/no-data/NoData';
 
 const ListOfViolationCategoryScreen = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,8 @@ const ListOfViolationCategoryScreen = () => {
   const fetchHandler = useCallback(async () => {
     dispatch(loadingStart());
     const response = await FetchAllCategory();
-    setCategories(response)
-    console.log(response)
+    if (response) {setCategories(response);}
+    console.log(response);
   }, [dispatch]);
 
   useEffect(() => {
@@ -32,12 +33,12 @@ const ListOfViolationCategoryScreen = () => {
       setTimeout(() => {
         dispatch(loadingFinish());
       }, 2000);
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchHandler]);
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <HeaderComponent>
         <View style={{alignItems: 'center'}}>
           <Text
@@ -46,17 +47,21 @@ const ListOfViolationCategoryScreen = () => {
           </Text>
         </View>
       </HeaderComponent>
-      <FlatList
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        data={categories}
-        renderItem={({item}) => <ListOfCategoryItem item={item} />}
-        contentContainerStyle={{
-          alignSelf: 'center',
-          width: '90%',
-          marginTop: 10,
-        }}
-      />
+      {categories < 1 ? (
+        <NoData />
+      ) : (
+        <FlatList
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          data={categories}
+          renderItem={({item}) => <ListOfCategoryItem item={item} />}
+          contentContainerStyle={{
+            alignSelf: 'center',
+            width: '90%',
+            marginTop: 10,
+          }}
+        />
+      )}
     </View>
   );
 };

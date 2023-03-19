@@ -91,7 +91,7 @@ const CitationComponent = () => {
 
     await dispatch(setDriversInfo(data));
 
-    navigation.navigate('PlaceAndDateScreen');
+    navigation.navigate('LicenseInfoScreen');
   };
 
   console.log('drivers', driversInfo);
