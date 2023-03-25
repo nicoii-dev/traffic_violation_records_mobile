@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text} from 'react-native';
 import React from 'react';
 import {useForm} from 'react-hook-form';
@@ -32,7 +33,7 @@ const AboutScreen = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     console.log(data);
   };
 
@@ -49,7 +50,7 @@ const AboutScreen = () => {
           name={'arrow-back'}
           size={30}
           color={'white'}
-          style={{position: 'absolute', left: 10}}
+          style={{position: 'absolute', left: 30}}
           onPress={() => navigation.goBack()}
         />
         <View

@@ -13,7 +13,7 @@ import DetailsItemStyles from './style';
 
 // api
 import {FetchAllViolations} from '../../../services/violationApi';
-import {CreateCitation} from '../../../services/citation';
+import {CreateCitation, UpdateCitation} from '../../../services/citation';
 
 // redux
 import {loadingStart, loadingFinish} from '../../../store/loader/reducers';
@@ -31,7 +31,9 @@ const ConfirmationScreen = () => {
     licenseInfo,
     vehiclesInfo,
     citationDetails,
+    citationId,
   } = useSelector(store => store.citation);
+  console.log(citationDetails);
 
   const fetchHandler = useCallback(async () => {
     const response = await FetchAllViolations();
@@ -80,18 +82,41 @@ const ConfirmationScreen = () => {
       street: citationDetails.street,
       total_amount: totalAmount,
     };
-    await CreateCitation(payload).then(async response => {
-      if (!_.isUndefined(response)) {
-        Toast.showWithGravity('Successfully Created', Toast.LONG, Toast.CENTER);
-        setTimeout(() => {
+    if (_.isNull(citationId)) {
+      await CreateCitation(payload).then(async response => {
+        if (!_.isUndefined(response)) {
+          Toast.showWithGravity(
+            'Successfully Created',
+            Toast.LONG,
+            Toast.CENTER,
+          );
+          setTimeout(() => {
+            dispatch(loadingFinish());
+            navigation.navigate('CitationScreen');
+          }, 1500);
+        } else {
           dispatch(loadingFinish());
-          navigation.navigate('CitationInfo');
-        }, 1500);
-      } else {
-        dispatch(loadingFinish());
-      }
-    });
+        }
+      });
+    } else {
+      await UpdateCitation(payload, citationId).then(async response => {
+        if (!_.isUndefined(response)) {
+          Toast.showWithGravity(
+            'Successfully Updated',
+            Toast.LONG,
+            Toast.CENTER,
+          );
+          setTimeout(() => {
+            dispatch(loadingFinish());
+            navigation.navigate('CitationScreen');
+          }, 1500);
+        } else {
+          dispatch(loadingFinish());
+        }
+      });
+    }
   };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <HeaderComponent>
@@ -229,7 +254,9 @@ const ConfirmationScreen = () => {
             position: 'absolute',
             right: 0,
           }}>
-          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>Save</Text>
+          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>
+            {!_.isNull(citationId) ? 'Update' : 'Save'}
+          </Text>
         </ButtonComponent>
       </View>
     </SafeAreaView>

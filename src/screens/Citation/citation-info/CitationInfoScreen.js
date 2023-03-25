@@ -1,10 +1,18 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, ScrollView, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
+import {Icon} from '@rneui/themed';
 import DetailsItemStyles from './style';
 
 // api
@@ -12,6 +20,7 @@ import {FetchAllViolations} from '../../../services/violationApi';
 
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
+import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
 
 const CitationInfoScreen = () => {
   const navigation = useNavigation();
@@ -29,7 +38,6 @@ const CitationInfoScreen = () => {
   const fetchHandler = useCallback(async () => {
     const response = await FetchAllViolations();
     setViolations(response);
-    console.log(response);
   }, []);
 
   useEffect(() => {
@@ -38,7 +46,7 @@ const CitationInfoScreen = () => {
       setTimeout(() => {}, 2000);
     });
   }, [dispatch, fetchHandler, navigation]);
-  console.log(citedViolations)
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <HeaderComponent>
@@ -47,6 +55,14 @@ const CitationInfoScreen = () => {
             justifyContent: 'center',
             flexDirection: 'row',
           }}>
+          <View style={{position: 'absolute', left: 30, top: 1}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Icon name={'arrow-back'} size={30} color={'white'} />
+            </TouchableOpacity>
+          </View>
           <Text
             style={{
               fontFamily: 'Manrope-Bold',
@@ -56,6 +72,14 @@ const CitationInfoScreen = () => {
             }}>
             Citation Info
           </Text>
+          <View style={{position: 'absolute', right: 30, top: 1}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('CitedViolationScreen');
+              }}>
+              <Icon name={'edit'} size={30} color={'white'} />
+            </TouchableOpacity>
+          </View>
         </View>
       </HeaderComponent>
       <ScrollView>

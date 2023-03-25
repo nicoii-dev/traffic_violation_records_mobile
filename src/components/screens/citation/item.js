@@ -9,13 +9,12 @@ import moment from 'moment';
 
 // reducer
 import {
-  addViolation,
-  removeViolation,
   setViolations,
   setVehiclesInfo,
   setLicenseInfo,
   setViolatorsInfo,
   setCitationDetails,
+  setCitationId,
 } from '../../../store/citation/reducers';
 
 const CitationItem = ({item}) => {
@@ -54,7 +53,6 @@ const CitationItem = ({item}) => {
       licenseStatus: data?.license?.license_status,
     };
     const citationPayload = {
-      citationId: data?.id,
       violationDate: data?.date_of_violation,
       violationTime: data?.time_of_violation,
       municipality: data?.municipality,
@@ -62,6 +60,7 @@ const CitationItem = ({item}) => {
       barangay: data?.barangay,
       street: data?.street,
     };
+    await dispatch(setCitationId(data?.id));
     await dispatch(setViolations(violationPayload));
     await dispatch(setViolatorsInfo(violatorPayload));
     await dispatch(setVehiclesInfo(vehiclesPayload));

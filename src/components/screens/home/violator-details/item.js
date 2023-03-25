@@ -3,6 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
 import React, {useState} from 'react';
+import moment from 'moment';
 import DetailsItemStyles from './style';
 
 // reducer
@@ -13,7 +14,7 @@ const ViolatorDetailsList = ({item}) => {
     <>
       <View
         style={{
-          borderRadius: 10,
+          borderRadius: 5,
           borderWidth: 1,
           paddingLeft: 5,
           paddingRight: 5,
@@ -53,7 +54,9 @@ const ViolatorDetailsList = ({item}) => {
             Time & Date:
           </Text>
           <Text style={DetailsItemStyles.itemData}>
-            {`${item?.date_of_violation} - ${item?.time_of_violation}`}
+            {`${moment(item?.date_of_violation).format(
+              'MM-DD-YYYY',
+            )} - ${moment(item?.time_of_violation).format('h:mm:ss A')}`}
           </Text>
         </View>
         <View style={DetailsItemStyles.viewContainer}>
@@ -61,15 +64,23 @@ const ViolatorDetailsList = ({item}) => {
             Location:
           </Text>
           <Text style={DetailsItemStyles.itemData}>
-            {`${item?.street}\n${item?.barangay}, ${item?.municipality}\n${item?.zipcode}`}
+            {`${item?.street.toUpperCase()}\n${item?.barangay.toUpperCase()}, ${item?.municipality.toUpperCase()}\n${
+              item?.zipcode
+            }`}
           </Text>
         </View>
         <View style={DetailsItemStyles.viewContainer}>
           <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Name:
+            Violator:
           </Text>
           <Text style={DetailsItemStyles.itemData}>
-            {`${item?.violator?.last_name}, ${item?.violator?.first_name} ${item?.violator?.middle_name}`}
+            {`Name: ${item?.violator?.last_name}, ${item?.violator?.first_name} ${item?.violator?.middle_name}\n`}
+            {`Address: ${item?.violator?.address.toUpperCase()}\n`}
+            {`Nationality: ${item?.violator?.nationality.toUpperCase()}\n`}
+            {`Phone number: ${item?.violator?.phone_number}\n`}
+            {`Date of Birth: ${moment(item?.violator?.dob).format(
+              'MM-DD-YYYY',
+            )}`}
           </Text>
         </View>
         <View style={DetailsItemStyles.viewContainer}>
@@ -91,7 +102,9 @@ const ViolatorDetailsList = ({item}) => {
               item?.vehicle?.plate_number
             }`}
             {`\nColor: ${item?.vehicle?.color.toUpperCase()}\nStatus: ${item?.vehicle?.vehicle_status.toUpperCase()}`}
-            {`\nOwner: ${item?.vehicle?.registered_owner}\nAddress: ${item?.vehicle?.owner_address}`}
+            {`\nOwner: ${
+              item?.vehicle?.registered_owner
+            }\nAddress: ${item?.vehicle?.owner_address.toUpperCase()}`}
           </Text>
         </View>
         <View style={DetailsItemStyles.viewContainer}>
@@ -105,23 +118,37 @@ const ViolatorDetailsList = ({item}) => {
           </Text>
         </View>
         <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
-            Amount:
-          </Text>
-          <Text style={DetailsItemStyles.itemData}>
-            {`₱${item?.invoice?.total_amount}`}
+          <Text
+            numberOfLines={1}
+            style={{
+              fontFamily: 'Manrope-Regular',
+              fontSize: 15,
+              color: 'black',
+              fontWeight: 'bold',
+            }}>
+            Amount: {`₱${item?.invoice?.total_amount}`}
           </Text>
         </View>
-        <View style={DetailsItemStyles.viewContainer}>
-          <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+        <View style={{marginTop: 10, flexDirection: 'row'}}>
+          <Text
+            numberOfLines={1}
+            style={{
+              fontFamily: 'Manrope-Regular',
+              fontSize: 15,
+              color: 'black',
+              fontWeight: 'bold',
+            }}>
             Status:
           </Text>
           <Text
-            style={[
-              DetailsItemStyles.itemData,
-              {color: item?.invoice?.status == 1 ? 'red' : 'green'},
-            ]}>
-            {item?.invoice?.status == 1 ? 'UNPAID' : 'PAID'}
+            style={{
+              color: item?.invoice?.status === 'unpaid' ? 'red' : item?.invoice?.status === 'processing' ? 'blue' : 'green',
+              fontFamily: 'Manrope-Regular',
+              fontSize: 15,
+              marginLeft: 5,
+              fontWeight: 'bold',
+            }}>
+            {item?.invoice?.status.toUpperCase()}
           </Text>
         </View>
       </View>

@@ -28,7 +28,9 @@ const CitationScreen = () => {
   const fetchHandler = useCallback(async () => {
     const userData = await useStorage.getItem(USER.USER_DATA);
     const response = await FetchCitationByEnforcer(JSON.parse(userData)?.id);
-    if (response) {setCitation(response);}
+    if (response) {
+      setCitation(response);
+    }
   }, []);
 
   useEffect(() => {

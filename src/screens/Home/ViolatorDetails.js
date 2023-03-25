@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import React, {useCallback, useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { Icon } from '@rneui/themed';
 // hooks
 import { useStorage } from '../../library/storage/Storage';
 import { USER } from '../../library/contants';
@@ -49,8 +50,16 @@ const ViolatorDetails = () => {
     <View>
       <HeaderComponent>
         <View style={{alignItems: 'center'}}>
+        <View style={{position: 'absolute', left: 30, top: 1}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Icon name={'arrow-back'} size={30} color={'white'} />
+            </TouchableOpacity>
+          </View>
           <Text
-            style={{fontFamily: 'Manrope-Bold', fontSize: 25, color: 'white'}}>
+            style={{fontFamily: 'Manrope-Bold', fontSize: 20, color: 'white'}}>
             Violator Violations Details
           </Text>
         </View>

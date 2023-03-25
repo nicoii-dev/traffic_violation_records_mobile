@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
 import React from 'react';
 import {useForm} from 'react-hook-form';
@@ -7,7 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HeaderComponent from '../../../components/header/HeaderComponent';
 import PersonalInfoComponent from '../../../components/screens/profile/personal-info/PersonalInfoComponent';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
-import { changePasswordSchema } from '../../../library/yup-schema/changePasswordSchema';
+import {changePasswordSchema} from '../../../library/yup-schema/changePasswordSchema';
 import SecurityComponent from '../../../components/screens/profile/security/SecurityComponent';
 
 const SecurityScreen = () => {
@@ -16,7 +18,7 @@ const SecurityScreen = () => {
   const defaultValues = {
     currentPassword: '',
     newPassword: '',
-    confirmPassword: ''
+    confirmPassword: '',
   };
 
   const {
@@ -29,8 +31,8 @@ const SecurityScreen = () => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit = data => {
+    console.log(data);
   };
 
   return (
@@ -46,7 +48,7 @@ const SecurityScreen = () => {
           name={'arrow-back'}
           size={30}
           color={'white'}
-          style={{position: 'absolute', left: 10}}
+          style={{position: 'absolute', left: 30}}
           onPress={() => navigation.goBack()}
         />
         <View
@@ -83,7 +85,9 @@ const SecurityScreen = () => {
           color="#2C74B3"
           size="lg"
           styles={{width: '50%'}}>
-          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>Update</Text>
+          <Text style={{color: 'white', fontFamily: 'Manrope-Bold'}}>
+            Update
+          </Text>
         </ButtonComponent>
       </View>
     </View>

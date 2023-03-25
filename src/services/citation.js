@@ -119,3 +119,28 @@ export const CreateCitation = async payload => {
     );
   }
 };
+
+export const UpdateCitation = async (payload, id) => {
+  try {
+    const token = await useStorage.getItem(USER.ACCESS_TOKEN);
+    const response = await axios.put(
+      `http://localhost:8000/api/update-citation/${id}`,
+      payload,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.log( error.response.data.message)
+    return Toast.showWithGravity(
+      error.response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+  }
+};

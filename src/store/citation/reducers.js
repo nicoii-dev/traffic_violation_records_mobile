@@ -32,8 +32,8 @@ const initialState = {
     ownerAddress: '',
     vehicleStatus: '',
   },
+  citationId: null,
   citationDetails: {
-    citationId: '',
     violationDate: '',
     violationTime: '',
     municipality: '',
@@ -82,10 +82,60 @@ const citationSlice = createSlice({
         vehiclesInfo: action.payload,
       };
     },
+    setCitationId: (state, action) => {
+      return {
+        ...state,
+        citationId: action.payload,
+      };
+    },
     setCitationDetails: (state, action) => {
       return {
         ...state,
         citationDetails: action.payload,
+      };
+    },
+    removeCitationInfo: state => {
+      return {
+        ...state,
+        citedViolations: [],
+        violatorInfo: {
+          violatorId: '',
+          firstName: '',
+          middleName: '',
+          lastName: '',
+          gender: '',
+          address: '',
+          nationality: '',
+          phoneNumber: '',
+          dob: '',
+        },
+        licenseInfo: {
+          licenseId: '',
+          licenseNumber: '',
+          licenseType: '',
+          licenseStatus: '',
+        },
+        vehiclesInfo: {
+          vehiclesId: '',
+          make: '',
+          model: '',
+          plateNumber: '',
+          color: '',
+          class: '',
+          bodyMarkings: '',
+          registeredOwner: '',
+          ownerAddress: '',
+          vehicleStatus: '',
+        },
+        citationDetails: {
+          citationId: '',
+          violationDate: '',
+          violationTime: '',
+          municipality: '',
+          zipCode: '',
+          barangay: '',
+          street: '',
+        },
       };
     },
   },
@@ -98,5 +148,6 @@ export const {
   setLicenseInfo,
   setVehiclesInfo,
   setCitationDetails,
+  setCitationId,
 } = citationSlice.actions;
 export default citationSlice.reducer;
