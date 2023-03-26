@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
@@ -28,10 +29,7 @@ const DateInputController = ({
         control={control}
         rules={rules}
         render={({field: {onChange, value}}) => {
-          const hanleOnDateChange = (
-            event,
-            selectedDate
-          ) => {
+          const hanleOnDateChange = (event, selectedDate) => {
             onChange(selectedDate);
             setShow(!show);
           };
@@ -71,19 +69,26 @@ const DateInputController = ({
                   onPress={() => {
                     setShow(true);
                   }}>
-                    <View style={{flexDirection: 'row'}}>
-                  {mode === 'date' ? (
-                    <Text style={{fontSize: 18}}>
-                      {value ? moment(value).format('MM/DD/YYYY') : 'MM/DD/YYYY'}
-                    </Text>
-                  ) : (
-                    <Text style={{fontSize: 18}}>
-                      {value ? moment(value).format('h:mm:ss A') : '00:00:00'}
-                    </Text>
-                  )}
-                  {iconData && (
-                  <Icon name={iconData.iconName} size={iconData.iconSize} color={iconData.iconColor} style={{marginLeft: 5}} />
-                  )}
+                  <View style={{flexDirection: 'row'}}>
+                    {mode === 'date' ? (
+                      <Text style={{fontSize: 18}}>
+                        {value
+                          ? moment(value).format('MM/DD/YYYY')
+                          : 'MM/DD/YYYY'}
+                      </Text>
+                    ) : (
+                      <Text style={{fontSize: 18}}>
+                        {value ? moment(value).format('h:mm:ss A') : '00:00:00'}
+                      </Text>
+                    )}
+                    {iconData && (
+                      <Icon
+                        name={iconData.iconName}
+                        size={iconData.iconSize}
+                        color={iconData.iconColor}
+                        style={{marginLeft: 5}}
+                      />
+                    )}
                   </View>
                 </TouchableOpacity>
               )}
@@ -93,7 +98,15 @@ const DateInputController = ({
       />
       {errorMessage ? (
         <Text
-          style={[{color: 'red', fontSize: 12, alignSelf: 'flex-start', marginLeft: 10}, errorStyle]}>
+          style={[
+            {
+              color: 'red',
+              fontSize: 12,
+              alignSelf: 'flex-start',
+              marginLeft: 10,
+            },
+            errorStyle,
+          ]}>
           {errorMessage}
         </Text>
       ) : null}

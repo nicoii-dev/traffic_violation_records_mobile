@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 
 // styles
 import LoginScreenStyles from './login-screen-style';
@@ -10,7 +12,9 @@ import LoginScreenStyles from './login-screen-style';
 import LoginComponent from '../../../components/auth/login/LoginComponent';
 import IMAGES from '../../../config/images';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={LoginScreenStyles.container}>
       <FastImage source={IMAGES.LOGO} style={LoginScreenStyles.logo} />
@@ -24,8 +28,15 @@ const LoginScreen = ({navigation}) => {
         <View style={LoginScreenStyles.formContainer}>
           <LoginComponent />
         </View>
+        <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ForgotPasswordScreen')}>
+            <Text style={{textDecorationLine: 'underline', color: 'black'}}>
+              Forgot Password
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View></View>
     </View>
   );
 };

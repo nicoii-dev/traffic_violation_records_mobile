@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
     // opacity: 0.5,
+    zIndex: 99999,
   },
 });
 

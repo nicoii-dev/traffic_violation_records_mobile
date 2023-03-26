@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
 import React from 'react';
 import {useForm} from 'react-hook-form';
@@ -19,6 +21,7 @@ const SecurityComponent = ({control, errors}) => {
         placeholder={'Current password'}
         errorMessage={errors?.currentPassword?.message}
         errorStyle={{color: 'red'}}
+        secureTextEntry
       />
       <TextInputController
         headerTitle={'New password'}
@@ -27,6 +30,7 @@ const SecurityComponent = ({control, errors}) => {
         placeholder={'New password'}
         errorMessage={errors?.newPassword?.message}
         errorStyle={{color: 'red'}}
+        secureTextEntry
       />
       <TextInputController
         headerTitle={'Confirm password'}
@@ -35,6 +39,7 @@ const SecurityComponent = ({control, errors}) => {
         placeholder={'Confirm password'}
         errorMessage={errors?.confirmPassword?.message}
         errorStyle={{color: 'red'}}
+        secureTextEntry
       />
     </>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet} from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -9,7 +10,7 @@ const LoginScreenStyles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     // justifyContent: 'center',
-    backgroundColor: '#0A2647'
+    backgroundColor: '#0A2647',
   },
   formWrapper: {
     height: hp('60%'),
@@ -22,7 +23,7 @@ const LoginScreenStyles = StyleSheet.create({
   signinContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: hp(7)
+    marginTop: hp(7),
   },
   logo: {
     height: wp(40),
@@ -52,6 +53,39 @@ const LoginScreenStyles = StyleSheet.create({
   },
   signupText: {
     fontFamily: 'Manrope-Bold',
+  },
+  overlayStyle: {
+    borderRadius: 20,
+    position: 'absolute',
+    height: hp(30),
+    width: '85%',
+    top: hp(30),
+    alignItems: 'center',
+    zIndex: 1
+  },
+  overlayContainer: {
+    bottom: 15,
+    position: 'absolute',
+  },
+  titleContainer: {
+    marginBottom: hp(2),
+  },
+  titleText: {
+    fontFamily: 'Manrope-ExtraBold',
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'black'
+  },
+  messageContainer: {
+    marginBottom: hp(0),
+    height: hp(12),
+    width: wp('70%'),
+  },
+  messageText: {
+    fontFamily: 'Manrope-Regular',
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 10,
   },
 });
 

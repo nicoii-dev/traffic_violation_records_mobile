@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 // screens
 import SignupScreen from '../../screens/Auth/Signup/SignupScreen';
 import LoginScreen from '../../screens/Auth/Login/LoginScreen';
-import ForgotPassScreen from '../../screens/Auth/Forgot-pass/ForgotPassScreen';
+import ForgotPasswordScreen from '../../screens/Auth/Forgot-pass/ForgotPassword';
 
 // stack instance
 const AuthStack = createStackNavigator();
@@ -56,9 +56,9 @@ const Auth = ({navigation}) => {
         options={{headerShown: false}}
       />
       <AuthStack.Screen
-        name="ForgotPass"
-        component={ForgotPassScreen}
-        options={{headerTitle: ''}}
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
+        options={{headerShown: false}}
       />
     </AuthStack.Navigator>
   );

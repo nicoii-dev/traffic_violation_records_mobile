@@ -37,13 +37,17 @@ const TextInputController = ({
       name={name}
       control={control}
       render={({field: {onChange, value}}) => {
-        const handleOnChange = (itemValue) => {
+        const handleOnChange = itemValue => {
           // making first letter of the word capital
-          const arr = itemValue.split(' ');
-          for (var i = 0; i < arr.length; i++) {
-            arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-          }
-          onChange(arr.join(' '));
+          // if (name !== 'email') {
+          //   const arr = itemValue.split(' ');
+          //   for (var i = 0; i < arr.length; i++) {
+          //     arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+          //   }
+          //   onChange(arr.join(' '));
+          //   return;
+          // }
+          onChange(itemValue)
         };
 
         return (
@@ -68,7 +72,7 @@ const TextInputController = ({
               maxLength={maxLength}
               multiline={multiline}
               numberOfLines={numberOfLines}
-              errorStyle={[{fontFamily: 'Manrope-Regular'},errorStyle]}
+              errorStyle={[{fontFamily: 'Manrope-Regular'}, errorStyle]}
               errorMessage={errorMessage}
               leftIcon={
                 leftIcon ? <Icon name={leftIcon} size={30} /> : undefined

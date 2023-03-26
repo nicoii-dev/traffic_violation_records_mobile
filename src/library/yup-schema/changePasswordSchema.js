@@ -7,6 +7,6 @@ export const changePasswordSchema = yup
     confirmPassword: yup
       .string()
       .required('Please confirm your password')
-      .oneOf([yup.ref('password'), null], 'Passwords must match'),
+      .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
   })
   .required();

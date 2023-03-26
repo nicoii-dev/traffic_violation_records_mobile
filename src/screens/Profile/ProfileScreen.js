@@ -108,7 +108,7 @@ const ProfileScreen = () => {
         </ButtonComponent>
       </View>
 
-      <LogoutOverlay isVisible={isVisible} setIsVisible={setIsVisible} />
+      <LogoutOverlay isVisible={isVisible} setIsVisible={setIsVisible} title={'Are you sure you want to Logout?'} />
     </View>
   );
 };

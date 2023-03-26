@@ -1,18 +1,32 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch } from 'react-redux';
+
+// components
 import HeaderComponent from '../../../components/header/HeaderComponent';
 import PersonalInfoComponent from '../../../components/screens/profile/personal-info/PersonalInfoComponent';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
 import {profileSchema} from '../../../library/yup-schema/profileSchema';
+import {USER} from '../../../library/contants';
+import {useStorage} from '../../../library/storage/Storage';
+import moment from 'moment';
+
+// api
+import {UpdateProfile} from '../../../services/userApi';
+
+// redux
+import { loadingStart, loadingFinish } from '../../../store/loader/reducers';
 
 const PersonalInfoScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [userId, setUserId] = useState('');
 
   const defaultValues = {
     firstName: '',
@@ -28,13 +42,56 @@ const PersonalInfoScreen = () => {
     setValue,
     handleSubmit,
     formState: {errors},
+    reset,
   } = useForm({
     resolver: yupResolver(profileSchema),
     defaultValues: defaultValues,
   });
 
-  const onSubmit = data => {
-    console.log(data);
+  const getUserDetails = useCallback(async () => {
+    const user = await useStorage.getItem(USER.USER_DATA);
+    if (user) {
+      const {
+        id,
+        first_name = '',
+        middle_name = '',
+        last_name = '',
+        gender = '',
+        dob = new Date(),
+        email = '',
+        phone_number = '',
+      } = JSON.parse(user);
+      setUserId(id);
+      reset({
+        firstName: first_name,
+        middleName: middle_name,
+        lastName: last_name,
+        gender,
+        dob: moment(dob).format('YYYY-MM-DD'),
+        email,
+        phoneNumber: phone_number,
+      });
+    }
+  }, [reset]);
+
+  useEffect(() => {
+    getUserDetails();
+  }, [getUserDetails]);
+
+  const onSubmit = async data => {
+    dispatch(loadingStart());
+    const payload = {
+      first_name: data.firstName,
+      middle_name: data.middleName,
+      last_name: data.lastName,
+      gender: data.gender,
+      phone_number: data.phoneNumber,
+      dob: moment(data.dob).format('YYYY-MM-DD'),
+      role: 'USER',
+      status: 1,
+    };
+    await UpdateProfile(payload, userId);
+    dispatch(loadingFinish());
   };
 
   return (

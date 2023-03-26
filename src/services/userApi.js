@@ -25,3 +25,130 @@ export const UserLogin = async (payload) => {
     );
   }
 };
+
+export const UpdateProfile = async (payload, id) => {
+  const token = await useStorage.getItem(USER.ACCESS_TOKEN);
+  try {
+    // await useStorage.removeItem(USER.USER_DATA)
+    const response = await axios.put(
+      `http://localhost:8000/api/update-user/${id}`,
+      payload,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    await useStorage.setItem(
+      USER.USER_DATA,
+      JSON.stringify(response.data),
+    );
+    Toast.showWithGravity(
+      'Successfully Updated',
+      Toast.LONG,
+      Toast.CENTER,
+    );
+    return response.data;
+  } catch (error) {
+    return Toast.showWithGravity(
+      error.response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+  }
+};
+
+export const ChangePassword = async (payload, id) => {
+  const token = await useStorage.getItem(USER.ACCESS_TOKEN);
+  try {
+    // await useStorage.removeItem(USER.USER_DATA)
+    const response = await axios.post(
+      'http://localhost:8000/api/change-password',
+      payload,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    Toast.showWithGravity(
+      response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+    return response.data;
+  } catch (error) {
+    return Toast.showWithGravity(
+      error.response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+  }
+};
+
+export const ForgotPassword = async (payload) => {
+  const token = await useStorage.getItem(USER.ACCESS_TOKEN);
+  try {
+    // await useStorage.removeItem(USER.USER_DATA)
+    const response = await axios.post(
+      'http://localhost:8000/api/forgot-password-otp',
+      payload,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    Toast.showWithGravity(
+      response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+    return response.data;
+  } catch (error) {
+    return Toast.showWithGravity(
+      error.response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+  }
+};
+
+export const ResetPassword = async (payload) => {
+  const token = await useStorage.getItem(USER.ACCESS_TOKEN);
+  try {
+    // await useStorage.removeItem(USER.USER_DATA)
+    const response = await axios.post(
+      'http://localhost:8000/api/reset-password-otp',
+      payload,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    Toast.showWithGravity(
+      response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+    return response.data;
+  } catch (error) {
+    return Toast.showWithGravity(
+      error.response.data.message,
+      Toast.LONG,
+      Toast.CENTER,
+    );
+  }
+};
