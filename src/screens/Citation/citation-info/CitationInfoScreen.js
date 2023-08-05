@@ -20,7 +20,9 @@ import {FetchAllViolations} from '../../../services/violationApi';
 
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
-import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
+
+// redux
+import { loadingStart, loadingFinish } from '../../../store/loader/reducers';
 
 const CitationInfoScreen = () => {
   const navigation = useNavigation();
@@ -31,19 +33,23 @@ const CitationInfoScreen = () => {
     licenseInfo,
     vehiclesInfo,
     citationDetails,
+    invoice,
   } = useSelector(store => store.citation);
   const [violations, setViolations] = useState([]);
   let totalAmount = 0;
 
   const fetchHandler = useCallback(async () => {
+    dispatch(loadingStart());
     const response = await FetchAllViolations();
     setViolations(response);
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       fetchHandler();
-      setTimeout(() => {}, 2000);
+      setTimeout(() => {
+        dispatch(loadingFinish());
+      }, 2000);
     });
   }, [dispatch, fetchHandler, navigation]);
 
@@ -74,10 +80,11 @@ const CitationInfoScreen = () => {
           </Text>
           <View style={{position: 'absolute', right: 30, top: 1}}>
             <TouchableOpacity
+              disabled={invoice.status !== 'unpaid'}
               onPress={() => {
                 navigation.navigate('CitedViolationScreen');
               }}>
-              <Icon name={'edit'} size={30} color={'white'} />
+              <Icon name={'edit'} size={30} color={invoice.status !== 'unpaid' ? 'gray' : 'white'} />
             </TouchableOpacity>
           </View>
         </View>
@@ -168,7 +175,7 @@ const CitationInfoScreen = () => {
             <Text
               numberOfLines={1}
               style={[DetailsItemStyles.itemName, {width: '100%'}]}>
-              Total Amount: {`₱${totalAmount}`}
+              Sub Total Amount: {`₱${totalAmount}`}
             </Text>
           </View>
         </View>

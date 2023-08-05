@@ -15,6 +15,7 @@ import {
   setViolatorsInfo,
   setCitationDetails,
   setCitationId,
+  setInvoice,
 } from '../../../store/citation/reducers';
 
 const CitationItem = ({item}) => {
@@ -60,12 +61,25 @@ const CitationItem = ({item}) => {
       barangay: data?.barangay,
       street: data?.street,
     };
+    const invoicePayload = {
+      citation_id: data.invoice.citation_id,
+      created_at: data.invoice.created_at,
+      date: data.invoice.date,
+      discount: data.invoice.discount,
+      id: data.invoice.id,
+      status: data.invoice.status,
+      sub_total: data.invoice.sub_total,
+      total_amount: data.invoice.total_amount,
+      updated_at: data.invoice.updated_at,
+      violations: data.invoice.violations,
+    };
     await dispatch(setCitationId(data?.id));
     await dispatch(setViolations(violationPayload));
     await dispatch(setViolatorsInfo(violatorPayload));
     await dispatch(setVehiclesInfo(vehiclesPayload));
     await dispatch(setLicenseInfo(licensePayload));
     await dispatch(setCitationDetails(citationPayload));
+    await dispatch(setInvoice(invoicePayload));
     navigation.navigate('CitationInfoScreen');
   };
   return (

@@ -6,7 +6,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import PropTypes from 'prop-types';
 
 // screens
-import SignupScreen from '../../screens/Auth/Signup/SignupScreen';
 import LoginScreen from '../../screens/Auth/Login/LoginScreen';
 import ForgotPasswordScreen from '../../screens/Auth/Forgot-pass/ForgotPassword';
 
@@ -48,11 +47,6 @@ const Auth = ({navigation}) => {
       <AuthStack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        options={{headerShown: false}}
-      />
-      <AuthStack.Screen
-        name="SignupScreen"
-        component={SignupScreen}
         options={{headerShown: false}}
       />
       <AuthStack.Screen

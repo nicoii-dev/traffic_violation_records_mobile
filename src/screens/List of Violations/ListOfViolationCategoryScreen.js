@@ -24,7 +24,6 @@ const ListOfViolationCategoryScreen = () => {
     dispatch(loadingStart());
     const response = await FetchAllCategory();
     if (response) {setCategories(response);}
-    console.log(response);
   }, [dispatch]);
 
   useEffect(() => {

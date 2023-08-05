@@ -41,6 +41,18 @@ const initialState = {
     barangay: '',
     street: '',
   },
+  invoice: {
+    citation_id: '',
+    created_at: '',
+    date: '',
+    discount: '',
+    id: '',
+    status: '',
+    sub_total: '',
+    total_amount: '',
+    updated_at: '',
+    violations: [],
+  },
 };
 
 const citationSlice = createSlice({
@@ -94,6 +106,12 @@ const citationSlice = createSlice({
         citationDetails: action.payload,
       };
     },
+    setInvoice: (state, action) => {
+      return {
+        ...state,
+        invoice: action.payload,
+      };
+    },
     removeCitationInfo: state => {
       return {
         ...state,
@@ -127,8 +145,8 @@ const citationSlice = createSlice({
           ownerAddress: '',
           vehicleStatus: '',
         },
+        citationId: null,
         citationDetails: {
-          citationId: '',
           violationDate: '',
           violationTime: '',
           municipality: '',
@@ -149,5 +167,7 @@ export const {
   setVehiclesInfo,
   setCitationDetails,
   setCitationId,
+  setInvoice,
+  removeCitationInfo,
 } = citationSlice.actions;
 export default citationSlice.reducer;

@@ -10,6 +10,7 @@ import {
 import React, {useState, useCallback, useEffect} from 'react';
 import {Icon} from '@rneui/themed';
 import {useNavigation} from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 // components
 import HeaderComponent from '../../components/header/HeaderComponent';
@@ -21,23 +22,30 @@ import CitationItem from '../../components/screens/citation/item';
 import {FetchCitationByEnforcer} from '../../services/citation';
 import NoData from '../../components/no-data/NoData';
 
+// redux
+import { removeCitationInfo } from '../../store/citation/reducers';
+import { loadingStart, loadingFinish } from '../../store/loader/reducers';
+
 const CitationScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [citation, setCitation] = useState([]);
 
   const fetchHandler = useCallback(async () => {
+    dispatch(loadingStart());
     const userData = await useStorage.getItem(USER.USER_DATA);
     const response = await FetchCitationByEnforcer(JSON.parse(userData)?.id);
     if (response) {
       setCitation(response);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       fetchHandler();
       setTimeout(() => {
-        // dispatch(loadingFinish());
+        dispatch(loadingFinish());
       }, 2000);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,6 +72,7 @@ const CitationScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('CitedViolationScreen');
+                dispatch(removeCitationInfo());
               }}>
               <Icon name={'add-circle'} size={30} color={'white'} />
             </TouchableOpacity>

@@ -24,7 +24,7 @@ const ConfirmationScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [violations, setViolations] = useState([]);
-  let totalAmount = 0;
+  let subTotal = 0;
   const {
     citedViolations,
     violatorInfo,
@@ -33,12 +33,10 @@ const ConfirmationScreen = () => {
     citationDetails,
     citationId,
   } = useSelector(store => store.citation);
-  console.log(citationDetails);
 
   const fetchHandler = useCallback(async () => {
     const response = await FetchAllViolations();
     setViolations(response);
-    console.log(response);
   }, []);
 
   useEffect(() => {
@@ -80,7 +78,7 @@ const ConfirmationScreen = () => {
       zipcode: citationDetails.zipCode,
       barangay: citationDetails.barangay,
       street: citationDetails.street,
-      total_amount: totalAmount,
+      sub_total: subTotal,
     };
     if (_.isNull(citationId)) {
       await CreateCitation(payload).then(async response => {
@@ -212,7 +210,7 @@ const ConfirmationScreen = () => {
             <Text style={DetailsItemStyles.itemData}>
               {violations.map((data, index) => {
                 if (citedViolations.some(user => user === data.id)) {
-                  totalAmount = parseInt(totalAmount) + parseInt(data?.penalty);
+                  subTotal = parseInt(subTotal) + parseInt(data?.penalty);
                   return `${data?.violation_name} - ₱${data?.penalty}\n`;
                 }
               })}
@@ -222,7 +220,7 @@ const ConfirmationScreen = () => {
             <Text
               numberOfLines={1}
               style={[DetailsItemStyles.itemName, {width: '100%'}]}>
-              Total Amount: {`₱${totalAmount}`}
+              Sub Total Amount: {`₱${subTotal}`}
             </Text>
           </View>
         </View>
