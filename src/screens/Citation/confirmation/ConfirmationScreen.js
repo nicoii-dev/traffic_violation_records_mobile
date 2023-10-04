@@ -10,6 +10,8 @@ import Toast from 'react-native-simple-toast';
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
 import DetailsItemStyles from './style';
+import { useStorage } from '../../../library/storage/Storage';
+import { USER } from '../../../library/contants';
 
 // api
 import {FetchAllViolations} from '../../../services/violationApi';
@@ -23,6 +25,7 @@ import _ from 'lodash';
 const ConfirmationScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [userData, setUserData] = useState();
   const [violations, setViolations] = useState([]);
   let subTotal = 0;
   const {
@@ -115,6 +118,15 @@ const ConfirmationScreen = () => {
     }
   };
 
+  const getUserData = useCallback(async () => {
+    let user = await useStorage.getItem(USER.USER_DATA);
+    setUserData(JSON.parse(user));
+  }, []);
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <HeaderComponent>
@@ -140,6 +152,16 @@ const ConfirmationScreen = () => {
             padding: 10,
             paddingLeft: 20,
           }}>
+          <View style={{marginTop: 10, marginBottom: 10}}>
+            <Text style={{fontSize: 16, color: 'black'}}>
+              Enforcer Name:
+              <Text style={{fontWeight: 'bold'}}>
+                {` ${userData?.first_name?.toUpperCase()} ${userData?.middle_name
+                  ?.charAt(0)
+                  ?.toUpperCase()}. ${userData?.last_name.toUpperCase()}`}
+              </Text>
+            </Text>
+          </View>
           <View style={DetailsItemStyles.viewContainer}>
             <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
               Time & Date:
@@ -166,9 +188,10 @@ const ConfirmationScreen = () => {
             </Text>
             <Text style={DetailsItemStyles.itemData}>
               {`Name: ${violatorInfo?.lastName}, ${violatorInfo?.firstName} ${violatorInfo?.middleName}\n`}
+              {`Gender: ${violatorInfo?.gender}\n`}
               {`Address: ${violatorInfo?.address}\n`}
               {`Nationality: ${violatorInfo?.nationality}\n`}
-              {`Phone number: ${violatorInfo?.phone_number}\n`}
+              {`Phone number: ${violatorInfo?.phoneNumber}\n`}
               {`Date of Birth: ${moment(violatorInfo?.dob).format(
                 'MM-DD-YYYY',
               )}`}

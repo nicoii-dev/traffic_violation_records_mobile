@@ -5,9 +5,9 @@ import React, {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-
+import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {CheckBox} from '@rneui/themed';
 // components
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
 import HeaderComponent from '../../../components/header/HeaderComponent';
@@ -17,12 +17,13 @@ import {licenseSchema} from '../../../library/yup-schema/licenseInfoSchema';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
 // redux
-import { setLicenseInfo } from '../../../store/citation/reducers';
+import {setLicenseInfo} from '../../../store/citation/reducers';
 
 const LicenseInfoScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {licenseInfo} = useSelector(store => store.citation);
+  const [hasLicense, setHasLicense] = useState(true);
 
   const defaultValues = {
     licenseNumber: '',
@@ -46,7 +47,20 @@ const LicenseInfoScreen = () => {
     }
   }, [licenseInfo.licenseNumber, setValue]);
 
+  useEffect(() => {
+    if (hasLicense === false) {
+      setValue('licenseNumber', 'XXX-XX-XXXXXX');
+      return;
+    }
+    setValue('licenseNumber', '');
+  }, [setValue, hasLicense]);
+
   const onSubmit = async data => {
+    if (hasLicense === false) {
+      await dispatch(setLicenseInfo({...data, licenseNumber: '0'}));
+      navigation.navigate('VehiclesInfoScreen');
+      return;
+    }
     await dispatch(setLicenseInfo(data));
     navigation.navigate('VehiclesInfoScreen');
   };
@@ -98,6 +112,25 @@ const LicenseInfoScreen = () => {
           marginTop: 10,
           alignItems: 'center',
         }}>
+        <View style={{flexDirection: 'row', width: '95%', marginBottom: 20}}>
+          <CheckBox
+            checked={hasLicense}
+            onPress={() => setHasLicense(true)}
+            checkedIcon="dot-circle-o"
+            uncheckedIcon="circle-o"
+            title={'With License'}
+            containerStyle={{backgroundColor: 'transparent'}}
+          />
+          <CheckBox
+            checked={!hasLicense}
+            onPress={() => setHasLicense(false)}
+            checkedIcon="dot-circle-o"
+            uncheckedIcon="circle-o"
+            title={'Without License'}
+            containerStyle={{backgroundColor: 'transparent'}}
+          />
+        </View>
+
         <LicenseTextInput
           headerTitle={'License Number'}
           control={control}
@@ -105,7 +138,9 @@ const LicenseInfoScreen = () => {
           placeholder={'XXX-XX-XXXXXX'}
           errorMessage={errors?.licenseNumber?.message}
           errorStyle={{color: 'red'}}
-          keyboardType={"numeric"}
+          keyboardType={'numeric'}
+          disabled={!hasLicense}
+          editable={hasLicense}
         />
         <View>
           <PickerInputController
@@ -121,6 +156,7 @@ const LicenseInfoScreen = () => {
               'Student-Permit',
             ]}
             errorStyle={{color: 'red'}}
+            enabled={hasLicense}
           />
         </View>
         <View>
@@ -133,6 +169,7 @@ const LicenseInfoScreen = () => {
             errorMessage={errors?.licenseStatus?.message}
             pickerOptions={['Expired', 'Unexpired']}
             errorStyle={{color: 'red'}}
+            enabled={hasLicense}
           />
         </View>
       </View>

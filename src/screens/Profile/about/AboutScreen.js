@@ -70,7 +70,7 @@ const AboutScreen = () => {
         </View>
       </HeaderComponent>
       <View>
-        <Text>About</Text>
+        <Text>wewqeqwe</Text>
       </View>
     </View>
   );

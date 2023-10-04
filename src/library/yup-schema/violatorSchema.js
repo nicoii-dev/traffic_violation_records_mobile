@@ -7,7 +7,8 @@ export const violatorSchema = yup
       .string()
       .required('Last name is required')
       .min(2, 'Last name must be atleast 2 letters')
-      .matches(/^[A-Za-z]+$/, 'Letters only'),
+      // .matches(/^[A-Za-z]+$/, 'Letters only')
+      ,
     firstName: yup
       .string()
       .required('First name is required')
@@ -18,7 +19,7 @@ export const violatorSchema = yup
       .required('Middle name is required')
       .min(2, 'Middle name must be atleast 2 letters')
       .matches(/^[A-Za-z]+$/, 'Letters only'),
-    gender: yup.string().required('Gender is required'),
+    // gender: yup.string().required('Gender is required'),
     address: yup.string().required('Address is required'),
     phoneNumber: yup
       .string()

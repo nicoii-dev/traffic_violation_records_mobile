@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
-import { COLORS } from '../../../config/colors';
+import {COLORS} from '../../../config/colors';
 
 const RadioButtonController = ({
   name,
@@ -25,8 +26,8 @@ const RadioButtonController = ({
         control={control}
         rules={rules}
         render={({field: {onChange, value}}) => {
-          const onRadioBtnClick = (item) => {
-            let updatedState = options.map((isLikedItem) =>
+          const onRadioBtnClick = item => {
+            let updatedState = options.map(isLikedItem =>
               isLikedItem.id === item.id
                 ? {...isLikedItem, selected: true}
                 : {...isLikedItem, selected: false},
@@ -37,10 +38,24 @@ const RadioButtonController = ({
           return (
             <View
               style={[
-                {flexDirection: 'row', alignItems: 'center', marginBottom: 15, marginLeft: 10},
+                {
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginBottom: 15,
+                  marginLeft: 10,
+                },
               ]}>
               {headerTitle ? (
-                <Text style={[{fontSize: 18, fontFamily: 'Manrope-Regular', marginRight: 20, color: 'black'}, headerStyles]}>
+                <Text
+                  style={[
+                    {
+                      fontSize: 18,
+                      fontFamily: 'Manrope-Regular',
+                      marginRight: 20,
+                      color: 'black',
+                    },
+                    headerStyles,
+                  ]}>
                   {headerTitle}
                 </Text>
               ) : null}
@@ -81,8 +96,7 @@ const RadioButtonController = ({
                       onRadioBtnClick(item);
                     }}
                     disabled={disabled}
-                    style={{marginRight: 20}}
-                    >
+                    style={{marginRight: 20}}>
                     <Text
                       style={[
                         {fontSize: 18, marginLeft: 5, color: 'black'},

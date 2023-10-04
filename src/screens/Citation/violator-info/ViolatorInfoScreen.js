@@ -8,6 +8,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
+import {CheckBox} from '@rneui/base';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
@@ -32,13 +33,14 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 const ViolatorInfoScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [selectedGender, setSelectedGender] = React.useState('Male');
 
   const defaultValues = {
-    firstName: 'Arjohn',
-    middleName: 'Bagalihog',
-    lastName: 'Ely',
-    address: 'Zone 5A Iponan',
-    phoneNumber: '09354135541',
+    firstName: 'Juan',
+    middleName: 'Aquino',
+    lastName: 'Dela Cruz',
+    address: 'Igpit Plaza',
+    phoneNumber: '09123456789',
     dob: '',
     gender: 'Male',
     nationality: 'Filipino',
@@ -60,11 +62,15 @@ const ViolatorInfoScreen = () => {
     if (violatorInfo.dob) {
       setValue('dob', violatorInfo.dob);
     }
-  }, [setValue, violatorInfo.dob]);
+    if(violatorInfo.gender) {
+      setSelectedGender(violatorInfo.gender)
+    }
+  }, [setValue, violatorInfo.dob, violatorInfo.gender]);
 
   const onSubmit = async data => {
-    console.log(data);
-    await dispatch(setViolatorsInfo(data));
+    let newData = {...data, gender: selectedGender};
+
+    await dispatch(setViolatorsInfo(newData));
     navigation.navigate('LicenseInfoScreen');
   };
 
@@ -143,14 +149,37 @@ const ViolatorInfoScreen = () => {
             errorMessage={errors?.lastName?.message}
             errorStyle={{color: 'red'}}
           />
-          <TextInputController
+          {/* <TextInputController
             headerTitle={'Gender'}
             control={control}
             name={'gender'}
             placeholder={'Gender'}
             errorMessage={errors?.gender?.message}
             errorStyle={{color: 'red'}}
-          />
+          /> */}
+          <View style={{flexDirection: 'row', width: '95%'}}>
+            <View>
+              <Text style={{fontSize: 18, color: 'black', textAlign: 'left'}}>
+                Gender
+              </Text>
+            </View>
+            <CheckBox
+              checked={selectedGender === 'Male'}
+              onPress={() => setSelectedGender('Male')}
+              checkedIcon="dot-circle-o"
+              uncheckedIcon="circle-o"
+              title={'Male'}
+              containerStyle={{backgroundColor: 'transparent'}}
+            />
+            <CheckBox
+              checked={selectedGender === 'Female'}
+              onPress={() => setSelectedGender('Female')}
+              checkedIcon="dot-circle-o"
+              uncheckedIcon="circle-o"
+              title={'Female'}
+              containerStyle={{backgroundColor: 'transparent'}}
+            />
+          </View>
           <TextInputController
             headerTitle={'Address'}
             control={control}

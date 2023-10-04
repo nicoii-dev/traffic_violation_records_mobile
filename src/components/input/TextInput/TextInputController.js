@@ -29,6 +29,7 @@ const TextInputController = ({
   rightIconShow = 'visibility',
   rightIconHide = 'visibility-off',
   inputStyle,
+  disabled
 }) => {
   const [show, setShow] = useState(secureTextEntry);
 
@@ -88,6 +89,7 @@ const TextInputController = ({
                 ) : undefined
               }
               style={[TextInputStyles.inputStyle, inputStyle]}
+              disabled={disabled}
             />
           </View>
         );

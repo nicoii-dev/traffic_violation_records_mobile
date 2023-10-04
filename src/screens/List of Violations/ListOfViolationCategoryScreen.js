@@ -47,7 +47,7 @@ const ListOfViolationCategoryScreen = () => {
         </View>
       </HeaderComponent>
       {categories < 1 ? (
-        <NoData />
+        <NoData fetchFunction={fetchHandler} />
       ) : (
         <FlatList
           keyExtractor={item => item.id}

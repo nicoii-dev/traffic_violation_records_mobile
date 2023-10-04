@@ -68,7 +68,7 @@ const HomeScreen = () => {
           List of ticketed drivers:
         </Text>
       </View>
-      {citation?.length < 1 ? <NoData /> :
+      {citation?.length < 1 ? <NoData fetchFunction={fetchHandler} /> :
       <View>
         <FlatList
           keyExtractor={(item, index) => item.id + index.toString()}

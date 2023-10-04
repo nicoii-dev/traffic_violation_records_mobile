@@ -18,6 +18,7 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 // redux
 import {addViolation, removeViolation} from '../../../store/citation/reducers';
 import NoData from '../../../components/no-data/NoData';
+import {loadingStart, loadingFinish} from '../../../store/loader/reducers';
 
 const CitedViolationScreen = () => {
   const navigation = useNavigation();
@@ -26,20 +27,22 @@ const CitedViolationScreen = () => {
   const {citedViolations} = useSelector(store => store.citation);
 
   const fetchHandler = useCallback(async () => {
-    // dispatch(loadingStart());
+    dispatch(loadingStart());
     const response = await FetchAllViolations();
     setViolations(response);
-    console.log(response);
-  }, []);
+    setTimeout(() => {
+      dispatch(loadingFinish());
+    }, 2000);
+  }, [dispatch]);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       fetchHandler();
       setTimeout(() => {
-        // dispatch(loadingFinish());
+        dispatch(loadingFinish());
       }, 2000);
     });
-  }, [fetchHandler, navigation]);
+  }, [dispatch, fetchHandler, navigation]);
 
   const SelectedViolations = item => {
     const inList = citedViolations.some(violation => violation === item);
@@ -77,8 +80,8 @@ const CitedViolationScreen = () => {
           </Text>
         </View>
       </HeaderComponent>
-      {violations < 1 ? (
-        <NoData />
+      {violations.length < 1 ? (
+        <NoData fetchFunction={fetchHandler} />
       ) : (
         <View style={{height: heightPercentageToDP('70%')}}>
           <FlatList

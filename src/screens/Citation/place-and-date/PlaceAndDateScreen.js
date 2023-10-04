@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {View, Text, Pressable, Keyboard, Platform} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useNavigation} from '@react-navigation/native';
@@ -11,6 +11,8 @@ import PlaceOfViolationComponent from '../../../components/screens/citation/plac
 import DateAndTimeComponent from '../../../components/screens/citation/date-and-time/DateAndTimeComponent';
 import HeaderComponent from '../../../components/header/HeaderComponent';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
+import {useStorage} from '../../../library/storage/Storage';
+import {USER} from '../../../library/contants';
 // schema
 import {citationPlaceAndDateSchema} from '../../../library/yup-schema/citationPlaceAndDateSchema';
 // redux
@@ -18,6 +20,7 @@ import {setCitationDetails} from '../../../store/citation/reducers';
 const PlaceAndDateScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [userData, setUserData] = useState();
   const {citationDetails} = useSelector(store => store.citation);
 
   const defaultValues = {
@@ -80,6 +83,16 @@ const PlaceAndDateScreen = () => {
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  const getUserData = useCallback(async () => {
+    let user = await useStorage.getItem(USER.USER_DATA);
+    setUserData(JSON.parse(user));
+  }, []);
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
+
   return (
     <>
       <View
@@ -106,6 +119,13 @@ const PlaceAndDateScreen = () => {
             </Text>
           </View>
         </HeaderComponent>
+        <View style={{marginTop: 10, marginBottom: 10}}>
+          <Text style={{fontSize: 16, color: 'black'}}>Enforcer Name:
+            <Text style={{fontWeight: 'bold'}}>
+            {` ${userData?.first_name?.toUpperCase()} ${userData?.middle_name?.charAt(0)?.toUpperCase()}. ${userData?.last_name.toUpperCase()}`}
+            </Text>
+          </Text>
+        </View>
         <DateAndTimeComponent control={control} errors={errors} />
         <PlaceOfViolationComponent control={control} errors={errors} />
       </View>

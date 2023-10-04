@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {Input, Text} from '@rneui/themed';
 import {View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
@@ -29,6 +30,7 @@ const LicenseTextInput = ({
   rightIconShow = 'visibility',
   rightIconHide = 'visibility-off',
   inputStyle,
+  disabled
 }) => {
   const [show, setShow] = useState(secureTextEntry);
 
@@ -79,6 +81,7 @@ const LicenseTextInput = ({
                 ) : undefined
               }
               style={[TextInputStyles.inputStyle, inputStyle]}
+              disabled={disabled}
             />
           </View>
         );

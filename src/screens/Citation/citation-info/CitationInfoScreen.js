@@ -78,7 +78,7 @@ const CitationInfoScreen = () => {
             }}>
             Citation Info
           </Text>
-          <View style={{position: 'absolute', right: 30, top: 1}}>
+          {/* <View style={{position: 'absolute', right: 30, top: 1}}>
             <TouchableOpacity
               disabled={invoice.status !== 'unpaid'}
               onPress={() => {
@@ -86,7 +86,7 @@ const CitationInfoScreen = () => {
               }}>
               <Icon name={'edit'} size={30} color={invoice.status !== 'unpaid' ? 'gray' : 'white'} />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </HeaderComponent>
       <ScrollView>

@@ -1,11 +1,19 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, SafeAreaView, Pressable, Keyboard, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Pressable,
+  Keyboard,
+  ScrollView,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {CheckBox} from '@rneui/themed';
 
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
@@ -14,7 +22,7 @@ import TextInputController from '../../../components/input/TextInput/TextInputCo
 import PickerInputController from '../../../components/input/PickerInput/PickerInputController';
 
 // schema
-import { vehicleSchema } from '../../../library/yup-schema/vehicleSchema';
+import {vehicleSchema} from '../../../library/yup-schema/vehicleSchema';
 
 // redux
 import {setVehiclesInfo} from '../../../store/citation/reducers';
@@ -23,13 +31,14 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 const VehiclesInfoScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [registeredVehicle, setRegisteredVehicle] = useState(true);
 
   const defaultValues = {
     plateNumber: '123-567',
     make: 'Honda',
     model: 'Click 125',
     color: 'Black',
-    registeredOwner: 'Arjohn Ely',
+    registeredOwner: 'Juan Dela Cruz',
     vehicleStatus: 'Unexpired',
   };
 
@@ -71,6 +80,14 @@ const VehiclesInfoScreen = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (registeredVehicle === false) {
+      setValue('registeredOwner', 'N/A');
+      return;
+    }
+    setValue('registeredOwner', '');
+  }, [setValue, registeredVehicle]);
+
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent>
@@ -93,90 +110,112 @@ const VehiclesInfoScreen = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
-      <View
-        style={{
-          flex: 1,
-          width: widthPercentageToDP('90%'),
-          marginTop: 10,
-          alignItems: 'center',
-        }}>
-        <TextInputController
-          headerTitle={'Plate Number'}
-          control={control}
-          name={'plateNumber'}
-          placeholder={'Plate Number'}
-          errorMessage={errors?.plateNumber?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <TextInputController
-          headerTitle={'Make'}
-          control={control}
-          name={'make'}
-          placeholder={'make'}
-          errorMessage={errors?.make?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <TextInputController
-          headerTitle={'Model'}
-          control={control}
-          name={'model'}
-          placeholder={'Model'}
-          errorMessage={errors?.model?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <TextInputController
-          headerTitle={'Color'}
-          control={control}
-          name={'color'}
-          placeholder={'Color'}
-          errorMessage={errors?.color?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <TextInputController
-          headerTitle={'Class'}
-          control={control}
-          name={'class'}
-          placeholder={'Class'}
-          errorMessage={errors?.class?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <TextInputController
-          headerTitle={'Body Markings'}
-          control={control}
-          name={'bodyMarkings'}
-          placeholder={'Body Markings'}
-          errorMessage={errors?.bodyMarkings?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <TextInputController
-          headerTitle={'Registered Owner'}
-          control={control}
-          name={'registeredOwner'}
-          placeholder={'Registered Owner'}
-          errorMessage={errors?.registeredOwner?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <TextInputController
-          headerTitle={'Owner Address'}
-          control={control}
-          name={'ownerAddress'}
-          placeholder={'Owner Address'}
-          errorMessage={errors?.ownerAddress?.message}
-          errorStyle={{color: 'red'}}
-        />
-        <View>
-          <PickerInputController
-            headerTitle={'Vehicle Status'}
-            name={'vehicleStatus'}
+        <View
+          style={{
+            flex: 1,
+            width: widthPercentageToDP('90%'),
+            marginTop: 10,
+            alignItems: 'center',
+          }}>
+          <TextInputController
+            headerTitle={'Plate Number'}
             control={control}
-            // setValue={setValue}
-            headerStyles={{marginLeft: 20}}
-            errorMessage={errors?.vehicleStatus?.message}
-            pickerOptions={['Unexpired', 'Expired']}
+            name={'plateNumber'}
+            placeholder={'Plate Number'}
+            errorMessage={errors?.plateNumber?.message}
             errorStyle={{color: 'red'}}
           />
+          <TextInputController
+            headerTitle={'Make'}
+            control={control}
+            name={'make'}
+            placeholder={'make'}
+            errorMessage={errors?.make?.message}
+            errorStyle={{color: 'red'}}
+          />
+          <TextInputController
+            headerTitle={'Model'}
+            control={control}
+            name={'model'}
+            placeholder={'Model'}
+            errorMessage={errors?.model?.message}
+            errorStyle={{color: 'red'}}
+          />
+          <TextInputController
+            headerTitle={'Color'}
+            control={control}
+            name={'color'}
+            placeholder={'Color'}
+            errorMessage={errors?.color?.message}
+            errorStyle={{color: 'red'}}
+          />
+          <TextInputController
+            headerTitle={'Class'}
+            control={control}
+            name={'class'}
+            placeholder={'Class'}
+            errorMessage={errors?.class?.message}
+            errorStyle={{color: 'red'}}
+          />
+          <TextInputController
+            headerTitle={'Body Markings'}
+            control={control}
+            name={'bodyMarkings'}
+            placeholder={'Body Markings'}
+            errorMessage={errors?.bodyMarkings?.message}
+            errorStyle={{color: 'red'}}
+          />
+          <View style={{flexDirection: 'row', width: '95%', marginBottom: 20}}>
+            <CheckBox
+              checked={registeredVehicle}
+              onPress={() => setRegisteredVehicle(true)}
+              checkedIcon="dot-circle-o"
+              uncheckedIcon="circle-o"
+              title={'Registered'}
+              containerStyle={{backgroundColor: 'transparent'}}
+            />
+            <CheckBox
+              checked={!registeredVehicle}
+              onPress={() => setRegisteredVehicle(false)}
+              checkedIcon="dot-circle-o"
+              uncheckedIcon="circle-o"
+              title={'Unregistered'}
+              containerStyle={{backgroundColor: 'transparent'}}
+            />
+          </View>
+          <TextInputController
+            headerTitle={'Registered Owner'}
+            control={control}
+            name={'registeredOwner'}
+            placeholder={'Registered Owner'}
+            errorMessage={errors?.registeredOwner?.message}
+            errorStyle={{color: 'red'}}
+            editable={registeredVehicle}
+            disabled={!registeredVehicle}
+          />
+          <TextInputController
+            headerTitle={'Owner Address'}
+            control={control}
+            name={'ownerAddress'}
+            placeholder={'Owner Address'}
+            errorMessage={errors?.ownerAddress?.message}
+            errorStyle={{color: 'red'}}
+            editable={registeredVehicle}
+            disabled={!registeredVehicle}
+          />
+          <View>
+            <PickerInputController
+              headerTitle={'Vehicle Status'}
+              name={'vehicleStatus'}
+              control={control}
+              // setValue={setValue}
+              headerStyles={{marginLeft: 20}}
+              errorMessage={errors?.vehicleStatus?.message}
+              pickerOptions={['Unexpired', 'Expired']}
+              errorStyle={{color: 'red'}}
+            />
+          </View>
         </View>
-      </View>
       </ScrollView>
       <View
         style={{

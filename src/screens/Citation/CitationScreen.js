@@ -10,7 +10,7 @@ import {
 import React, {useState, useCallback, useEffect} from 'react';
 import {Icon} from '@rneui/themed';
 import {useNavigation} from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 // components
 import HeaderComponent from '../../components/header/HeaderComponent';
@@ -23,8 +23,8 @@ import {FetchCitationByEnforcer} from '../../services/citation';
 import NoData from '../../components/no-data/NoData';
 
 // redux
-import { removeCitationInfo } from '../../store/citation/reducers';
-import { loadingStart, loadingFinish } from '../../store/loader/reducers';
+import {removeCitationInfo} from '../../store/citation/reducers';
+import {loadingStart, loadingFinish} from '../../store/loader/reducers';
 
 const CitationScreen = () => {
   const navigation = useNavigation();
@@ -38,7 +38,10 @@ const CitationScreen = () => {
     if (response) {
       setCitation(response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setTimeout(() => {
+      dispatch(loadingFinish());
+    }, 2000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -80,7 +83,7 @@ const CitationScreen = () => {
         </View>
       </HeaderComponent>
       {citation?.length < 1 ? (
-        <NoData />
+        <NoData fetchFunction={fetchHandler} />
       ) : (
         <View style={{flex: 1}}>
           <FlatList
