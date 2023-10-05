@@ -21,8 +21,8 @@ const LoginComponent = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const defaultValues = {
-    email: 'admin@admin.com',
-    password: 'Default123',
+    email: '',
+    password: '',
   };
 
   const {
@@ -49,14 +49,14 @@ const LoginComponent = () => {
       <TextInputController
         control={control}
         name={'email'}
-        placeholder={'email'}
+        placeholder={'Email'}
         errorMessage={errors.email?.message}
         errorStyle={{color: 'red'}}
       />
       <TextInputController
         control={control}
         name={'password'}
-        placeholder={'password'}
+        placeholder={'Password'}
         secureTextEntry={true}
         errorMessage={errors.password?.message}
         errorStyle={{color: 'red'}}

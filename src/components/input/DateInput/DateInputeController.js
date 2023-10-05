@@ -59,7 +59,7 @@ const DateInputController = ({
                   display={display}
                   onChange={hanleOnDateChange}
                   maximumDate={new Date()}
-                  style={{}}
+                  style={{backgroundColor: '#E0E0E0'}}
                 />
               )}
               {!show && (

@@ -88,6 +88,7 @@ const TextInputController = ({
                   </TouchableOpacity>
                 ) : undefined
               }
+              // rightIconContainerStyle={{backgroundColor: '#E0E0E0', height: '75%'}}
               style={[TextInputStyles.inputStyle, inputStyle]}
               disabled={disabled}
             />

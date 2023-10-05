@@ -2,14 +2,25 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import moment from 'moment';
 import DetailsItemStyles from './style';
-
+import { useStorage } from '../../../../library/storage/Storage';
+import { USER } from '../../../../library/contants';
 // reducer
 
 const ViolatorDetailsList = ({item}) => {
-  console.log(item);
+  const [userData, setUserData] = useState();
+
+  const getUserData = useCallback(async () => {
+    let user = await useStorage.getItem(USER.USER_DATA);
+    setUserData(JSON.parse(user));
+  }, []);
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
+
   return (
     <>
       <View
@@ -47,6 +58,32 @@ const ViolatorDetailsList = ({item}) => {
               color: 'black',
             }}>
             {`#${item?.id}`}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 5,
+            width: '100%',
+          }}>
+          <Text
+            style={{
+              width: '40%',
+              fontFamily: 'Manrope-Regular',
+              fontSize: 16,
+              color: 'black',
+            }}>
+            Enforcer Name:
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'Manrope-Regular',
+              fontSize: 16,
+              color: 'black',
+            }}>
+                {` ${userData?.first_name?.toUpperCase()} ${userData?.middle_name
+                  ?.charAt(0)
+                  ?.toUpperCase()}. ${userData?.last_name.toUpperCase()}`}
           </Text>
         </View>
         <View style={DetailsItemStyles.viewContainer}>

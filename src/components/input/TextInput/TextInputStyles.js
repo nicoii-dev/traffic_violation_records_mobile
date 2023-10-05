@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet} from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -8,12 +9,13 @@ const TextInputStyles = StyleSheet.create({
   header: {
     fontSize: 18,
     width: '95%',
-    fontFamily: 'Manrope-Regular'
+    fontFamily: 'Manrope-Regular',
   },
   inputStyle: {
     fontSize: 16,
-    marginVertical: -5,
-    fontFamily: 'Manrope-Regular'
+    marginVertical: 0,
+    fontFamily: 'Manrope-Regular',
+    backgroundColor: '#E0E0E0',
   },
 });
 
