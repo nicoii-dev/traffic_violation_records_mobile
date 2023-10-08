@@ -45,7 +45,7 @@ const HomeScreen = () => {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{height: '50%'}}>
+      {/* <View style={{height: '50%'}}>
         <MapView
           style={{height: '100%', width: '100%'}}
           initialRegion={{
@@ -55,7 +55,7 @@ const HomeScreen = () => {
             longitudeDelta: 0.0421,
           }}
         />
-      </View>
+      </View> */}
       <View>
         <Text
           style={{
