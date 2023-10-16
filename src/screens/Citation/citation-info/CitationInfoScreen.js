@@ -136,6 +136,14 @@ const CitationInfoScreen = () => {
           </View>
           <View style={DetailsItemStyles.viewContainer}>
             <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              TCT No.:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`${citationDetails.tct}`}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
               Time & Date:
             </Text>
             <Text style={DetailsItemStyles.itemData}>
@@ -160,7 +168,10 @@ const CitationInfoScreen = () => {
             </Text>
             <Text style={DetailsItemStyles.itemData}>
               {`Name: ${violatorInfo?.lastName}, ${violatorInfo?.firstName} ${violatorInfo?.middleName}\n`}
-              {`Address: ${violatorInfo?.address}\n`}
+              {`Street: ${violatorInfo?.street}\n`}
+              {`Barangay: ${violatorInfo?.barangay}\n`}
+              {`Municipality: ${violatorInfo?.municipality}\n`}
+              {`Zipcode: ${violatorInfo?.zipcode}\n`}
               {`Nationality: ${violatorInfo?.nationality}\n`}
               {`Phone number: ${violatorInfo?.phoneNumber}\n`}
               {`Date of Birth: ${moment(violatorInfo?.dob).format(
@@ -174,7 +185,7 @@ const CitationInfoScreen = () => {
             </Text>
             <Text style={DetailsItemStyles.itemData}>
               {`Number: ${
-                licenseInfo?.licenseNumber
+                licenseInfo?.licenseNumber ? licenseInfo?.licenseNumber : 'N/A'
               }\nType: ${licenseInfo?.licenseType.toUpperCase()}\nStatus: ${licenseInfo?.licenseStatus.toUpperCase()}`}
             </Text>
           </View>

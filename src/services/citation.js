@@ -111,7 +111,7 @@ export const CreateCitation = async payload => {
     );
     return response.data;
   } catch (error) {
-    console.log( error.response.data.message)
+    console.log( error.response)
     return Toast.showWithGravity(
       error.response.data.message,
       Toast.LONG,

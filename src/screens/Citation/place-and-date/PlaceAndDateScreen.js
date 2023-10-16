@@ -25,11 +25,11 @@ const PlaceAndDateScreen = () => {
 
   const defaultValues = {
     tct: '',
-    barangay: 'Awang',
     violationDate: '',
     violationTime: '',
     municipality: 'Opol',
     zipCode: '9016',
+    barangay: 'Awang',
     street: 'Igpit opol',
   };
 
@@ -45,10 +45,13 @@ const PlaceAndDateScreen = () => {
 
   useEffect(() => {
     if (citationDetails.violationDate) {
-      setValue('violationDate', citationDetails.violationDate);
+      setValue('tct', citationDetails.tct);
       setValue('violationTime', citationDetails.violationTime);
+      setValue('violationDate', citationDetails.violationDate);
+      setValue('barangay', citationDetails.barangay);
+      setValue('street', citationDetails.street);
     }
-  }, [citationDetails.violationDate, citationDetails.violationTime, setValue]);
+  }, [citationDetails, setValue]);
 
   const onSubmit = async data => {
     const payload = {

@@ -20,7 +20,10 @@ export const violatorSchema = yup
       .min(2, 'Middle name must be atleast 2 letters')
       .matches(/^[A-Za-z]+$/, 'Letters only'),
     // gender: yup.string().required('Gender is required'),
-    address: yup.string().required('Address is required'),
+    municipality: yup.string().required('Mucipality is required'),
+    zipCode: yup.string().required('Zip code is required'),
+    barangay: yup.string().required('Barangay is required'),
+    street: yup.string().required('Street is required'),
     phoneNumber: yup
       .string()
       .required('Phone number is required')

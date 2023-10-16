@@ -10,8 +10,8 @@ import Toast from 'react-native-simple-toast';
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
 import DetailsItemStyles from './style';
-import { useStorage } from '../../../library/storage/Storage';
-import { USER } from '../../../library/contants';
+import {useStorage} from '../../../library/storage/Storage';
+import {USER} from '../../../library/contants';
 
 // api
 import {FetchAllViolations} from '../../../services/violationApi';
@@ -50,19 +50,23 @@ const ConfirmationScreen = () => {
   }, [dispatch, fetchHandler, navigation]);
 
   const createCitation = async () => {
-    dispatch(loadingStart());
+    // dispatch(loadingStart());
     const payload = {
       first_name: violatorInfo.firstName,
       middle_name: violatorInfo.middleName,
       last_name: violatorInfo.lastName,
       gender: violatorInfo.gender,
       address: violatorInfo.address,
+      violatorMunicipality: violatorInfo.municipality,
+      violatorZipcode: violatorInfo.zipCode,
+      violatorBarangay: violatorInfo.barangay,
+      violatorStreet: violatorInfo.street,
       nationality: violatorInfo.nationality,
       phone_number: violatorInfo.phoneNumber,
       dob: violatorInfo.dob,
-      license_number: licenseInfo.licenseNumber,
-      license_type: licenseInfo.licenseType,
-      license_status: licenseInfo.licenseStatus,
+      license_number: licenseInfo.hasLicense ? licenseInfo.licenseNumber : null,
+      license_type: licenseInfo.hasLicense ? licenseInfo.licenseType : 'N/A',
+      license_status: licenseInfo.hasLicense ? licenseInfo.licenseStatus : 'N/A',
       plate_number: vehiclesInfo.plateNumber,
       make: vehiclesInfo.make,
       model: vehiclesInfo.model,
@@ -73,6 +77,7 @@ const ConfirmationScreen = () => {
       owner_address: vehiclesInfo.ownerAddress || 'N/A',
       vehicle_status: vehiclesInfo.vehicleStatus,
       violations: `[${citedViolations}]`,
+      tct: citationDetails.tct,
       date_of_violation: moment(citationDetails?.violationDate).format(
         'YYYY-MM-DD',
       ),
@@ -83,6 +88,7 @@ const ConfirmationScreen = () => {
       street: citationDetails.street,
       sub_total: subTotal,
     };
+    console.log(payload)
     if (_.isNull(citationId)) {
       await CreateCitation(payload).then(async response => {
         if (!_.isUndefined(response)) {
@@ -164,6 +170,14 @@ const ConfirmationScreen = () => {
           </View>
           <View style={DetailsItemStyles.viewContainer}>
             <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              TCT No.:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {citationDetails.tct}
+            </Text>
+          </View>
+          <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
               Time & Date:
             </Text>
             <Text style={DetailsItemStyles.itemData}>
@@ -189,7 +203,10 @@ const ConfirmationScreen = () => {
             <Text style={DetailsItemStyles.itemData}>
               {`Name: ${violatorInfo?.lastName}, ${violatorInfo?.firstName} ${violatorInfo?.middleName}\n`}
               {`Gender: ${violatorInfo?.gender}\n`}
-              {`Address: ${violatorInfo?.address}\n`}
+              {`Street: ${violatorInfo?.street} \n`}
+              {`Barangay: ${violatorInfo?.barangay} \n`}
+              {`Municipality: ${violatorInfo?.municipality} \n`}
+              {`Zipcode: ${violatorInfo?.zipCode} \n`}
               {`Nationality: ${violatorInfo?.nationality}\n`}
               {`Phone number: ${violatorInfo?.phoneNumber}\n`}
               {`Date of Birth: ${moment(violatorInfo?.dob).format(
@@ -202,9 +219,11 @@ const ConfirmationScreen = () => {
               License Info:
             </Text>
             <Text style={DetailsItemStyles.itemData}>
-              {`Number: ${
-                licenseInfo?.licenseNumber
-              }\nType: ${licenseInfo?.licenseType.toUpperCase()}\nStatus: ${licenseInfo?.licenseStatus.toUpperCase()}`}
+              {licenseInfo.hasLicense
+                ? `Number: ${
+                    licenseInfo?.licenseNumber
+                  }\nType: ${licenseInfo?.licenseType.toUpperCase()}\nStatus: ${licenseInfo?.licenseStatus.toUpperCase()}`
+                : 'Without License'}
             </Text>
           </View>
           <View style={DetailsItemStyles.viewContainer}>

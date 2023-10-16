@@ -30,7 +30,10 @@ const CitationItem = ({item}) => {
       middleName: data?.violator?.middle_name,
       lastName: data?.violator?.last_name,
       gender: data?.violator?.gender,
-      address: data?.violator?.address,
+      street: data?.violator?.street,
+      barangay: data?.violator?.barangay,
+      municipality: data?.violator?.municipality,
+      zipcode: data?.violator?.zipcode,
       nationality: data?.violator?.nationality,
       phoneNumber: data?.violator?.phone_number,
       dob: data?.violator?.dob,
@@ -54,6 +57,7 @@ const CitationItem = ({item}) => {
       licenseStatus: data?.license?.license_status,
     };
     const citationPayload = {
+      tct: data?.tct,
       violationDate: data?.date_of_violation,
       violationTime: data?.time_of_violation,
       municipality: data?.municipality,

@@ -5,8 +5,8 @@ import {View, Text} from 'react-native';
 import React, {useState, useCallback, useEffect} from 'react';
 import moment from 'moment';
 import DetailsItemStyles from './style';
-import { useStorage } from '../../../../library/storage/Storage';
-import { USER } from '../../../../library/contants';
+import {useStorage} from '../../../../library/storage/Storage';
+import {USER} from '../../../../library/contants';
 // reducer
 
 const ViolatorDetailsList = ({item}) => {
@@ -34,34 +34,6 @@ const ViolatorDetailsList = ({item}) => {
         }}>
         <View
           style={{
-            alignSelf: 'flex-start',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginTop: 5,
-            width: '100%',
-          }}>
-          <Text
-            numberOfLines={1}
-            style={{
-              width: '30%',
-              fontFamily: 'Manrope-Regular',
-              fontSize: 16,
-              color: 'black',
-            }}>
-            Citation ID:
-          </Text>
-          <Text
-            style={{
-              paddingLeft: 20,
-              fontFamily: 'Manrope-Regular',
-              fontSize: 16,
-              color: 'black',
-            }}>
-            {`#${item?.id}`}
-          </Text>
-        </View>
-        <View
-          style={{
             flexDirection: 'row',
             marginTop: 5,
             width: '100%',
@@ -81,11 +53,19 @@ const ViolatorDetailsList = ({item}) => {
               fontSize: 16,
               color: 'black',
             }}>
-                {` ${userData?.first_name?.toUpperCase()} ${userData?.middle_name
-                  ?.charAt(0)
-                  ?.toUpperCase()}. ${userData?.last_name.toUpperCase()}`}
+            {` ${userData?.first_name?.toUpperCase()} ${userData?.middle_name
+              ?.charAt(0)
+              ?.toUpperCase()}. ${userData?.last_name.toUpperCase()}`}
           </Text>
         </View>
+        <View style={DetailsItemStyles.viewContainer}>
+            <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
+              TCT No.:
+            </Text>
+            <Text style={DetailsItemStyles.itemData}>
+              {`${item.tct}`}
+            </Text>
+          </View>
         <View style={DetailsItemStyles.viewContainer}>
           <Text numberOfLines={1} style={DetailsItemStyles.itemName}>
             Time & Date:
@@ -101,7 +81,7 @@ const ViolatorDetailsList = ({item}) => {
             Location:
           </Text>
           <Text style={DetailsItemStyles.itemData}>
-            {`${item?.street.toUpperCase()}\n${item?.barangay.toUpperCase()}, ${item?.municipality.toUpperCase()}\n${
+            {`${item?.street?.toUpperCase()}\n${item?.barangay?.toUpperCase()}, ${item?.municipality?.toUpperCase()}\n${
               item?.zipcode
             }`}
           </Text>
@@ -112,8 +92,11 @@ const ViolatorDetailsList = ({item}) => {
           </Text>
           <Text style={DetailsItemStyles.itemData}>
             {`Name: ${item?.violator?.last_name}, ${item?.violator?.first_name} ${item?.violator?.middle_name}\n`}
-            {`Address: ${item?.violator?.address.toUpperCase()}\n`}
-            {`Nationality: ${item?.violator?.nationality.toUpperCase()}\n`}
+            {`Street: ${item?.violator?.street.toUpperCase()}\n`}
+            {`Barangay: ${item?.violator?.barangay.toUpperCase()}\n`}
+            {`Municipality: ${item?.violator?.municipality.toUpperCase()}\n`}
+            {`Zipcode: ${item?.violator?.zipcode.toUpperCase()}\n`}
+            {`Nationality: ${item?.violator?.nationality?.toUpperCase()}\n`}
             {`Phone number: ${item?.violator?.phone_number}\n`}
             {`Date of Birth: ${moment(item?.violator?.dob).format(
               'MM-DD-YYYY',
@@ -179,7 +162,12 @@ const ViolatorDetailsList = ({item}) => {
           </Text>
           <Text
             style={{
-              color: item?.invoice?.status === 'unpaid' ? 'red' : item?.invoice?.status === 'processing' ? 'blue' : 'green',
+              color:
+                item?.invoice?.status === 'unpaid'
+                  ? 'red'
+                  : item?.invoice?.status === 'processing'
+                  ? 'blue'
+                  : 'green',
               fontFamily: 'Manrope-Regular',
               fontSize: 15,
               marginLeft: 5,

@@ -30,6 +30,9 @@ import {violatorSchema} from '../../../library/yup-schema/violatorSchema';
 import {setViolatorsInfo} from '../../../store/citation/reducers';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
+// json
+import listOfbarangay from '../../../assets/example-data/listOfBarangay.json';
+
 const ViolatorInfoScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -39,7 +42,10 @@ const ViolatorInfoScreen = () => {
     firstName: 'Juan',
     middleName: 'Aquino',
     lastName: 'Dela Cruz',
-    address: 'Igpit Plaza',
+    municipality: 'Opol',
+    zipCode: '9016',
+    barangay: 'Awang',
+    street: 'Igpit opol',
     phoneNumber: '09123456789',
     dob: '',
     gender: 'Male',
@@ -62,8 +68,8 @@ const ViolatorInfoScreen = () => {
     if (violatorInfo.dob) {
       setValue('dob', violatorInfo.dob);
     }
-    if(violatorInfo.gender) {
-      setSelectedGender(violatorInfo.gender)
+    if (violatorInfo.gender) {
+      setSelectedGender(violatorInfo.gender);
     }
   }, [setValue, violatorInfo.dob, violatorInfo.gender]);
 
@@ -180,12 +186,42 @@ const ViolatorInfoScreen = () => {
               containerStyle={{backgroundColor: 'transparent'}}
             />
           </View>
+          <TextInputController headerTitle={'Municipality'}
+          control={control}
+          name={'municipality'}
+          placeholder={'Municipality'}
+          errorMessage={errors?.municipality?.message}
+          errorStyle={{color: 'red'}}
+          editable={false}
+          />
           <TextInputController
-            headerTitle={'Address'}
+            headerTitle={'ZIP code'}
             control={control}
-            name={'address'}
-            placeholder={'Address'}
-            errorMessage={errors?.address?.message}
+            name={'zipCode'}
+            placeholder={'ZIP code'}
+            errorMessage={errors?.zipCode?.message}
+            errorStyle={{color: 'red'}}
+            keyboardType={'numeric'}
+            editable={false}
+          />
+          <View style={{marginLeft: 20}}>
+            <PickerInputController
+              headerTitle={'Barangay'}
+              name={'barangay'}
+              control={control}
+              // setValue={setValue}
+              // defaultValue={item.pickerOptions[0]}
+              errorMessage={errors?.barangay?.message}
+              pickerOptions={listOfbarangay}
+              errorStyle={{color: 'red'}}
+            />
+          </View>
+          <TextInputController
+            headerTitle={'Street/Zone/Purok'}
+            control={control}
+            name={'street'}
+            placeholder={'Street/Zone/Purok'}
+            errorMessage={errors?.street?.message}
             errorStyle={{color: 'red'}}
           />
           <TextInputController
