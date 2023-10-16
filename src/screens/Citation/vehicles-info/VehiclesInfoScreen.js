@@ -8,7 +8,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
@@ -28,10 +28,44 @@ import {vehicleSchema} from '../../../library/yup-schema/vehicleSchema';
 import {setVehiclesInfo} from '../../../store/citation/reducers';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
+// api
+import {FetchAllMake, FetchAllClass} from '../../../services/vehicleApi';
+
 const VehiclesInfoScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [registeredVehicle, setRegisteredVehicle] = useState(true);
+  const {vehiclesInfo} = useSelector(store => store.citation);
+  const [vehicleMake, setVehicleMake] = useState([]);
+  const [vehicleClass, setVehicleClass] = useState([]);
+
+  const fetchMakeHandler = useCallback(async () => {
+    let dataArr = [];
+    const makeResponse = await FetchAllMake();
+    makeResponse.map(data => {
+      dataArr.push(data.make);
+    });
+    setVehicleMake(dataArr);
+    console.log(dataArr);
+  }, []);
+
+  useEffect(() => {
+    fetchMakeHandler();
+  }, [fetchMakeHandler]);
+
+  const fetchClassHandler = useCallback(async () => {
+    let dataArr = [];
+    const classResponse = await FetchAllClass();
+    classResponse.map(data => {
+      dataArr.push(data.class);
+    });
+    setVehicleClass(dataArr);
+    console.log(dataArr);
+  }, []);
+
+  useEffect(() => {
+    fetchClassHandler();
+  }, [fetchClassHandler]);
 
   const defaultValues = {
     plateNumber: '123-567',
@@ -52,9 +86,29 @@ const VehiclesInfoScreen = () => {
     defaultValues: defaultValues,
   });
 
+  useEffect(() => {
+    setRegisteredVehicle(vehiclesInfo.isRegistered);
+    if (vehiclesInfo.plateNumber) {
+      setValue('plateNumber', vehiclesInfo.plateNumber);
+      setValue('make', vehiclesInfo.make);
+      setValue('model', vehiclesInfo.model);
+      setValue('color', vehiclesInfo.color);
+      setValue('class', vehiclesInfo.class);
+      setValue('bodyMarkings', vehiclesInfo.bodyMarkings);
+      setValue('registeredOwner', vehiclesInfo.registeredOwner);
+      setValue('ownerAddress', vehiclesInfo.ownerAddress);
+      setValue('vehicleStatus', vehiclesInfo.vehicleStatus);
+    }
+  }, [setValue, vehiclesInfo]);
+
   const onSubmit = async data => {
     console.log(data);
-    await dispatch(setVehiclesInfo(data));
+    if (registeredVehicle === false) {
+      await dispatch(setVehiclesInfo({...data, isRegistered: false}));
+      navigation.navigate('PlaceAndDateScreen');
+      return;
+    }
+    await dispatch(setVehiclesInfo({...data, isRegistered: true}));
     navigation.navigate('PlaceAndDateScreen');
   };
 
@@ -125,14 +179,26 @@ const VehiclesInfoScreen = () => {
             errorMessage={errors?.plateNumber?.message}
             errorStyle={{color: 'red'}}
           />
-          <TextInputController
+          {/* <TextInputController
             headerTitle={'Make'}
             control={control}
             name={'make'}
             placeholder={'make'}
             errorMessage={errors?.make?.message}
             errorStyle={{color: 'red'}}
-          />
+          /> */}
+          <View>
+            <PickerInputController
+              headerTitle={'Make'}
+              name={'make'}
+              control={control}
+              // setValue={setValue}
+              headerStyles={{marginLeft: 20}}
+              errorMessage={errors?.make?.message}
+              pickerOptions={vehicleMake || []}
+              errorStyle={{color: 'red'}}
+            />
+          </View>
           <TextInputController
             headerTitle={'Model'}
             control={control}
@@ -149,14 +215,26 @@ const VehiclesInfoScreen = () => {
             errorMessage={errors?.color?.message}
             errorStyle={{color: 'red'}}
           />
-          <TextInputController
+          {/* <TextInputController
             headerTitle={'Class'}
             control={control}
             name={'class'}
             placeholder={'Class'}
             errorMessage={errors?.class?.message}
             errorStyle={{color: 'red'}}
-          />
+          /> */}
+          <View>
+            <PickerInputController
+              headerTitle={'Class'}
+              name={'class'}
+              control={control}
+              // setValue={setValue}
+              headerStyles={{marginLeft: 20}}
+              errorMessage={errors?.class?.message}
+              pickerOptions={vehicleClass || []}
+              errorStyle={{color: 'red'}}
+            />
+          </View>
           <TextInputController
             headerTitle={'Body Markings'}
             control={control}

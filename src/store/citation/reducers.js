@@ -15,6 +15,7 @@ const initialState = {
     dob: '',
   },
   licenseInfo: {
+    hasLicense: true,
     licenseId: '',
     licenseNumber: '',
     licenseType: '',
@@ -28,6 +29,7 @@ const initialState = {
     color: '',
     class: '',
     bodyMarkings: '',
+    isRegistered: true,
     registeredOwner: '',
     ownerAddress: '',
     vehicleStatus: '',
@@ -128,6 +130,7 @@ const citationSlice = createSlice({
           dob: '',
         },
         licenseInfo: {
+          hasLicense: true,
           licenseId: '',
           licenseNumber: '',
           licenseType: '',
@@ -141,12 +144,14 @@ const citationSlice = createSlice({
           color: '',
           class: '',
           bodyMarkings: '',
+          isRegistered: true,
           registeredOwner: '',
           ownerAddress: '',
           vehicleStatus: '',
         },
         citationId: null,
         citationDetails: {
+          tct: '',
           violationDate: '',
           violationTime: '',
           municipality: '',

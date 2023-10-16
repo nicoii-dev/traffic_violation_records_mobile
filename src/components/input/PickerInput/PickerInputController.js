@@ -1,10 +1,14 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import {Text} from '@rneui/themed';
 import {View, TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 const PickerInputController = ({
   name,
@@ -28,7 +32,7 @@ const PickerInputController = ({
         control={control}
         // defaultValue={defaultValue}
         render={({field: {onChange, value}}) => {
-          const handleOnChange = (itemValue) => {
+          const handleOnChange = itemValue => {
             onChange(itemValue);
             setShow(false);
           };
@@ -37,30 +41,37 @@ const PickerInputController = ({
             <View style={{alignItems: 'center'}}>
               {/* header title for personal info */}
               {headerTitle ? (
-                <Text style={[{fontSize: 18, fontFamily: 'Manrope-Regular', width: '100%'}, headerStyles]}>
+                <Text
+                  style={[
+                    {
+                      fontSize: 18,
+                      fontFamily: 'Manrope-Regular',
+                      width: '100%',
+                    },
+                    headerStyles,
+                  ]}>
                   {headerTitle}
                 </Text>
               ) : null}
 
               <View>
-         
-                  <Picker
-                    enabled={enabled}
-                    selectedValue={value}
-                    onValueChange={handleOnChange}
-                    style={{width: widthPercentageToDP('90%')}}
-                    itemStyle={{height: 88}}>
-                    {pickerOptions.map((option, index) => {
-                      return (
-                        <Picker.Item
-                          label={option}
-                          value={option}
-                          key={index}
-                          style={{fontFamily: 'Manrope-Regular'}}
-                        />
-                      );
-                    })}
-                  </Picker>
+                <Picker
+                  enabled={enabled}
+                  selectedValue={value}
+                  onValueChange={handleOnChange}
+                  style={{width: widthPercentageToDP('90%')}}
+                  itemStyle={{height: 88}}>
+                  {pickerOptions.map((option, index) => {
+                    return (
+                      <Picker.Item
+                        label={option}
+                        value={option}
+                        key={index}
+                        style={{fontFamily: 'Manrope-Regular'}}
+                      />
+                    );
+                  })}
+                </Picker>
               </View>
             </View>
           );

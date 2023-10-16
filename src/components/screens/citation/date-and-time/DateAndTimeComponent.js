@@ -4,10 +4,20 @@ import React from 'react';
 
 // components
 import DateInputController from '../../../input/DateInput/DateInputeController';
+import TextInputController from '../../../input/TextInput/TextInputController';
 
 const DateAndTimeComponent = ({control, errors}) => {
   return (
     <View style={{flexDirection: 'row', marginTop: 30, marginBottom: 20}}>
+      <TextInputController
+        headerTitle={'TCT No.'}
+        control={control}
+        name={'tct'}
+        placeholder={'TCT No.'}
+        errorMessage={errors?.tct?.message}
+        errorStyle={{color: 'red'}}
+        editable={false}
+      />
       <View style={{width: '45%'}}>
         <DateInputController
           headerTitle={'Date of Violation'}

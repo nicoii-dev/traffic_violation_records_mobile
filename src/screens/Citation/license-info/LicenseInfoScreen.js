@@ -26,6 +26,7 @@ const LicenseInfoScreen = () => {
   const [hasLicense, setHasLicense] = useState(true);
 
   const defaultValues = {
+    hasLicense: true,
     licenseNumber: '',
     licenseType: 'Professional',
     licenseStatus: 'Expired',
@@ -42,26 +43,31 @@ const LicenseInfoScreen = () => {
   });
 
   useEffect(() => {
+    setHasLicense(licenseInfo.hasLicense);
     if (licenseInfo.licenseNumber) {
       setValue('licenseNumber', licenseInfo.licenseNumber);
+      setValue('licenseType', licenseInfo.licenseType);
+      setValue('licenseStatus', licenseInfo.licenseStatus);
     }
-  }, [licenseInfo.licenseNumber, setValue]);
+  }, [licenseInfo, setValue]);
 
   useEffect(() => {
     if (hasLicense === false) {
       setValue('licenseNumber', 'XXX-XX-XXXXXX');
       return;
     }
-    setValue('licenseNumber', '');
-  }, [setValue, hasLicense]);
+    setValue('licenseNumber', licenseInfo.licenseNumber || '');
+  }, [setValue, hasLicense, licenseInfo]);
 
   const onSubmit = async data => {
     if (hasLicense === false) {
-      await dispatch(setLicenseInfo({...data, licenseNumber: '0'}));
+      await dispatch(
+        setLicenseInfo({...data, licenseNumber: null, hasLicense: false}),
+      );
       navigation.navigate('VehiclesInfoScreen');
       return;
     }
-    await dispatch(setLicenseInfo(data));
+    await dispatch(setLicenseInfo({...data, hasLicense: true}));
     navigation.navigate('VehiclesInfoScreen');
   };
 

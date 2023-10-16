@@ -24,6 +24,7 @@ const PlaceAndDateScreen = () => {
   const {citationDetails} = useSelector(store => store.citation);
 
   const defaultValues = {
+    tct: '',
     barangay: 'Awang',
     violationDate: '',
     violationTime: '',
@@ -51,6 +52,7 @@ const PlaceAndDateScreen = () => {
 
   const onSubmit = async data => {
     const payload = {
+      tct: data.tct,
       violationDate: data.violationDate,
       violationTime: data.violationTime,
       municipality: data.municipality,
