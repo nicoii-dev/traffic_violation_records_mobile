@@ -68,11 +68,11 @@ const VehiclesInfoScreen = () => {
   }, [fetchClassHandler]);
 
   const defaultValues = {
-    plateNumber: '123-567',
-    make: 'Honda',
-    model: 'Click 125',
-    color: 'Black',
-    registeredOwner: 'Juan Dela Cruz',
+    plateNumber: '',
+    make: '',
+    model: '',
+    color: '',
+    registeredOwner: '',
     vehicleStatus: 'Unexpired',
   };
 

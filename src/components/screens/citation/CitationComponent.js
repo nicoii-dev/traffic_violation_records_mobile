@@ -35,36 +35,24 @@ const CitationComponent = () => {
   const dispatch = useDispatch();
   const {driversInfo} = useSelector(store => store.citation);
 
-  // const defaultValues = {
-  //   firstName: '',
-  //   middleName: '',
-  //   lastName: '',
-  //   dob: '',
-  //   gender: 'Male',
-  //   nationality: 'Filipino',
-  //   licenseType: 'Professional',
-  //   licenseStatus: 'Unexpired',
-  //   vehicleStatus: 'Unexpired',
-  // };
-
   const defaultValues = {
-    firstName: 'Arjohn',
-    middleName: 'Bagalihog',
-    lastName: 'Ely',
-    address: 'Zone 5A Iponan',
-    phoneNumber: '09354135541',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    address: '',
+    phoneNumber: '',
     dob: '',
-    gender: 'Male',
-    nationality: 'Filipino',
-    licenseNumber: '123456789012',
-    licenseType: 'Professional',
-    licenseStatus: 'Unexpired',
-    plateNumber: '123-567',
-    make: 'Honda',
-    model: 'Click 125',
-    color: 'Black',
-    registeredOwner: 'Arjohn Ely',
-    vehicleStatus: 'Unexpired',
+    gender: '',
+    nationality: '',
+    licenseNumber: '',
+    licenseType: '',
+    licenseStatus: '',
+    plateNumber: '',
+    make: '',
+    model: '',
+    color: '',
+    registeredOwner: '',
+    vehicleStatus: '',
   };
 
   const {

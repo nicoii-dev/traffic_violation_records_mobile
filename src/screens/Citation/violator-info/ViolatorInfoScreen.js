@@ -39,14 +39,14 @@ const ViolatorInfoScreen = () => {
   const [selectedGender, setSelectedGender] = React.useState('Male');
 
   const defaultValues = {
-    firstName: 'Juan',
-    middleName: 'Aquino',
-    lastName: 'Dela Cruz',
+    firstName: '',
+    middleName: '',
+    lastName: '',
     municipality: 'Opol',
     zipCode: '9016',
     barangay: 'Awang',
-    street: 'Igpit opol',
-    phoneNumber: '09123456789',
+    street: '',
+    phoneNumber: '',
     dob: '',
     gender: 'Male',
     nationality: 'Filipino',

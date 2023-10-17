@@ -30,7 +30,7 @@ const PlaceAndDateScreen = () => {
     municipality: 'Opol',
     zipCode: '9016',
     barangay: 'Awang',
-    street: 'Igpit opol',
+    street: '',
   };
 
   const {
