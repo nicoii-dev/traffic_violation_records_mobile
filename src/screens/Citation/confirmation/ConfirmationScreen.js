@@ -67,7 +67,7 @@ const ConfirmationScreen = () => {
       license_number: licenseInfo.hasLicense ? licenseInfo.licenseNumber : null,
       license_type: licenseInfo.hasLicense ? licenseInfo.licenseType : 'N/A',
       license_status: licenseInfo.hasLicense ? licenseInfo.licenseStatus : 'N/A',
-      plate_number: vehiclesInfo.plateNumber,
+      plate_number: vehiclesInfo.plateNumber ? vehiclesInfo.plateNumber : null,
       make: vehiclesInfo.make,
       model: vehiclesInfo.model,
       color: vehiclesInfo.color,

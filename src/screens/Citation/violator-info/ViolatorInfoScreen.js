@@ -42,9 +42,9 @@ const ViolatorInfoScreen = () => {
     firstName: '',
     middleName: '',
     lastName: '',
-    municipality: 'Opol',
-    zipCode: '9016',
-    barangay: 'Awang',
+    municipality: '',
+    zipCode: '',
+    barangay: '',
     street: '',
     phoneNumber: '',
     dob: '',
@@ -186,13 +186,13 @@ const ViolatorInfoScreen = () => {
               containerStyle={{backgroundColor: 'transparent'}}
             />
           </View>
-          <TextInputController headerTitle={'Municipality'}
-          control={control}
-          name={'municipality'}
-          placeholder={'Municipality'}
-          errorMessage={errors?.municipality?.message}
-          errorStyle={{color: 'red'}}
-          editable={false}
+          <TextInputController
+            headerTitle={'Municipality'}
+            control={control}
+            name={'municipality'}
+            placeholder={'Municipality'}
+            errorMessage={errors?.municipality?.message}
+            errorStyle={{color: 'red'}}
           />
           <TextInputController
             headerTitle={'ZIP code'}
@@ -202,20 +202,15 @@ const ViolatorInfoScreen = () => {
             errorMessage={errors?.zipCode?.message}
             errorStyle={{color: 'red'}}
             keyboardType={'numeric'}
-            editable={false}
           />
-          <View style={{marginLeft: 20}}>
-            <PickerInputController
-              headerTitle={'Barangay'}
-              name={'barangay'}
-              control={control}
-              // setValue={setValue}
-              // defaultValue={item.pickerOptions[0]}
-              errorMessage={errors?.barangay?.message}
-              pickerOptions={listOfbarangay}
-              errorStyle={{color: 'red'}}
-            />
-          </View>
+          <TextInputController
+            headerTitle={'Barangay'}
+            control={control}
+            name={'barangay'}
+            placeholder={'Barangay'}
+            errorMessage={errors?.barangay?.message}
+            errorStyle={{color: 'red'}}
+          />
           <TextInputController
             headerTitle={'Street/Zone/Purok'}
             control={control}

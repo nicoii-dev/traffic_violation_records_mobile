@@ -86,6 +86,7 @@ const CitationItem = ({item}) => {
     await dispatch(setInvoice(invoicePayload));
     navigation.navigate('CitationInfoScreen');
   };
+  console.log(item)
   return (
     <>
       <TouchableOpacity onPress={() => ViolatorInfo(item)}>

@@ -35,6 +35,7 @@ const CitationScreen = () => {
     dispatch(loadingStart());
     const userData = await useStorage.getItem(USER.USER_DATA);
     const response = await FetchCitationByEnforcer(JSON.parse(userData)?.id);
+    console.log(response)
     if (response) {
       setCitation(response);
     }

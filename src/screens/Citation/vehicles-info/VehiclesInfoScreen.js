@@ -38,6 +38,7 @@ const VehiclesInfoScreen = () => {
   const {vehiclesInfo} = useSelector(store => store.citation);
   const [vehicleMake, setVehicleMake] = useState([]);
   const [vehicleClass, setVehicleClass] = useState([]);
+  const [hasPlateNumber, setHasPlateNumber] = useState(true);
 
   const fetchMakeHandler = useCallback(async () => {
     let dataArr = [];
@@ -88,6 +89,7 @@ const VehiclesInfoScreen = () => {
 
   useEffect(() => {
     setRegisteredVehicle(vehiclesInfo.isRegistered);
+    setHasPlateNumber(vehiclesInfo.hasPlateNumber);
     if (vehiclesInfo.plateNumber) {
       setValue('plateNumber', vehiclesInfo.plateNumber);
       setValue('make', vehiclesInfo.make);
@@ -101,14 +103,22 @@ const VehiclesInfoScreen = () => {
     }
   }, [setValue, vehiclesInfo]);
 
+  useEffect(() => {
+    if (hasPlateNumber === false) {
+      setValue('plateNumber', 'N/A');
+      return;
+    }
+    setValue('plateNumber', vehiclesInfo.plateNumber || '');
+  }, [setValue, hasPlateNumber, vehiclesInfo]);
+
   const onSubmit = async data => {
     console.log(data);
     if (registeredVehicle === false) {
-      await dispatch(setVehiclesInfo({...data, isRegistered: false}));
+      await dispatch(setVehiclesInfo({...data, isRegistered: false, hasPlateNumber: false, plateNumber: null}));
       navigation.navigate('PlaceAndDateScreen');
       return;
     }
-    await dispatch(setVehiclesInfo({...data, isRegistered: true}));
+    await dispatch(setVehiclesInfo({...data, isRegistered: true, hasPlateNumber: true}));
     navigation.navigate('PlaceAndDateScreen');
   };
 
@@ -171,6 +181,25 @@ const VehiclesInfoScreen = () => {
             marginTop: 10,
             alignItems: 'center',
           }}>
+          <View style={{flexDirection: 'row', width: '95%', marginBottom: 20}}>
+            <CheckBox
+              checked={hasPlateNumber}
+              onPress={() => setHasPlateNumber(true)}
+              checkedIcon="dot-circle-o"
+              uncheckedIcon="circle-o"
+              title={'With Plate #'}
+              containerStyle={{backgroundColor: 'transparent'}}
+            />
+            <CheckBox
+              checked={!hasPlateNumber}
+              onPress={() => setHasPlateNumber(false)}
+              checkedIcon="dot-circle-o"
+              uncheckedIcon="circle-o"
+              title={'Without Plate #'}
+              containerStyle={{backgroundColor: 'transparent'}}
+            />
+          </View>
+
           <TextInputController
             headerTitle={'Plate Number'}
             control={control}
@@ -178,6 +207,8 @@ const VehiclesInfoScreen = () => {
             placeholder={'Plate Number'}
             errorMessage={errors?.plateNumber?.message}
             errorStyle={{color: 'red'}}
+            disabled={!hasPlateNumber}
+            editable={hasPlateNumber}
           />
           {/* <TextInputController
             headerTitle={'Make'}

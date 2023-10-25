@@ -25,6 +25,7 @@ const initialState = {
     licenseStatus: '',
   },
   vehiclesInfo: {
+    hasPlateNumber: true,
     vehiclesId: '',
     make: '',
     model: '',
@@ -144,6 +145,7 @@ const citationSlice = createSlice({
           licenseStatus: '',
         },
         vehiclesInfo: {
+          hasPlateNumber: true,
           vehiclesId: '',
           make: '',
           model: '',
