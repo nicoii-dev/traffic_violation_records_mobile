@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, FlatList, Pressable} from 'react-native';
+import {Input, Icon} from '@rneui/themed';
+import {View, Text, FlatList, Pressable, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect, useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,7 +13,10 @@ import HeaderComponent from '../../../components/header/HeaderComponent';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
 
 // api calls
-import {FetchAllViolations} from '../../../services/violationApi';
+import {
+  FetchAllViolations,
+  SearchViolation,
+} from '../../../services/violationApi';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 
 // redux
@@ -25,6 +29,7 @@ const CitedViolationScreen = () => {
   const dispatch = useDispatch();
   const [violations, setViolations] = useState([]);
   const {citedViolations} = useSelector(store => store.citation);
+  const [searchText, setSearchText] = useState('');
 
   const fetchHandler = useCallback(async () => {
     dispatch(loadingStart());
@@ -61,6 +66,14 @@ const CitedViolationScreen = () => {
     Toast.show('Please select atleast 1 violation', Toast.LONG, Toast.CENTER);
   };
 
+  const searchHandler = async () => {
+    const payload = {
+      search: searchText,
+    };
+    const response = await SearchViolation(payload);
+    setViolations(response);
+  };
+
   return (
     <View style={{flex: 1}}>
       <HeaderComponent>
@@ -84,6 +97,20 @@ const CitedViolationScreen = () => {
         <NoData fetchFunction={fetchHandler} />
       ) : (
         <View style={{height: heightPercentageToDP('70%')}}>
+          <Input
+            autoCapitalize={false}
+            autoComplete="off"
+            allowFontScaling={false}
+            onChangeText={text => setSearchText(text)}
+            value={searchText}
+            placeholder={'Search...'}
+            rightIcon={
+              <TouchableOpacity onPress={searchHandler}>
+                <Icon name={'search'} size={30} />
+              </TouchableOpacity>
+            }
+            // rightIconContainerStyle={{backgroundColor: '#E0E0E0', height: '75%'}}
+          />
           <FlatList
             keyExtractor={(item, index) => item.id.toString() + index}
             showsVerticalScrollIndicator={false}

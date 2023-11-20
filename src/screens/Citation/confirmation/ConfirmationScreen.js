@@ -63,7 +63,7 @@ const ConfirmationScreen = () => {
       violatorStreet: violatorInfo.street,
       nationality: violatorInfo.nationality,
       phone_number: violatorInfo.phoneNumber,
-      dob: violatorInfo.dob,
+      dob: moment(violatorInfo.dob).format('MM-DD-YYYY'),
       license_number: licenseInfo.hasLicense ? licenseInfo.licenseNumber : null,
       license_type: licenseInfo.hasLicense ? licenseInfo.licenseType : 'N/A',
       license_status: licenseInfo.hasLicense ? licenseInfo.licenseStatus : 'N/A',
