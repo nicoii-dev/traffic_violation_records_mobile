@@ -5,7 +5,7 @@ import Toast from 'react-native-simple-toast';
 import {createStackNavigator} from '@react-navigation/stack';
 
 // screens
-
+import SplashScreen from '../../screens/Splash/SplashScreen';
 
 // stack components
 import AuthScreenStack from './Auth';
@@ -14,7 +14,7 @@ import UserTab from '../tab';
 // stack instance
 const EntryStack = createStackNavigator();
 
-const Entry = ({navigation}: any) => {
+const Entry = ({navigation}) => {
   const [exitApp, setExitApp] = useState(0);
 
   const backAction = useCallback(() => {
@@ -32,7 +32,7 @@ const Entry = ({navigation}: any) => {
   // * prevent going back to the otp screen
   useEffect(() => {
     // *prevent from returning to loading screen
-    const unsubscribeRemove = navigation.addListener('beforeRemove', (e: any) => {
+    const unsubscribeRemove = navigation.addListener('beforeRemove', (e) => {
       if (e && e.data.action.type == 'GO_BACK') {
         e.preventDefault();
         // *
@@ -48,13 +48,13 @@ const Entry = ({navigation}: any) => {
   return (
     <>
       <EntryStack.Navigator screenOptions={{gestureEnabled: false}}>
-        {/* <EntryStack.Screen
+        <EntryStack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{
             headerShown: false,
           }}
-        /> */}
+        />
         <EntryStack.Screen
           name="AuthStack"
           component={AuthScreenStack}

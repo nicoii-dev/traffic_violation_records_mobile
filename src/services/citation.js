@@ -7,7 +7,7 @@ import Toast from 'react-native-simple-toast';
 export const FetchAllCitation = async () => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
-    const response = await axios.get('http://127.0.0.1:8000/api/citation', {
+    const response = await axios.get('https://trafficviolationapi-production.up.railway.app/api/citation', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -26,7 +26,7 @@ export const FetchCitationByEnforcer = async id => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/user-citationlist/${id}`,
+      `https://trafficviolationapi-production.up.railway.app/api/user-citationlist/${id}`,
       {},
       {
         headers: {
@@ -50,7 +50,7 @@ export const FetchCitationByEnforcerGroupBy = async id => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/user-citationlist-groupby/${id}`,
+      `https://trafficviolationapi-production.up.railway.app/api/user-citationlist-groupby/${id}`,
       {},
       {
         headers: {
@@ -75,7 +75,7 @@ export const FetchCitationByViolator = async id => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/violator-citationlist/${id}`,
+      `https://trafficviolationapi-production.up.railway.app/api/violator-citationlist/${id}`,
       {},
       {
         headers: {
@@ -99,7 +99,7 @@ export const CreateCitation = async payload => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(
-      'http://127.0.0.1:8000/api/create-citation',
+      'https://trafficviolationapi-production.up.railway.app/api/create-citation',
       payload,
       {
         headers: {
@@ -124,7 +124,7 @@ export const UpdateCitation = async (payload, id) => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.put(
-      `http://localhost:8000/api/update-citation/${id}`,
+      `https://trafficviolationapi-production.up.railway.app/api/update-citation/${id}`,
       payload,
       {
         headers: {

@@ -7,7 +7,7 @@ import Toast from 'react-native-simple-toast';
 export const FetchAllCategory = async () => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
-    const response = await axios.get('http://127.0.0.1:8000/api/category', {
+    const response = await axios.get('https://trafficviolationapi-production.up.railway.app/api/category', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -26,7 +26,7 @@ export const SearchViolation = async payload => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(
-      'http://127.0.0.1:8000/api/violation/search',
+      'https://trafficviolationapi-production.up.railway.app/api/violation/search',
       payload,
       {
         headers: {
@@ -47,7 +47,7 @@ export const SearchViolation = async payload => {
 export const FetchAllViolations = async () => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
-    const response = await axios.get('http://127.0.0.1:8000/api/violation', {
+    const response = await axios.get('https://trafficviolationapi-production.up.railway.app/api/violation', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -66,7 +66,7 @@ export const FetchViolationsByCategory = async id => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/violation/${id}`,
+      `https://trafficviolationapi-production.up.railway.app/api/violation/${id}`,
       {},
       {
         headers: {

@@ -7,7 +7,7 @@ import Toast from 'react-native-simple-toast';
 export const FetchAllMake = async () => {
   try {
     const token = await useStorage.getItem(USER.ACCESS_TOKEN);
-    const response = await axios.get('http://127.0.0.1:8000/api/make', {
+    const response = await axios.get('https://trafficviolationapi-production.up.railway.app/api/make', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -25,7 +25,7 @@ export const FetchAllMake = async () => {
 export const FetchAllClass = async () => {
     try {
       const token = await useStorage.getItem(USER.ACCESS_TOKEN);
-      const response = await axios.get('http://127.0.0.1:8000/api/class', {
+      const response = await axios.get('https://trafficviolationapi-production.up.railway.app/api/class', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

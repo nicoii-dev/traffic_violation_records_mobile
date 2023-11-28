@@ -17,7 +17,7 @@ const LogoutOverlay = props => {
   const logoutHandler = async () => {
     await useStorage.removeItem(USER.ACCESS_TOKEN);
     await useStorage.removeItem(USER.USER_DATA);
-    navigation.navigate('LoginScreen');
+    navigation.navigate('AuthStack');
   };
 
   return (

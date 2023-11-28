@@ -36,6 +36,7 @@ const LoginScreenStyles = StyleSheet.create({
     top: 10,
     fontSize: 20,
     fontFamily: 'Manrope-Bold',
+    color: 'black',
   },
   formContainer: {
     flex: 1,

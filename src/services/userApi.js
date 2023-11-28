@@ -8,7 +8,7 @@ export const UserLogin = async (payload) => {
 
   try {
     const response = await axios.post(
-      'http://127.0.0.1:8000/api/login',
+      'https://trafficviolationapi-production.up.railway.app/api/login',
       payload,
     );
     await useStorage.setItem(USER.ACCESS_TOKEN, response.data.token);
@@ -31,7 +31,7 @@ export const UpdateProfile = async (payload, id) => {
   try {
     // await useStorage.removeItem(USER.USER_DATA)
     const response = await axios.put(
-      `http://localhost:8000/api/update-user/${id}`,
+      `https://trafficviolationapi-production.up.railway.app/api/update-user/${id}`,
       payload,
       {
         headers: {
@@ -65,7 +65,7 @@ export const ChangePassword = async (payload, id) => {
   try {
     // await useStorage.removeItem(USER.USER_DATA)
     const response = await axios.post(
-      'http://localhost:8000/api/change-password',
+      'https://trafficviolationapi-production.up.railway.app/api/change-password',
       payload,
       {
         headers: {
@@ -96,7 +96,7 @@ export const ForgotPassword = async (payload) => {
   try {
     // await useStorage.removeItem(USER.USER_DATA)
     const response = await axios.post(
-      'http://localhost:8000/api/forgot-password-otp',
+      'https://trafficviolationapi-production.up.railway.app/api/forgot-password-otp',
       payload,
       {
         headers: {
@@ -127,7 +127,7 @@ export const ResetPassword = async (payload) => {
   try {
     // await useStorage.removeItem(USER.USER_DATA)
     const response = await axios.post(
-      'http://localhost:8000/api/reset-password-otp',
+      'https://trafficviolationapi-production.up.railway.app/api/reset-password-otp',
       payload,
       {
         headers: {

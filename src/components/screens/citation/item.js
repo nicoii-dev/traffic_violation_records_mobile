@@ -110,7 +110,7 @@ const CitationItem = ({item}) => {
               color: 'black',
               paddingRight: 10,
             }}>
-            {`#${item?.id}`}
+            {`#${item?.tct}`}
           </Text>
           <Text
             numberOfLines={1}
