@@ -9,16 +9,11 @@ import {USER} from '../../library/contants';
 import {useStorage} from '../../library/storage/Storage';
 
 // api
-import {FetchCitationByEnforcer, FetchCitationByEnforcerGroupBy} from '../../services/citation';
+import {FetchCitationByEnforcer, FetchCitationByEnforcerGroupBy, FetchAllCitation} from '../../services/citation';
 // redux
 import {loadingStart, loadingFinish} from '../../store/loader/reducers';
 import NoData from '../../components/no-data/NoData';
 
-const driversData = [
-  {driversName: 'John Doe', violation: 'Not Wearing Helmet'},
-  {driversName: 'James Stone', violation: 'Not Wearing Helmet'},
-  {driversName: 'Patrick Garcia', violation: 'Not Wearing Helmet'},
-];
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -27,9 +22,12 @@ const HomeScreen = () => {
 
   const fetchHandler = useCallback(async () => {
     const userData = await useStorage.getItem(USER.USER_DATA);
-    await FetchCitationByEnforcerGroupBy(JSON.parse(userData)?.id)
+    await FetchAllCitation(JSON.parse(userData)?.id)
       .then(async response => {
-        setCitation(response);
+        console.log(response)
+        const newList = response.filter((item) => item?.invoice?.status === 'unpaid');
+        // console.log(newList)
+        setCitation(newList);
       })
       .finally(() => {
         setTimeout(() => {

@@ -41,7 +41,7 @@ const LicenseInfoScreen = () => {
     resolver: yupResolver(licenseSchema),
     defaultValues: defaultValues,
   });
-
+  console.log(licenseInfo)
   useEffect(() => {
     setHasLicense(licenseInfo.hasLicense);
     if (licenseInfo.licenseNumber) {

@@ -9,11 +9,13 @@ import {
   ScrollView,
 } from 'react-native';
 import {CheckBox} from '@rneui/base';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import DropDownPicker from 'react-native-dropdown-picker';
+import moment from 'moment';
 import nationalityList from '../../../assets/example-data/nationalityList.json';
 
 // components
@@ -27,16 +29,25 @@ import PickerInputController from '../../../components/input/PickerInput/PickerI
 import {violatorSchema} from '../../../library/yup-schema/violatorSchema';
 
 // redux
-import {setViolatorsInfo} from '../../../store/citation/reducers';
+import {
+  setLicenseInfo,
+  setViolatorsInfo,
+} from '../../../store/citation/reducers';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {FetchAllViolator} from '../../../services/violatorApi';
+import {setVehicles} from '../../../store/vehicle/reducers';
 
-// json
-import listOfbarangay from '../../../assets/example-data/listOfBarangay.json';
+// api
 
 const ViolatorInfoScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [selectedGender, setSelectedGender] = React.useState('Male');
+
+  const [open, setOpen] = useState(false);
+  const [valueData, setValueData] = useState(null);
+  const [items, setItems] = useState([]);
+  const [violatorList, setViolatorList] = useState([]);
 
   const defaultValues = {
     firstName: '',
@@ -51,6 +62,30 @@ const ViolatorInfoScreen = () => {
     gender: 'Male',
     nationality: 'Filipino',
   };
+
+  const fetchHandler = useCallback(async () => {
+    // dispatch(loadingStart());
+    const response = await FetchAllViolator();
+    setViolatorList(response);
+    let newData = [];
+    newData = response.map(data => ({
+      label: `${data.first_name} ${data.middle_name} ${data.last_name}`,
+      value: data.id,
+    }));
+    newData.unshift({
+      label: 'New Violator',
+      value: 0,
+    });
+    setItems(newData);
+  }, []);
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      fetchHandler();
+      setTimeout(() => {
+        // dispatch(loadingFinish());
+      }, 2000);
+    });
+  }, [fetchHandler, navigation]);
 
   const {violatorInfo} = useSelector(store => store.citation);
 
@@ -102,6 +137,65 @@ const ViolatorInfoScreen = () => {
     };
   }, []);
 
+  const setViolatorValues = useCallback(() => {
+    let obj = violatorList.find(item => item.id === valueData);
+    let newDob = null;
+    const parts = obj?.dob?.split('-');
+    if (parts !== undefined) {
+      const formattedDate = `${parts[2]}-${parts[0]}-${parts[1]}`;
+      newDob = new Date(formattedDate);
+    }
+
+    console.log('test', newDob);
+    if (valueData !== null) {
+      if (valueData === 0) {
+        setValue('firstName', '');
+        setValue('middleName', '');
+        setValue('lastName', '');
+        setValue('gender', 'Male');
+        setValue('municapality', '');
+        setValue('zipcode', '');
+        setValue('barangay', '');
+        setValue('street', '');
+        setValue('phoneNumber', '');
+        setValue('dob', '');
+        setValue('nationality', 'Filipino');
+        dispatch(setLicenseInfo([]));
+        dispatch(setVehicles([]));
+      } else {
+        setValue('firstName', obj?.first_name);
+        setValue('middleName', obj?.middle_name);
+        setValue('lastName', obj?.last_name);
+        setValue('gender', obj?.gender);
+        setValue('municipality', obj?.municipality);
+        setValue('zipCode', obj?.zipcode);
+        setValue('barangay', obj?.barangay);
+        setValue('street', obj?.street);
+        setValue('phoneNumber', obj?.phone_number);
+        setValue('dob', newDob);
+        setValue('nationality', obj?.nationality);
+        dispatch(
+          setLicenseInfo({
+            hasLicense:
+              obj.license.license_number !== null ||
+              obj.license.license_number !== 'N/A'
+                ? true
+                : false,
+            licenseId: obj.license.id,
+            licenseNumber: obj.license.license_number,
+            licenseType: obj.license.license_type,
+            licenseStatus: obj.license.license_status,
+          }),
+        );
+        dispatch(setVehicles(obj.vehicle));
+      }
+    }
+  }, [dispatch, setValue, valueData, violatorList]);
+
+  useEffect(() => {
+    setViolatorValues();
+  }, [setViolatorValues]);
+
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent>
@@ -121,6 +215,27 @@ const ViolatorInfoScreen = () => {
           </Text>
         </View>
       </HeaderComponent>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingHorizontal: 20,
+        }}>
+        <DropDownPicker
+          open={open}
+          value={valueData}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValueData}
+          setItems={setItems}
+          placeholder={'Recorded Violators'}
+          style={{
+            width: widthPercentageToDP('90%'),
+            marginTop: 10,
+            alignSelf: 'center',
+          }}
+        />
+      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>

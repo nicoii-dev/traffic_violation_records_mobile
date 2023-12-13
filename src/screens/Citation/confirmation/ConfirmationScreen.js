@@ -19,6 +19,7 @@ import {CreateCitation, UpdateCitation} from '../../../services/citation';
 
 // redux
 import {loadingStart, loadingFinish} from '../../../store/loader/reducers';
+import { setVehicles } from '../../../store/vehicle/reducers';
 import ButtonComponent from '../../../components/input/Buttons/ButtonComponent';
 import _ from 'lodash';
 
@@ -43,6 +44,7 @@ const ConfirmationScreen = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(loadingFinish());
     navigation.addListener('focus', () => {
       fetchHandler();
       setTimeout(() => {}, 2000);
@@ -89,39 +91,41 @@ const ConfirmationScreen = () => {
       sub_total: subTotal,
     };
     console.log(payload)
-    if (_.isNull(citationId)) {
-      await CreateCitation(payload).then(async response => {
-        if (!_.isUndefined(response)) {
-          Toast.showWithGravity(
-            'Successfully Created',
-            Toast.LONG,
-            Toast.CENTER,
-          );
-          setTimeout(() => {
-            dispatch(loadingFinish());
-            navigation.navigate('CitationScreen');
-          }, 1500);
-        } else {
-          dispatch(loadingFinish());
-        }
-      });
-    } else {
-      await UpdateCitation(payload, citationId).then(async response => {
-        if (!_.isUndefined(response)) {
-          Toast.showWithGravity(
-            'Successfully Updated',
-            Toast.LONG,
-            Toast.CENTER,
-          );
-          setTimeout(() => {
-            dispatch(loadingFinish());
-            navigation.navigate('CitationScreen');
-          }, 1500);
-        } else {
-          dispatch(loadingFinish());
-        }
-      });
-    }
+  //   if (_.isNull(citationId)) {
+  //     await CreateCitation(payload).then(async response => {
+  //       if (!_.isUndefined(response)) {
+  //         Toast.showWithGravity(
+  //           'Successfully Created',
+  //           Toast.LONG,
+  //           Toast.CENTER,
+  //         );
+  //         setTimeout(() => {
+  //           dispatch(loadingFinish());
+  //           navigation.navigate('CitationScreen');
+  //         }, 1500);
+  //       } else {
+  //         dispatch(loadingFinish());
+  //       }
+  //       dispatch(setVehicles([]));
+  //     });
+  //   } else {
+  //     await UpdateCitation(payload, citationId).then(async response => {
+  //       if (!_.isUndefined(response)) {
+  //         Toast.showWithGravity(
+  //           'Successfully Updated',
+  //           Toast.LONG,
+  //           Toast.CENTER,
+  //         );
+  //         setTimeout(() => {
+  //           dispatch(loadingFinish());
+  //           navigation.navigate('CitationScreen');
+  //         }, 1500);
+  //       } else {
+  //         dispatch(loadingFinish());
+  //       }
+  //       dispatch(setVehicles([]));
+  //     });
+  //   }
   };
 
   const getUserData = useCallback(async () => {
@@ -232,7 +236,7 @@ const ConfirmationScreen = () => {
             </Text>
             <Text style={DetailsItemStyles.itemData}>
               {`Make: ${vehiclesInfo?.make?.toUpperCase()}\nModel: ${vehiclesInfo?.model?.toUpperCase()}\nPlate: ${
-                vehiclesInfo?.plateNumber
+                vehiclesInfo?.hasPlateNumber ? vehiclesInfo?.plateNumber : 'N/A'
               }`}
               {`\nColor: ${vehiclesInfo?.color?.toUpperCase()}\nClass: ${
                 vehiclesInfo?.class ? vehiclesInfo?.class?.toUpperCase() : 'N/A'

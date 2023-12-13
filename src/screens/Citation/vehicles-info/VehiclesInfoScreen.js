@@ -14,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {CheckBox} from '@rneui/themed';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 // components
 import HeaderComponent from '../../../components/header/HeaderComponent';
@@ -39,6 +40,96 @@ const VehiclesInfoScreen = () => {
   const [vehicleMake, setVehicleMake] = useState([]);
   const [vehicleClass, setVehicleClass] = useState([]);
   const [hasPlateNumber, setHasPlateNumber] = useState(true);
+
+  const [open, setOpen] = useState(false);
+  const [valueData, setValueData] = useState(null);
+  const [items, setItems] = useState([]);
+  const {vehicles} = useSelector(store => store.vehicles);
+
+  useEffect(() => {
+    let newData = [];
+    if (vehicles.length > 0) {
+      newData = vehicles?.map(data => ({
+        label: `${data.class}, ${data.make}, ${data.model}, ${
+          data.plate_number !== null || data.plate_number === 'N/A'
+            ? 'Plate: ' + data.plate_number
+            : 'Plate: N/A'
+        }`,
+        value: data.id,
+      }));
+      newData.unshift({
+        label: 'New Vehicle',
+        value: 0,
+      });
+      setItems(newData);
+    }
+  }, [vehicles]);
+  console.log('reg', registeredVehicle);
+  const setViolatorValues = useCallback(async () => {
+    let obj = vehicles.find(item => item.id === valueData);
+    console.log(obj);
+    if (valueData !== null) {
+      if (valueData === 0) {
+        await dispatch(setVehiclesInfo({}));
+        setRegisteredVehicle(true);
+        setHasPlateNumber(true);
+        setValue('plateNumber', '');
+        setValue('make', '');
+        setValue('model', '');
+        setValue('color', '');
+        setValue('class', '');
+        setValue('bodyMarkings', '');
+        setValue('registeredOwner', '');
+        setValue('ownerAddress', '');
+        setValue('vehicleStatus', '');
+      } else {
+        setValue('plateNumber', obj.plate_number);
+        setValue('make', obj.make);
+        setValue('model', obj.model);
+        setValue('color', obj.color);
+        setValue('class', obj.class);
+        setValue('bodyMarkings', obj.body_markings);
+        setValue(
+          'registeredOwner',
+          obj.registered_owner === 'N/A' || obj.registered_owner === null
+            ? 'N/A'
+            : obj.registered_owner,
+        );
+        setValue(
+          'ownerAddress',
+          obj.owner_address === 'N/A' || obj.owner_address === null
+            ? 'N/A'
+            : obj.owner_address,
+        );
+        setValue('vehicleStatus', obj.vehicle_status);
+        let payload = {
+          vehicleId: obj.id,
+          plateNumber: obj.plate_number,
+          make: obj.make,
+          model: obj.model,
+          color: obj.color,
+          class: obj.class,
+          bodyMarkings: obj.body_markings,
+          registeredOwner: obj.registered_owner,
+          ownerAddress: obj.owner_address,
+          vehicleStatus: obj.vehicle_status,
+          hasPlateNumber:
+            obj.plate_number !== 'N/A' || obj.plate_number !== null
+              ? true
+              : false,
+          isRegistered:
+            obj.registered_owner !== 'N/A' || obj.registered_owner !== null
+              ? true
+              : false,
+        };
+        await dispatch(setVehiclesInfo(payload));
+      }
+    }
+  }, [dispatch, valueData, vehicles, setValue]);
+
+  useEffect(() => {
+    setViolatorValues();
+  }, [setViolatorValues]);
 
   const fetchMakeHandler = useCallback(async () => {
     let dataArr = [];
@@ -87,7 +178,7 @@ const VehiclesInfoScreen = () => {
     defaultValues: defaultValues,
   });
 
-  useEffect(() => {
+  const setVehicleInfo = useCallback(() => {
     setRegisteredVehicle(vehiclesInfo.isRegistered);
     setHasPlateNumber(vehiclesInfo.hasPlateNumber);
     if (vehiclesInfo.plateNumber) {
@@ -104,6 +195,10 @@ const VehiclesInfoScreen = () => {
   }, [setValue, vehiclesInfo]);
 
   useEffect(() => {
+    setVehicleInfo();
+  }, [setVehicleInfo]);
+
+  useEffect(() => {
     if (hasPlateNumber === false) {
       setValue('plateNumber', 'N/A');
       return;
@@ -114,11 +209,20 @@ const VehiclesInfoScreen = () => {
   const onSubmit = async data => {
     console.log(data);
     if (registeredVehicle === false) {
-      await dispatch(setVehiclesInfo({...data, isRegistered: false, hasPlateNumber: false, plateNumber: null}));
+      await dispatch(
+        setVehiclesInfo({
+          ...data,
+          isRegistered: false,
+          hasPlateNumber: false,
+          plateNumber: null,
+        }),
+      );
       navigation.navigate('PlaceAndDateScreen');
       return;
     }
-    await dispatch(setVehiclesInfo({...data, isRegistered: true, hasPlateNumber: true}));
+    await dispatch(
+      setVehiclesInfo({...data, isRegistered: true, hasPlateNumber: true}),
+    );
     navigation.navigate('PlaceAndDateScreen');
   };
 
@@ -151,7 +255,7 @@ const VehiclesInfoScreen = () => {
     }
     setValue('registeredOwner', '');
   }, [setValue, registeredVehicle]);
-
+  console.log(vehicles.length);
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <HeaderComponent>
@@ -171,6 +275,29 @@ const VehiclesInfoScreen = () => {
           </Text>
         </View>
       </HeaderComponent>
+      {vehicles.length > 0 ? (
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingHorizontal: 20,
+          }}>
+          <DropDownPicker
+            open={open}
+            value={valueData}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValueData}
+            setItems={setItems}
+            placeholder={'Vehicles'}
+            style={{
+              width: widthPercentageToDP('90%'),
+              marginTop: 10,
+              alignSelf: 'center',
+            }}
+          />
+        </View>
+      ) : null}
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
